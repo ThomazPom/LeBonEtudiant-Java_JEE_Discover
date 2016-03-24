@@ -76,7 +76,7 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="dropdown" style="width:300px;">
+                    <li class="dropdown" style="width:300px;margin-right: 30px">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">S'inscrire&nbsp;&nbsp;<span class="glyphicon glyphicon glyphicon-plus"></span><span class="caret"></span></a>
                         <ul class="dropdown-menu">
 
@@ -123,14 +123,41 @@
     </nav>
 
     <div id="search">
-        <div class="container">
-                 <div  class="input-group">
-                                    <span class="input-group-addon" id="basic-addon1">Rechercher</span>
-                                    <input id="mainsearch" type="text" class="form-control" placeholder="Des écouteurs pas trop cassés, des chaussettes jamais portées.."aria-describedby="basic-addon1">
-                                </div>
-                           
+        <div id="maincontainer" class="container">
+            <div  class="input-group">
+                <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-search"></span>&nbsp;Rechercher</span>
+                <input id="mainsearch" type="text" class="form-control" placeholder="Des écouteurs pas trop cassés, des chaussettes jamais portées.."aria-describedby="basic-addon1">
+            </div>
+
+            <div  class="input-group">
+                <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon glyphicon-globe"></span>&nbsp;Région</span>
+                <select id="regionSelect" style="display:none" multiple="multiple">
+                    <option value="06">Alpes maritimes</option>
+                    <option value="29">Bretagne</option>
+                    <option value="75">Ile de france</option>
+                    <option value="83">Var</option>
+                    <option value="13">Marseille</option>
+                    <option value="AA">Exemple</option>
+                </select></div>
+<div  class="input-group">
+                <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon glyphicon-euro"></span>&nbsp;Prix : &nbsp;<input type="text" id="amount" readonly style="border:0; color:red;background-color: transparent; font-weight:bold;"></span>
+                <div id="slider-range" class="sliderform"></div>
+            </div>
+            <div  class="input-group">
+                <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;Catégories</span>
+                <select id="categSelect" style="display:none" multiple="multiple">
+                    <option value="06">Vêtements</option>
+                    <option value="29">Informatique</option>
+                    <option value="75">Automobile</option>
+                    <option value="83">Multimédia</option>
+                    <option value="13">Meubles</option>
+                    <option value="AA">Mobile</option>
+                </select></div>
+            <div id="mainxjspreceiver"></div>
+            
+            
         </div>
-        
+
     </div>
     <div id="map"></div>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
@@ -139,6 +166,11 @@
     <script src="js/bootstrap.min.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAOVh1mJ-DvhZOZUsb40ehjooUTUaCa3_M"></script>
 
+    <!-- Include the plugin's CSS and JS: -->
+    <script type="text/javascript" src="js/bootstrap-multiselect.js"></script>
+    <link rel="stylesheet" href="css/bootstrap-multiselect.css" type="text/css"/>
     <script src="js/appjvs.js"></script>
-</body>
+</body><link rel="stylesheet" href="js/jui/jquery-ui.min.css">
+</body><link rel="stylesheet" href="js/jui/jquery-ui.theme.css">
+<script src="js/jui/jquery-ui.min.js"></script>
 </html>

@@ -11,13 +11,36 @@ and open the template in the editor.
 ul.dropdown-menu>li {
     padding: 10px;
 }
+#maincontainer .input-group
+{
+    padding: 10px;
+}
+#maincontainer .btn-group,#maincontainer .multiselect.dropdown-toggle
+{
+    width: 100%;
+}
+#maincontainer .multiselect-container.dropdown-menu
+{
+    width: 400px;
+    padding-left: 50px;
+
+}
+#maincontainer .multiselect-container.dropdown-menu li
+{
+    border-left: 2px dashed red;
+}
+#maincontainer .sliderform
+{
+    margin-left: 50px;
+    margin-top: 10px;
+}
 #mainsearch
 {
     border-left:  3px solid red;
 }
 #search {
     z-index: 100;
-    background: red;
+    background: whitesmoke;
     position: fixed;
     width: 100vw;
     -webkit-transition: height 1s; /* For Safari 3.1 to 6.0 */
@@ -25,7 +48,7 @@ ul.dropdown-menu>li {
     
     
     height:30vh;
-    min-height:30vh;
+    min-height:280px;
     max-height:90vh;
     padding-top: 60px;
     background-image: url("../img/whiteploybg.jpg");
