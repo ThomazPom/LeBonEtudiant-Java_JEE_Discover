@@ -60,6 +60,9 @@ nav li button
     background-image: url("../img/whiteploybg.jpg");
     background-size: cover;
     border-bottom: 3px solid black;
+
+    overflow-x: hidden;
+    overflow-y: scroll;
 }
 
 #search:hover {
