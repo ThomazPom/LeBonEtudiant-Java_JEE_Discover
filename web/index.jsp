@@ -48,6 +48,7 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 
                 <ul class="nav navbar-nav navbar-right">
+                    <%if (session.getAttribute("userlogged") == null && false) {%>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Se connecter&nbsp;&nbsp;<span class="glyphicon glyphicon-log-in"></span> <span class="caret"></span></a>
                         <ul class="dropdown-menu" style="width:300px">
@@ -110,13 +111,35 @@
                                 </div>
 
                             </li>
-                            <li>             <div class="input-group">
+                            <li> 
+                                <div class="input-group">
                                     <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon glyphicon-plus"></span></span>
                                     <input type="submit" class="form-control" value="enregistrement" aria-describedby="basic-addon1">
                                 </div>
                             </li>
                         </ul>
                     </li>
+
+                    <%} else {%>
+                    <c:set var="userlog" value='${session.getAttribute("userlogged")}'></c:set>
+
+
+                        <li>  
+                        <% String username = "John Smith ";%>
+                        <a class="navbar-brand" href="#">Bienvenue,  <%=username%> ! <span class="glyphicon glyphicon-cog"></a>
+                    </li>
+                    <li>  
+                        <button class="btn btn-primary"  data-toggle="modal" data-target="#modalVente">Vendre un objet</button>
+
+                    </li>
+
+                    <li>  
+                        <button class="btn btn-danger">Déconnexion</button>
+                    </li>
+                    <!-- Button trigger modal -->
+
+
+                    <%}%>
                 </ul>
             </div><!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->
@@ -130,7 +153,7 @@
             </div>
 
             <div  class="input-group">
-                <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon glyphicon-globe"></span>&nbsp;Région</span>
+                <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon glyphicon-globe"></span>&nbsp;Lieux</span>
                 <select id="regionSelect" style="display:none" multiple="multiple">
                     <option value="06">Alpes maritimes</option>
                     <option value="29">Bretagne</option>
@@ -139,7 +162,7 @@
                     <option value="13">Marseille</option>
                     <option value="AA">Exemple</option>
                 </select></div>
-<div  class="input-group">
+            <div  class="input-group">
                 <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon glyphicon-euro"></span>&nbsp;Prix : &nbsp;<input type="text" id="amount" readonly style="border:0; color:red;background-color: transparent; font-weight:bold;"></span>
                 <div id="slider-range" class="sliderform"></div>
             </div>
@@ -154,8 +177,8 @@
                     <option value="AA">Mobile</option>
                 </select></div>
             <div id="mainxjspreceiver"></div>
-            
-            
+
+
         </div>
 
     </div>
@@ -170,6 +193,62 @@
     <script type="text/javascript" src="js/bootstrap-multiselect.js"></script>
     <link rel="stylesheet" href="css/bootstrap-multiselect.css" type="text/css"/>
     <script src="js/appjvs.js"></script>
+
+
+    <%if (session.getAttribute("userlogged") == null && false) {%>
+
+    <%} else {%>
+    <!-- Modal -->
+    <div class="modal fade" id="modalVente" tabindex="-1" role="dialog" aria-labelledby="modalVenteLabel">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="modalVenteLabel">Vendre un objet :</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-edit"></span>&nbsp;Titre</span>
+                        <input type="text" class="form-control" placeholder="Table de chevet bien stylée, bouteille de vin cassée.." aria-describedby="basic-addon1">
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-edit"></span>&nbsp;Description</span>
+                        <textarea class="form-control" width="100%" height="300px" placeholder="Dimensions, couleur, état.." aria-describedby="basic-addon1"></textarea>
+                    </div>
+                   <div  class="input-group">
+                <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon glyphicon-globe"></span>&nbsp;Lieux</span>
+                <select id="regionSelect" style="display:none" multiple="multiple">
+                    <option value="06">Alpes maritimes</option>
+                    <option value="29">Bretagne</option>
+                    <option value="75">Ile de france</option>
+                    <option value="83">Var</option>
+                    <option value="13">Marseille</option>
+                    <option value="AA">Exemple</option>
+                </select></div>
+            <div  class="input-group">
+                <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon glyphicon-euro"></span>&nbsp;Prix : &nbsp;<input type="text" id="amount-vente" readonly style="border:0; color:red;background-color: transparent; font-weight:bold;"></span>
+                <div id="slider-vente" class="sliderform"></div>
+            </div>
+            <div  class="input-group">
+                <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;Catégorie(s) de l'objet</span>
+                <select id="categSelect" style="display:none" multiple="multiple">
+                    <option value="06">Vêtements</option>
+                    <option value="29">Informatique</option>
+                    <option value="75">Automobile</option>
+                    <option value="83">Multimédia</option>
+                    <option value="13">Meubles</option>
+                    <option value="AA">Mobile</option>
+                </select></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-warning"><span class="glyphicon glyphicon-refresh"></span>&nbsp;Réinitialiser</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span>&nbsp;Close</button>
+                    <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-send"></span>&nbsp;Envoyer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <%}%>
 </body><link rel="stylesheet" href="js/jui/jquery-ui.min.css">
 </body><link rel="stylesheet" href="js/jui/jquery-ui.theme.css">
 <script src="js/jui/jquery-ui.min.js"></script>

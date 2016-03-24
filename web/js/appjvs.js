@@ -11,6 +11,15 @@ $(document).ready(function (){
     initMap();
      $('#regionSelect').multiselect();
      $('#categSelect').multiselect();
+       $( "#slider-vente" ).slider({
+      range: false,
+      min: 0,
+      max: 30000,
+      values: [ 50 ],
+      slide: function( event, ui ) {
+        $( "#amount-vente" ).val(ui.values[ 0 ] + "€" );
+      }
+    });
        $( "#slider-range" ).slider({
       range: true,
       min: 0,

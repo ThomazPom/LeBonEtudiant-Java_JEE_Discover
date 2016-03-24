@@ -8,12 +8,14 @@ and open the template in the editor.
     Author     : Thomas
 */
 
-ul.dropdown-menu>li {
-    padding: 10px;
-}
-#maincontainer .input-group
+ul.dropdown-menu>li, #maincontainer .input-group,.modal-body .input-group
 {
     padding: 10px;
+}
+.modal-body .input-group textArea{
+    
+    resize: none;
+    height: 300px;
 }
 #maincontainer .btn-group,#maincontainer .multiselect.dropdown-toggle
 {
@@ -29,7 +31,7 @@ ul.dropdown-menu>li {
 {
     border-left: 2px dashed red;
 }
-#maincontainer .sliderform
+#maincontainer .sliderform, modal-body .sliderform
 {
     margin-left: 50px;
     margin-top: 10px;
@@ -37,6 +39,10 @@ ul.dropdown-menu>li {
 #mainsearch
 {
     border-left:  3px solid red;
+}
+nav li button
+{
+    margin: 7px;
 }
 #search {
     z-index: 100;
