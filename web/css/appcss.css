@@ -8,19 +8,39 @@ and open the template in the editor.
     Author     : Thomas
 */
 
-#body
-{
+ul.dropdown-menu>li {
+    padding: 10px;
 }
-#search{
+#mainsearch
+{
+    border-left:  3px solid red;
+}
+#search {
+    z-index: 100;
+    background: red;
+    position: fixed;
+    width: 100vw;
+    -webkit-transition: height 1s; /* For Safari 3.1 to 6.0 */
+    transition:  height 1s;
+    
+    
     height:30vh;
-    padding-top: 50px;
+    min-height:30vh;
+    max-height:90vh;
+    padding-top: 60px;
     background-image: url("../img/whiteploybg.jpg");
     background-size: cover;
     border-bottom: 3px solid black;
 }
-#map{
-    background-color: lightgoldenrodyellow;
 
+#search:hover {
+    height: auto!important;
+}
+#map{
+    bottom: 0px;
+    z-index: 0;
+    background-color: lightgoldenrodyellow;
     height:70vh;
+    position: fixed!important;
     width: 100vw;
 }
