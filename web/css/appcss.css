@@ -7,10 +7,33 @@ and open the template in the editor.
     Created on : 22 mars 2016, 20:46:21
     Author     : Thomas
 */
+#wrapper{
+    background-image: url("../img/whiteploybg.jpg");
 
+    background-size: cover;
+    border-bottom: 2px solid black;
+    
+    min-height: 280px;
+}
+#mainwrap
+{
+         background-image: url("../img/whiteploybg.jpg");
+ 
+    background-size: cover;
+}
+div#maincontainer .input-group {
+    z-index: 200;
+}
 ul.dropdown-menu>li, #maincontainer .input-group,.modal-body .input-group
 {
     padding: 10px;
+}
+body{
+    padding-top: 50px
+}
+html, body
+{
+    overflow: hidden;
 }
 .modal-body .input-group textArea{
     
@@ -45,34 +68,33 @@ nav li button
     margin: 7px;
 }
 #search {
-    z-index: 100;
-    background: whitesmoke;
-    position: fixed;
+    
+    min-height: 100px;
+    height: 100px;
     width: 100vw;
     -webkit-transition: height 1s; /* For Safari 3.1 to 6.0 */
     transition:  height 1s;
     
-    
-    height:30vh;
-    min-height:280px;
-    max-height:90vh;
-    padding-top: 60px;
-    background-image: url("../img/whiteploybg.jpg");
-    background-size: cover;
-    border-bottom: 3px solid black;
+    max-height:60vh;
 
     overflow-x: hidden;
-    overflow-y: scroll;
+    overflow-y: hidden;
 }
 
-#search:hover {
+#wrapper:hover #search {
+        overflow-y: scroll!important;
+
     height: auto!important;
 }
 #map{
-    bottom: 0px;
-    z-index: 0;
-    background-color: lightgoldenrodyellow;
-    height:70vh;
-    position: fixed!important;
+    height:80vh;
     width: 100vw;
+    top: 0px;
+}
+#map:hover{
+ 
+    top:20vh;
+    border-top: 3px solid black;
+    position: absolute;
+    z-index: 300;
 }

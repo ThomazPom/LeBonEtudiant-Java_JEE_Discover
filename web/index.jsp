@@ -144,43 +144,44 @@
             </div><!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->
     </nav>
+    <div id="wrapper">
+        <div id="lesswrap">
+            <div id="mainwrap">
+                <div id="maincontainer" class="container">
+                    <div  class="input-group">
+                        <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-search"></span>&nbsp;Rechercher</span>
+                        <input id="mainsearch" type="text" class="form-control" placeholder="Des écouteurs pas trop cassés, des chaussettes jamais portées.."aria-describedby="basic-addon1">
+                    </div>
 
-    <div id="search">
-        <div id="maincontainer" class="container">
-            <div  class="input-group">
-                <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-search"></span>&nbsp;Rechercher</span>
-                <input id="mainsearch" type="text" class="form-control" placeholder="Des écouteurs pas trop cassés, des chaussettes jamais portées.."aria-describedby="basic-addon1">
+                    <div  class="input-group" style="z-index: 300">
+                        <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon glyphicon-globe"></span>&nbsp;Lieux</span>
+                        <select id="regionSelect" style="display:none" multiple="multiple">
+                            <option value="06">Alpes maritimes</option>
+                            <option value="29">Bretagne</option>
+                            <option value="75">Ile de france</option>
+                            <option value="83">Var</option>
+                            <option value="13">Marseille</option>
+                            <option value="AA">Exemple</option>
+                        </select></div>
+                    <div  class="input-group">
+                        <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon glyphicon-euro"></span>&nbsp;Prix : &nbsp;<input type="text" id="amount" readonly style="border:0; color:red;background-color: transparent; font-weight:bold;"></span>
+                        <div id="slider-range" class="sliderform"></div>
+                    </div>
+                    <div  class="input-group">
+                        <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;Catégories</span>
+                        <select id="categSelect" style="display:none" multiple="multiple">
+                            <option value="06">Vêtements</option>
+                            <option value="29">Informatique</option>
+                            <option value="75">Automobile</option>
+                            <option value="83">Multimédia</option>
+                            <option value="13">Meubles</option>
+                            <option value="AA">Mobile</option>
+                        </select></div>
+
+                </div>
             </div>
-
-            <div  class="input-group">
-                <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon glyphicon-globe"></span>&nbsp;Lieux</span>
-                <select id="regionSelect" style="display:none" multiple="multiple">
-                    <option value="06">Alpes maritimes</option>
-                    <option value="29">Bretagne</option>
-                    <option value="75">Ile de france</option>
-                    <option value="83">Var</option>
-                    <option value="13">Marseille</option>
-                    <option value="AA">Exemple</option>
-                </select></div>
-            <div  class="input-group">
-                <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon glyphicon-euro"></span>&nbsp;Prix : &nbsp;<input type="text" id="amount" readonly style="border:0; color:red;background-color: transparent; font-weight:bold;"></span>
-                <div id="slider-range" class="sliderform"></div>
-            </div>
-            <div  class="input-group">
-                <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;Catégories</span>
-                <select id="categSelect" style="display:none" multiple="multiple">
-                    <option value="06">Vêtements</option>
-                    <option value="29">Informatique</option>
-                    <option value="75">Automobile</option>
-                    <option value="83">Multimédia</option>
-                    <option value="13">Meubles</option>
-                    <option value="AA">Mobile</option>
-                </select></div>
-            <div id="mainxjspreceiver"></div>
-
-
+            <div id="search"><div id="mainxjspreceiver" class="container"></div></div>
         </div>
-
     </div>
     <div id="map"></div>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
@@ -215,30 +216,30 @@
                         <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-edit"></span>&nbsp;Description</span>
                         <textarea class="form-control" width="100%" height="300px" placeholder="Dimensions, couleur, état.." aria-describedby="basic-addon1"></textarea>
                     </div>
-                   <div  class="input-group">
-                <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon glyphicon-globe"></span>&nbsp;Lieux</span>
-                <select id="regionSelect" style="display:none" multiple="multiple">
-                    <option value="06">Alpes maritimes</option>
-                    <option value="29">Bretagne</option>
-                    <option value="75">Ile de france</option>
-                    <option value="83">Var</option>
-                    <option value="13">Marseille</option>
-                    <option value="AA">Exemple</option>
-                </select></div>
-            <div  class="input-group">
-                <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon glyphicon-euro"></span>&nbsp;Prix : &nbsp;<input type="text" id="amount-vente" readonly style="border:0; color:red;background-color: transparent; font-weight:bold;"></span>
-                <div id="slider-vente" class="sliderform"></div>
-            </div>
-            <div  class="input-group">
-                <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;Catégorie(s) de l'objet</span>
-                <select id="categSelect" style="display:none" multiple="multiple">
-                    <option value="06">Vêtements</option>
-                    <option value="29">Informatique</option>
-                    <option value="75">Automobile</option>
-                    <option value="83">Multimédia</option>
-                    <option value="13">Meubles</option>
-                    <option value="AA">Mobile</option>
-                </select></div>
+                    <div  class="input-group">
+                        <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon glyphicon-globe"></span>&nbsp;Lieux</span>
+                        <select id="regionSelect" style="display:none" multiple="multiple">
+                            <option value="06">Alpes maritimes</option>
+                            <option value="29">Bretagne</option>
+                            <option value="75">Ile de france</option>
+                            <option value="83">Var</option>
+                            <option value="13">Marseille</option>
+                            <option value="AA">Exemple</option>
+                        </select></div>
+                    <div  class="input-group">
+                        <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon glyphicon-euro"></span>&nbsp;Prix : &nbsp;<input type="text" id="amount-vente" readonly style="border:0; color:red;background-color: transparent; font-weight:bold;"></span>
+                        <div id="slider-vente" class="sliderform"></div>
+                    </div>
+                    <div  class="input-group">
+                        <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;Catégorie(s) de l'objet</span>
+                        <select id="categSelect" style="display:none" multiple="multiple">
+                            <option value="06">Vêtements</option>
+                            <option value="29">Informatique</option>
+                            <option value="75">Automobile</option>
+                            <option value="83">Multimédia</option>
+                            <option value="13">Meubles</option>
+                            <option value="AA">Mobile</option>
+                        </select></div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-warning"><span class="glyphicon glyphicon-refresh"></span>&nbsp;Réinitialiser</button>
