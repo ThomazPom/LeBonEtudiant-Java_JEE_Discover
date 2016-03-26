@@ -5,12 +5,15 @@
  */
 package controller;
 
-import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import model.Etablissement;
-import model.User;
+import model.Utilisateur;
+import util.init;
 
 /**
  *
@@ -18,13 +21,65 @@ import model.User;
  */
 @Stateless
 public class UserController {
-  @PersistenceContext
+    
+    public Collection<Utilisateur> getUsers() {
+        Query q = em.createQuery("select u from Utilisateur u");
+        
+        Collection<Utilisateur> result = q.getResultList();
+        Iterator<Utilisateur> iterator = result.iterator();
+        Utilisateur checkedUser = null;
+        
+        if (!result.isEmpty()) {
+            while (iterator.hasNext()) {
+                checkedUser = iterator.next();
+                System.out.println(checkedUser.toString());
+            }
+        }
+        
+        System.out.println("###########ALL RESULT SIZE{{" + result.size() + "}}#############");
+        return result;
+    }
+    
+    public Utilisateur getOneConnect(String email, String password) {
+        getUsers();
+        Query q = em.createQuery("select u from Utilisateur u where u.login =:login");
+        q.setParameter("login", email.toLowerCase());
+        Collection<Utilisateur> result = q.getResultList();
+        
+        System.out.println("############################################");
+        System.out.println("sEmail-" + email);
+        System.out.println("###########RESULT SIZE{{" + result.size() + "}}#############");
+        
+        Iterator<Utilisateur> iterator = result.iterator();
+        Utilisateur checkedUser = null;
+        
+        if (!result.isEmpty()) {
+            while (iterator.hasNext()) {
+                checkedUser = iterator.next();
+                System.out.println("############################################");
+                System.out.println("sEmail-" + email);
+                System.out.println("uEmail-" + checkedUser.getLogin());
+                System.out.println("sSalt-" + init.saltPassWord(checkedUser, password));
+                System.out.println("uSalt-" + checkedUser.getSaltedPass());
+                System.out.println("############################################");
+                
+                if (init.saltPassWord(checkedUser, password).equals(checkedUser.getSaltedPass())) {
+                    
+                    return checkedUser;
+                    
+                }
+            }
+        }
+        return null;
+    }
+    @PersistenceContext
     private EntityManager em;
-
-  public User creerUser(String login, String passWord, String nom, String prenom, String role, ArrayList<Etablissement> etabsUser)
-  {
-      User u = new User(login, passWord, nom, prenom, role, etabsUser);
-      em.persist(u);
-      return u;
-  }   
+    
+    public Utilisateur creerUser(String login, String passWord, String nom, String prenom, String role, Collection<Etablissement> etabsUser) {
+        Utilisateur u = new Utilisateur(login, nom, prenom, role, etabsUser);
+        em.persist(u);
+        u.setPass(passWord);
+        em.persist(u);
+        return u;
+    }
 }

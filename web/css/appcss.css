@@ -7,6 +7,17 @@ and open the template in the editor.
     Created on : 22 mars 2016, 20:46:21
     Author     : Thomas
 */
+nav form.dropdown{
+        margin: 15px;
+    float: left;
+}
+.navbar-inverse form.dropdown a{
+    color: lightgray;
+}
+.navbar-inverse form.dropdown a:hover{
+    color: white;
+    text-decoration: none;
+}
 #wrapper{
     background-image: url("../img/whiteploybg.jpg");
     background-attachment: fixed;

@@ -24,7 +24,8 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
-import model.User;
+import model.Etablissement;
+import model.Utilisateur;
 
 /**
  *
@@ -38,7 +39,7 @@ public class init {
 
     private static String appsalt = "AKWVVxpE9NdaZ5yBLfZMYEUmkcLPQTLjdPAQQvjF3wgmGq8QvwWUJLpugbmA5brE9s42gDYwbTYLdTBAa6JPcVj7G69jaexp";
 
-    public static String saltPassWord(User u, String newPassWord) {
+    public static String saltPassWord(Utilisateur u, String newPassWord) {
         MessageDigest digest = null;
         try {
             digest = MessageDigest.getInstance("SHA-256");
@@ -46,11 +47,14 @@ public class init {
             Logger.getLogger(init.class.getName()).log(Level.SEVERE, null, ex);
         }
         byte[] hash = digest.digest( (u.getUserSalt()+u.getId()+newPassWord+appsalt).getBytes(StandardCharsets.UTF_8));
-        return new String(hash);
+//        return new String(hash);
+        return ("#usa:"+u.getUserSalt()+"+#id:"+u.getId()+"#pw:"+newPassWord+"+#appsalt+"+appsalt);
     }
 
     @PostConstruct
     public void initbd() {
+        
+        uc.creerUser("Thomas.benhamou@hotmail.fr","passtom", "Benhamou", "Thomas", "ADMIN_ROLE", new ArrayList<Etablissement>());
         System.out.println("init finished");
     }
 

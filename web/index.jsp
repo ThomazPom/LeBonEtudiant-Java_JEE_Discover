@@ -48,36 +48,39 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 
                 <ul class="nav navbar-nav navbar-right">
-                    <%if (session.getAttribute("userlogged") == null && false) {%>
-                    <li class="dropdown">
+                    <%if (session.getAttribute("userlogged") == null) {%>
+                      
+                    <form method="post" action="StaticServlet?action=connect" class="dropdown">
+                      
+                      
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Se connecter&nbsp;&nbsp;<span class="glyphicon glyphicon-log-in"></span> <span class="caret"></span></a>
-                        <ul class="dropdown-menu" style="width:300px">
+                            <ul class="dropdown-menu" style="width:300px">
 
-                            <li>
-                                <div class="input-group">
-                                    <span class="input-group-addon" id="basic-addon1">@Email</span>
-                                    <input type="text" class="form-control" placeholder="email@example.com" aria-describedby="basic-addon1">
-                                </div>
-                            </li>
-                            <li>
+                                <li>
+                                    <div class="input-group">
+                                        <span class="input-group-addon" id="basic-addon1">@Email</span>
+                                        <input type="text" name="email" class="form-control" placeholder="email@example.com" aria-describedby="basic-addon1">
+                                    </div>
+                                </li>
+                                <li>
 
-                                <div class="input-group">
-                                    <span class="input-group-addon" id="basic-addon1">Mot de passe</span>
-                                    <input type="password" class="form-control" placeholder="*******" aria-describedby="basic-addon1">
-                                </div>
+                                    <div class="input-group">
+                                        <span class="input-group-addon" id="basic-addon1">Mot de passe</span>
+                                        <input type="password" name="password" class="form-control" placeholder="*******" aria-describedby="basic-addon1">
+                                    </div>
 
-                            </li>
-                            <li>
+                                </li>
+                                <li>
 
-                                <div class="input-group">
-                                    <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-log-in"></span></span>
-                                    <input type="submit" class="form-control" value="connexion" aria-describedby="basic-addon1">
-                                </div>
+                                    <div class="input-group">
+                                        <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-log-in"></span></span>
+                                        <input type="submit" class="form-control" value="connexion" aria-describedby="basic-addon1">
+                                    </div>
 
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="dropdown" style="width:300px;margin-right: 30px">
+                                </li>
+                            </ul>
+                      </form>
+                    <form method="post" class="dropdown" style="width:300px;margin-right: 30px">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">S'inscrire&nbsp;&nbsp;<span class="glyphicon glyphicon glyphicon-plus"></span><span class="caret"></span></a>
                         <ul class="dropdown-menu">
 
@@ -118,7 +121,7 @@
                                 </div>
                             </li>
                         </ul>
-                    </li>
+                    </form>
 
                     <%} else {%>
                     <c:set var="userlog" value='${session.getAttribute("userlogged")}'></c:set>
@@ -126,6 +129,7 @@
 
                         <li>  
                         <% String username = "John Smith ";%>
+                        <% username = session.getAttribute("userlogged").toString();%>
                         <a class="navbar-brand" href="#">Bienvenue,  <%=username%> ! <span class="glyphicon glyphicon-cog"></a>
                     </li>
                     <li>  

@@ -5,18 +5,28 @@
  */
 package servlet;
 
+import controller.UserController;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Collection;
+import javax.ejb.EJB;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Utilisateur;
 
 /**
  *
  * @author Thomas
  */
+@WebServlet(name = "StaticServlet", urlPatterns = {"/StaticServlet"})
 public class StaticServlet extends HttpServlet {
+
+    @EJB
+    private UserController userController;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -29,19 +39,43 @@ public class StaticServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet StaticServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet StaticServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        String action = request.getParameter("action");
+        String forwardTo = "";
+        String redirect = "index.jsp";
+        String message = "";
+        String alert = "";
+
+        if (action != null) {
+            if (action.equals("connect")) {
+                
+                
+                if (!"".equals(request.getParameter("email"))
+                        && request.getParameter("email") != null
+                        && !"".equals(request.getParameter("password"))
+                        && request.getParameter("password") != null) {
+
+                    Utilisateur userFound = userController.getOneConnect(request.getParameter("email"), request.getParameter("password"));
+
+                    if (userFound != null) {
+                        request.getSession(true).setAttribute("userlogged", userFound.getPrenom() + " " + userFound.getNom());
+                        request.getSession(false).setAttribute("nom", userFound.getNom());
+                        request.getSession(false).setAttribute("prenom", userFound.getPrenom());
+                        request.getSession(false).setAttribute("email", userFound.getLogin());
+                    }
+                    else
+                    {
+                        System.out.println(" # #  #   ########################\nAUCUN UTILISATEUR CORRESPONDANT");
+                    }
+                }
+            }
         }
+        if (!forwardTo.isEmpty()) {
+            RequestDispatcher dp = request.getRequestDispatcher(forwardTo + "&message=" + message);
+            dp.forward(request, response);
+        } else {
+            response.sendRedirect(redirect);
+        }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
