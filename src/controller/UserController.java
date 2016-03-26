@@ -88,9 +88,9 @@ public class UserController {
     @PersistenceContext
     private EntityManager em;
     
-    public Utilisateur creerUser(String login, String passWord, String nom, String prenom, String role, Collection<Etablissement> etabsUser) {
+    public Utilisateur creerUser(String login, String passWord, String nom, String prenom, String role,String numtel, Collection<Etablissement> etabsUser) {
         System.out.println("------>public Utilisateur creerUser(String login, String passWord, String nom, String prenom, String role, Collection<Etablissement> etabsUser)");
-        Utilisateur u = new Utilisateur(login, nom, prenom, role, etabsUser);
+        Utilisateur u = new Utilisateur(login, nom, prenom,numtel, role, etabsUser);
         em.persist(u);
         u.setPass(passWord);
         em.persist(u);

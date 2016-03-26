@@ -7,9 +7,11 @@ and open the template in the editor.
     Created on : 22 mars 2016, 20:46:21
     Author     : Thomas
 */
+.offmenu{
+    width: 400px;
+}
 nav form.dropdown{
         margin: 15px;
-    float: left;
 }
 .navbar-inverse form.dropdown a{
     color: lightgray;
@@ -23,7 +25,6 @@ nav form.dropdown{
     background-attachment: fixed;
     background-size: cover;
     border-bottom: 2px solid black;
-    
     min-height: 280px;
 }
 #mainwrap
@@ -51,7 +52,8 @@ html, body
     resize: none;
     height: 300px;
 }
-#maincontainer .btn-group,#maincontainer .multiselect.dropdown-toggle
+multiselect.btn-group,.multiselect.dropdown-toggle,
+.offmenu .btn-group,.multiselect.dropdown-toggle
 {
     width: 100%;
 }
@@ -61,7 +63,13 @@ html, body
     padding-left: 50px;
 
 }
-#maincontainer .multiselect-container.dropdown-menu li
+.offmenu .multiselect-container.dropdown-menu
+{
+    width: 300px;
+    padding-left: 50px;
+
+}
+ .multiselect-container.dropdown-menu li
 {
     border-left: 2px dashed red;
 }
@@ -74,8 +82,7 @@ html, body
 {
     border-left:  3px solid red;
 }
-nav li button.btn,
-nav li input.btn
+.btnav
 {
     margin: 7px;
 }

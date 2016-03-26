@@ -47,85 +47,113 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 
-                <ul class="nav navbar-nav navbar-right">
-                    <%if (session.getAttribute("userlogged") == null) {%>
+                <%if (session.getAttribute("userlogged") == null) {%>
+                <form method="post" >
 
-                    <form method="post" action="StaticServlet?action=connect" class="dropdown">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown" style="margin-right: 30px">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">S'inscrire&nbsp;&nbsp;<span class="glyphicon glyphicon glyphicon-plus"></span><span class="caret"></span></a>
+                            <ul class="offmenu dropdown-menu">
+
+                                <li>
+                                    <div class="input-group">
+                                        <span class="input-group-addon" id="basic-addon1">@Email</span>
+                                        <input type="text" class="form-control" placeholder="email@example.com" aria-describedby="basic-addon1">
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="input-group">
+                                        <span class="input-group-addon" id="basic-addon1">Nom</span>
+                                        <input type="text" class="form-control" placeholder="Nom" aria-describedby="basic-addon1">
+                                    </div></li>
+                                <li>
+                                    <div class="input-group">
+                                        <span class="input-group-addon" id="basic-addon1">Prénom</span>
+                                        <input type="text" class="form-control" placeholder="Prénom" aria-describedby="basic-addon1">
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="input-group">
+                                        <span class="input-group-addon" id="basic-addon1">Mot de passe</span>
+                                        <input type="password" class="form-control" placeholder="*******" aria-describedby="basic-addon1">
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="input-group">
+                                        <span class="input-group-addon" id="basic-addon1">Confirmation</span>
+                                        <input type="password" class="form-control" placeholder="*******" aria-describedby="basic-addon1">
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="input-group">
+                                        <span class="input-group-addon" id="basic-addon1">N°Tel</span>
+                                        <input type="tel" class="form-control" placeholder="0620350511" aria-describedby="basic-addon1">
+                                    </div>
+
+                                </li>
+                                <li>
+                                    <div  class="input-group" style="z-index: 300">
+                                        <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon glyphicon-globe"></span>&nbsp;Lieux</span>
+                                        <select id="registerRegionSelect" style="display:none" multiple="multiple">
+                                            <option value="06">Alpes maritimes</option>
+                                            <option value="29">Bretagne</option>
+                                            <option value="75">Ile de france</option>
+                                            <option value="83">Var</option>
+                                            <option value="13">Marseille</option>
+                                            <option value="AA">Exemple</option>
+                                        </select></div>
+                                </li>
+                                <li> 
+                                    <div class="input-group">
+                                        <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon glyphicon-plus"></span></span>
+                                        <input type="submit" class="form-control" value="enregistrement" aria-describedby="basic-addon1">
+                                    </div>
+                                </li>
+
+                            </ul>
+                        </li>
+                    </ul>
+                </form>
+                <form method="post" action="StaticServlet?action=connect">
+
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown">
 
 
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Se connecter&nbsp;&nbsp;<span class="glyphicon glyphicon-log-in"></span> <span class="caret"></span></a>
-                        <ul class="dropdown-menu" style="width:300px">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Se connecter&nbsp;&nbsp;<span class="glyphicon glyphicon-log-in"></span> <span class="caret"></span></a>
+                            <ul class="offmenu dropdown-menu">
 
-                            <li>
-                                <div class="input-group">
-                                    <span class="input-group-addon" id="basic-addon1">@Email</span>
-                                    <input type="text" name="email" class="form-control" placeholder="email@example.com" aria-describedby="basic-addon1">
-                                </div>
-                            </li>
-                            <li>
+                                <li>
+                                    <div class="input-group">
+                                        <span class="input-group-addon" id="basic-addon1">@Email</span>
+                                        <input type="text" name="email" class="form-control" placeholder="email@example.com" aria-describedby="basic-addon1">
+                                    </div>
+                                </li>
+                                <li>
 
-                                <div class="input-group">
-                                    <span class="input-group-addon" id="basic-addon1">Mot de passe</span>
-                                    <input type="password" name="password" class="form-control" placeholder="*******" aria-describedby="basic-addon1">
-                                </div>
+                                    <div class="input-group">
+                                        <span class="input-group-addon" id="basic-addon1">Mot de passe</span>
+                                        <input type="password" name="password" class="form-control" placeholder="*******" aria-describedby="basic-addon1">
+                                    </div>
 
-                            </li>
-                            <li>
+                                </li>
+                                <li>
 
-                                <div class="input-group">
-                                    <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-log-in"></span></span>
-                                    <input type="submit" class="form-control" value="connexion" aria-describedby="basic-addon1">
-                                </div>
+                                    <div class="input-group">
+                                        <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-log-in"></span></span>
+                                        <input type="submit" class="form-control" value="connexion" aria-describedby="basic-addon1">
+                                    </div>
 
-                            </li>
-                        </ul>
-                    </form>
-                    <form method="post" class="dropdown" style="width:300px;margin-right: 30px">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">S'inscrire&nbsp;&nbsp;<span class="glyphicon glyphicon glyphicon-plus"></span><span class="caret"></span></a>
-                        <ul class="dropdown-menu">
+                                </li>
+                            </ul>
 
-                            <li>
-                                <div class="input-group">
-                                    <span class="input-group-addon" id="basic-addon1">@Email</span>
-                                    <input type="text" class="form-control" placeholder="email@example.com" aria-describedby="basic-addon1">
-                                </div>
-                            </li>
-                            <li>
-                                <div class="input-group">
-                                    <span class="input-group-addon" id="basic-addon1">Nom</span>
-                                    <input type="text" class="form-control" placeholder="Nom" aria-describedby="basic-addon1">
-                                </div></li>
-                            <li>
-                                <div class="input-group">
-                                    <span class="input-group-addon" id="basic-addon1">Prénom</span>
-                                    <input type="text" class="form-control" placeholder="Prénom" aria-describedby="basic-addon1">
-                                </div>
-                            </li>
-                            <li>
-                                <div class="input-group">
-                                    <span class="input-group-addon" id="basic-addon1">Mot de passe</span>
-                                    <input type="password" class="form-control" placeholder="*******" aria-describedby="basic-addon1">
-                                </div>
-                            </li>
-                            <li>
-                                <div class="input-group">
-                                    <span class="input-group-addon" id="basic-addon1">Confirmation</span>
-                                    <input type="password" class="form-control" placeholder="*******" aria-describedby="basic-addon1">
-                                </div>
+                        </li>
+                    </ul>
+                </form>
 
-                            </li>
-                            <li> 
-                                <div class="input-group">
-                                    <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon glyphicon-plus"></span></span>
-                                    <input type="submit" class="form-control" value="enregistrement" aria-describedby="basic-addon1">
-                                </div>
-                            </li>
-                        </ul>
-                    </form>
-
-                    <%} else {%>
-                    <c:set var="userlog" value='${session.getAttribute("userlogged")}'></c:set>
-
+                <%} else {%>
+                <c:set var="userlog" value='${session.getAttribute("userlogged")}'></c:set>
+                    <ul class="nav navbar-nav navbar-right">
 
                         <li>  
                         <% String username = "John Smith ";%>
@@ -133,20 +161,20 @@
                         <a class="navbar-brand" href="#">Bienvenue,  <%=username%> ! <span class="glyphicon glyphicon-cog"></a>
                     </li>
                     <li>  
-                        <button class="btn btn-primary"  data-toggle="modal" data-target="#modalVente">Vendre un objet</button>
+                        <button class="btnav btn btn-primary"  data-toggle="modal" data-target="#modalVente">Vendre un objet</button>
 
                     </li>
 
                     <li>  
                         <form method=post action="StaticServlet?action=disconnect">
-                            <input type="submit" class="btn btn-danger" value="Se déconnecter"/>
+                            <input type="submit" class="btnav btn btn-danger" value="Se déconnecter"/>
                         </form>
                     </li>
                     <!-- Button trigger modal -->
 
 
-                    <%}%>
                 </ul>
+                <%}%>
             </div><!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->
     </nav>

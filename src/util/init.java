@@ -54,7 +54,7 @@ public class init {
     @PostConstruct
     public void initbd() {
         
-        uc.creerUser("Thomas.benhamou@hotmail.fr","passtom", "Benhamou", "Thomas", "ADMIN_ROLE", new ArrayList<Etablissement>());
+        uc.creerUser("Thomas.benhamou@hotmail.fr","passtom", "Benhamou", "Thomas","0678097826", "ADMIN_ROLE", new ArrayList<Etablissement>());
         System.out.println("init finished");
     }
 

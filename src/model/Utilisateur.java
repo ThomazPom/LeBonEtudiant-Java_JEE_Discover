@@ -25,7 +25,7 @@ public class Utilisateur {
 
     public Utilisateur(){};
  
-    public Utilisateur(String login, String nom, String prenom, String role, Collection<Etablissement> etabsUser) {
+    public Utilisateur(String login, String nom, String prenom,String numtel, String role, Collection<Etablissement> etabsUser) {
         this.userSalt = new BigInteger(130, random).toString(32);
         this.login = login.toLowerCase();
         this.nom = nom;
@@ -34,7 +34,7 @@ public class Utilisateur {
         this.etabsUser = etabsUser;
         
     }
-    Collection<Etablissement> etabsUser;
+    private Collection<Etablissement> etabsUser;
 
     private String userSalt;
 
@@ -42,6 +42,7 @@ public class Utilisateur {
     private String login;
     private String nom;
     private String prenom;
+    private String numtel;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -122,4 +123,38 @@ public String toString()
     
         return "utilsiateurs.modeles.Utilisateur[ id=" + id + " ]\n[ nom=" + nom + " ]\n[ prenom=" + prenom + " ]\n[ login=" + login + " ]\n[ salt=" +saltedPass  + " ]";
 }
+
+    /**
+     * @return the etabsUser
+     */
+    public Collection<Etablissement> getEtabsUser() {
+        return etabsUser;
+    }
+
+    /**
+     * @param etabsUser the etabsUser to set
+     */
+    public void setEtabsUser(Collection<Etablissement> etabsUser) {
+        this.etabsUser = etabsUser;
+    }
+    public void addEtabsUser(Etablissement etabUser) {
+        this.etabsUser.add( etabUser);
+    }
+    public void removeEtabUser(Etablissement etabUser) {
+        this.etabsUser.remove(etabUser);
+    }
+
+    /**
+     * @return the numtel
+     */
+    public String getNumtel() {
+        return numtel;
+    }
+
+    /**
+     * @param numtel the numtel to set
+     */
+    public void setNumtel(String numtel) {
+        this.numtel = numtel;
+    }
 }
