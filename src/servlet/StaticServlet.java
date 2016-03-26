@@ -16,6 +16,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import model.Utilisateur;
 
 /**
@@ -39,6 +40,7 @@ public class StaticServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        System.out.println("---->protected void processRequest(HttpServletRequest request, HttpServletResponse response)");
         String action = request.getParameter("action");
         String forwardTo = "";
         String redirect = "index.jsp";
@@ -47,8 +49,8 @@ public class StaticServlet extends HttpServlet {
 
         if (action != null) {
             if (action.equals("connect")) {
-                
-                
+                System.out.println("if (action.equals(\"connect\"))");
+
                 if (!"".equals(request.getParameter("email"))
                         && request.getParameter("email") != null
                         && !"".equals(request.getParameter("password"))
@@ -57,16 +59,25 @@ public class StaticServlet extends HttpServlet {
                     Utilisateur userFound = userController.getOneConnect(request.getParameter("email"), request.getParameter("password"));
 
                     if (userFound != null) {
-                        request.getSession(true).setAttribute("userlogged", userFound.getPrenom() + " " + userFound.getNom());
-                        request.getSession(false).setAttribute("nom", userFound.getNom());
-                        request.getSession(false).setAttribute("prenom", userFound.getPrenom());
-                        request.getSession(false).setAttribute("email", userFound.getLogin());
-                    }
-                    else
-                    {
+                        HttpSession session = request.getSession(true);
+                        session.setAttribute("userlogged", userFound.getPrenom() + " " + userFound.getNom());
+                        session.setAttribute("nom", userFound.getNom());
+                        session.setAttribute("prenom", userFound.getPrenom());
+                        session.setAttribute("email", userFound.getLogin());
+                    } else {
                         System.out.println(" # #  #   ########################\nAUCUN UTILISATEUR CORRESPONDANT");
                     }
                 }
+
+            }
+            else if (action.equals("disconnect")) {
+                System.out.println("if (action.equals(\"disconnect\"))");
+                HttpSession session = request.getSession(false);
+                session.setAttribute("userlogged", null);
+                session.setAttribute("nom", null);
+                session.setAttribute("prenom", null);
+                session.setAttribute("email", null);
+                session.invalidate();
             }
         }
         if (!forwardTo.isEmpty()) {

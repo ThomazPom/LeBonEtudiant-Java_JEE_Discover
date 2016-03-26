@@ -47,8 +47,8 @@ public class init {
             Logger.getLogger(init.class.getName()).log(Level.SEVERE, null, ex);
         }
         byte[] hash = digest.digest( (u.getUserSalt()+u.getId()+newPassWord+appsalt).getBytes(StandardCharsets.UTF_8));
-//        return new String(hash);
-        return ("#usa:"+u.getUserSalt()+"+#id:"+u.getId()+"#pw:"+newPassWord+"+#appsalt+"+appsalt);
+       return new String(hash);
+//        return ("#usa:"+u.getUserSalt()+"+#id:"+u.getId()+"#pw:"+newPassWord+"+#appsalt+"+appsalt);
     }
 
     @PostConstruct

@@ -74,7 +74,8 @@ html, body
 {
     border-left:  3px solid red;
 }
-nav li button
+nav li button.btn,
+nav li input.btn
 {
     margin: 7px;
 }
