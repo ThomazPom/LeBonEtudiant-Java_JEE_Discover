@@ -52,7 +52,8 @@ html, body
     resize: none;
     height: 300px;
 }
-multiselect.btn-group,.multiselect.dropdown-toggle,
+ 
+#maincontainer .btn-group,
 .offmenu .btn-group,.multiselect.dropdown-toggle
 {
     width: 100%;
