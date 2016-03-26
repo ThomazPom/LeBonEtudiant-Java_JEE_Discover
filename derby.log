@@ -1,0 +1,19 @@
+----------------------------------------------------------------
+Sat Mar 26 03:03:31 CET 2016:
+Amorçage de Derby version The Apache Software Foundation - Apache Derby - 10.10.2.0 - (1582446) : instance a816c00e-0153-b0a9-801f-0000084f89d0 
+dans le répertoire de base de données C:\Users\Thoma\Documents\NetBeansProjects\LeBonEtudiant\derbyDB avec le chargeur de classe sun.misc.Launcher$AppClassLoader@4e0e2f2a
+Chargé de file:/C:/Program%20Files/glassfish-4.1/javadb/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_60-b27
+user.dir=C:\Users\Thoma\Documents\NetBeansProjects\LeBonEtudiant
+os.name=Windows 10
+os.arch=amd64
+os.version=10.0
+derby.system.home=null
+Chargeur de classe de la base de données démarré - derby.database.classpath = ''
+----------------------------------------------------------------
+Sat Mar 26 03:03:32 CET 2016 : fermeture du moteur Derby
+----------------------------------------------------------------
+Sat Mar 26 03:03:32 CET 2016:
+Fermeture de l'instance a816c00e-0153-b0a9-801f-0000084f89d0 sur le répertoire de base de données C:\Users\Thoma\Documents\NetBeansProjects\LeBonEtudiant\derbyDB avec le chargeur de classe sun.misc.Launcher$AppClassLoader@4e0e2f2a 
+----------------------------------------------------------------
