@@ -10,20 +10,26 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 /**
  *
  * @author Thomas
  */
-
 @Entity
-public class Categorie {
-    @ManyToMany(mappedBy = "categories")
-    private List<Annonce> annonces;
+public class Region {
+    @OneToMany(mappedBy = "region")
+    private List<Departement> departements;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    public Region() {
+    }
+
+    public Region(String libelle) {
+        this.libelle = libelle;
+    }
 
     public Long getId() {
         return id;
@@ -34,7 +40,18 @@ public class Categorie {
     }
     private String libelle;
 
-    public Categorie() {
+    /**
+     * @return the departements
+     */
+    public List<Departement> getDepartements() {
+        return departements;
+    }
+
+    /**
+     * @param departements the departements to set
+     */
+    public void setDepartements(List<Departement> departements) {
+        this.departements = departements;
     }
 
     /**
@@ -50,5 +67,4 @@ public class Categorie {
     public void setLibelle(String libelle) {
         this.libelle = libelle;
     }
-    
 }

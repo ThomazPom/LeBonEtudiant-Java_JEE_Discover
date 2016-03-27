@@ -23,8 +23,7 @@ public class Utilisateur {
 
     private static SecureRandom random = new SecureRandom();
 
-    public Utilisateur(){};
- 
+    public Utilisateur(){}
     public Utilisateur(String login, String nom, String prenom,String numtel, String role, Collection<Etablissement> etabsUser) {
         this.userSalt = new BigInteger(130, random).toString(32);
         this.login = login.toLowerCase();

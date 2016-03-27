@@ -5,27 +5,27 @@
  */
 package util;
 
+import controller.DepartementController;
+import controller.EtablissementController;
+import controller.RegionController;
 import controller.UserController;
+import controller.VilleController;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-
 import java.util.ArrayList;
-import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
+import model.Departement;
 import model.Etablissement;
+import model.Region;
 import model.Utilisateur;
+import model.Ville;
 
 /**
  *
@@ -34,9 +34,17 @@ import model.Utilisateur;
 @Singleton
 @Startup
 public class init {
+
+    @EJB
+    private DepartementController dc;
+    @EJB
+    private RegionController rc;
+    @EJB
+    private VilleController vc;
+    @EJB
+    private EtablissementController ec;
     @EJB
     private UserController uc;
-
     private static String appsalt = "AKWVVxpE9NdaZ5yBLfZMYEUmkcLPQTLjdPAQQvjF3wgmGq8QvwWUJLpugbmA5brE9s42gDYwbTYLdTBAa6JPcVj7G69jaexp";
 
     public static String saltPassWord(Utilisateur u, String newPassWord) {
@@ -46,16 +54,45 @@ public class init {
         } catch (NoSuchAlgorithmException ex) {
             Logger.getLogger(init.class.getName()).log(Level.SEVERE, null, ex);
         }
-        byte[] hash = digest.digest( (u.getUserSalt()+u.getId()+newPassWord+appsalt).getBytes(StandardCharsets.UTF_8));
-       return new String(hash);
+        byte[] hash = digest.digest((u.getUserSalt() + u.getId() + newPassWord + appsalt).getBytes(StandardCharsets.UTF_8));
+        return new String(hash);
 //        return ("#usa:"+u.getUserSalt()+"+#id:"+u.getId()+"#pw:"+newPassWord+"+#appsalt+"+appsalt);
     }
 
     @PostConstruct
     public void initbd() {
-        
-        uc.creerUser("Thomas.benhamou@hotmail.fr","passtom", "Benhamou", "Thomas","0678097826", "ADMIN_ROLE", new ArrayList<Etablissement>());
+
+        uc.creerUser("Thomas.benhamou@hotmail.fr", "passtom", "Benhamou", "Thomas", "0678097826", "ADMIN_ROLE", new ArrayList<Etablissement>());
+        uc.creerUser("myriamrouis@gmail.com", "passmyriam", "Rouis", "Myriam", "0102030405", "ADMIN_ROLE", new ArrayList<Etablissement>());
+        uc.creerUser("benoit.silvestro@gmail.com", "passbenoit", "Silvestro", "Benoit", "0102030405", "ADMIN_ROLE", new ArrayList<Etablissement>());
+
+        initEtabRegionDeptVille();
         System.out.println("init finished");
     }
 
+    public void initEtabRegionDeptVille() {
+        System.out.println("-------->public void initEtabRegionDeptVille()");
+        try {
+
+            System.out.println("------->TRY");
+            InputStream is = getClass().getResourceAsStream("etablissement_superieur.csv");
+            java.util.Scanner s = new java.util.Scanner(is, "UTF-8").useDelimiter("\r\n");
+            s.next();//On ignore l'entete du CSV
+            while (s.hasNext()) {
+                String[] etabStrings = s.next().split(";");
+                System.out.println("------->while (s.hasNext())" + etabStrings[0]);
+                //0nom;1sigle;2adresse;3CP;4commune;5département;6région;7longitude (X);8latitude (Y)
+
+                Region region = rc.getRegionByName(etabStrings[6], true);
+                Departement departement = dc.createDepartement(etabStrings[5], region);
+              
+                Ville ville = vc.createVille(etabStrings[4], departement);
+                Etablissement Etablissement = ec.createEtablissement(etabStrings[0], etabStrings[1], etabStrings[2], etabStrings[3], ville, Double.parseDouble(etabStrings[7]),Double.parseDouble(etabStrings[8]) );
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+    }
 }
