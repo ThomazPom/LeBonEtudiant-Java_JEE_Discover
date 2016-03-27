@@ -197,9 +197,26 @@
                             <option value="13">Marseille</option>
                             <option value="AA">Exemple</option>
                         </select></div>
-                    <div  class="input-group">
-                        <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon glyphicon-euro"></span>&nbsp;Prix : &nbsp;<input type="text" id="amount" readonly style="border:0; color:red;background-color: transparent; font-weight:bold;"></span>
-                        <div id="slider-range" class="sliderform"></div>
+                    <div  class="input-group prix">
+                        
+                        <table><tr>
+                                
+                                <td style="width: 370px">
+                                    <span class="input-group-addon" id="basic-addon1" >
+                                        <span class="glyphicon glyphicon glyphicon-euro"></span>
+                                        &nbsp;Prix : &nbsp;<input type="text" id="amount" readonly><div class="pricebuttons">
+                                            <button type="button" class=".slideminus btn btn-default" aria-label="Left Align">
+                                                <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+                                            </button>
+                                            <button type="button" class=".slideplus btn btn-default" aria-label="Left Align">
+                                                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                            </button>
+                                        </div></span>
+                                <td style="padding-left: 50px">
+                                    <div id="slider-range" class="sliderform"></div>
+                                </td>
+                            </tr>
+                        </table>
                     </div>
                     <div  class="input-group">
                         <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;Catégories</span>
@@ -247,6 +264,15 @@
                         <input type="text" class="form-control" placeholder="Table de chevet bien stylée, bouteille de vin cassée.." aria-describedby="basic-addon1">
                     </div>
                     <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1">@Email de contact</span>
+                        <input type="email" class="form-control" placeholder="email@example.com" aria-describedby="basic-addon1">
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1">N°de téléphone de contact</span>
+                        <input type="text" class="form-control" placeholder="0682858320" aria-describedby="basic-addon1">
+                    </div>
+
+                    <div class="input-group">
                         <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-edit"></span>&nbsp;Description</span>
                         <textarea class="form-control" width="100%" height="300px" placeholder="Dimensions, couleur, état.." aria-describedby="basic-addon1"></textarea>
                     </div>
@@ -260,9 +286,27 @@
                             <option value="13">Marseille</option>
                             <option value="AA">Exemple</option>
                         </select></div>
-                    <div  class="input-group">
-                        <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon glyphicon-euro"></span>&nbsp;Prix : &nbsp;<input type="text" id="amount-vente" readonly style="border:0; color:red;background-color: transparent; font-weight:bold;"></span>
-                        <div id="slider-vente" class="sliderform"></div>
+                    <div  class="input-group prix">
+
+                        <table><tr>
+                                
+                                <td style="width: 300px">
+                                    <span class="input-group-addon" id="basic-addon1" >
+                                        <span class="glyphicon glyphicon glyphicon-euro"></span>
+                                        &nbsp;Prix : &nbsp;<input type="text" id="amount-vente" readonly><div class="pricebuttons">
+                                            <button type="button" class=".slideminus btn btn-default" aria-label="Left Align">
+                                                <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+                                            </button>
+                                            <button type="button" class=".slideplus btn btn-default" aria-label="Left Align">
+                                                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                            </button>
+                                        </div></span>
+                                <td style="padding-left: 50px">
+                                    <div id="slider-vente" class="sliderform"></div>
+                                </td>
+                            </tr>
+                        </table>
+
                     </div>
                     <div  class="input-group">
                         <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;Catégorie(s) de l'objet</span>

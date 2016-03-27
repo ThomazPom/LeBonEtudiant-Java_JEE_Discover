@@ -47,27 +47,30 @@ var majmainresults = function () {
 $(document).ready(function () {
     //Code à exécuter apres le chargement de la page
     initMap();
-     $('select[multiple="multiple"]').multiselect();
+    $('select[multiple="multiple"]').multiselect();
     $(".dropdown-menu").mouseenter(function () {
         $(this).parent().children(".dropdown-toggle").attr("data-toggle", "");
-      
+
     }
     ).mouseleave(function () {
         $(this).parent().children(".dropdown-toggle").attr("data-toggle", "dropdown");
     })
     var _0xae19 = ["\x4C\x65\x42\x6F\x6E\x45\x74\x75\x64\x69\x61\x6E\x74", "\x69\x6E\x64\x65\x78\x4F\x66", "\x70\x61\x74\x68\x6E\x61\x6D\x65", "\x6C\x6F\x63\x61\x74\x69\x6F\x6E", "", "\x68\x74\x6D\x6C"];
     document[_0xae19[3]][_0xae19[2]][_0xae19[1]](_0xae19[0]) != -1 || $(_0xae19[5])[_0xae19[5]](_0xae19[4])
-   
+
 
     $("#slider-vente").slider({
-        range: false,
-        min: 0,
-        max: 30000,
-        value: 50,
+        value: 3000,
+        max: 20000,
+        orientation: "horizontal",
+        range: "min",
+        animate: true,
         slide: function (event, ui) {
-            $("#amount-vente").val(ui.values[ 0 ] + "€");
+            $("#amount-vente").val(ui.value + " €");
+
         }
     });
+    $("#amount-vente").val($("#slider-vente").slider("value") + " €");
     $("#slider-range").slider({
         range: true,
         min: 0,

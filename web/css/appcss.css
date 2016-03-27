@@ -10,16 +10,6 @@ and open the template in the editor.
 .offmenu{
     width: 400px;
 }
-nav form.dropdown{
-        margin: 15px;
-}
-.navbar-inverse form.dropdown a{
-    color: lightgray;
-}
-.navbar-inverse form.dropdown a:hover{
-    color: white;
-    text-decoration: none;
-}
 #wrapper{
     background-image: url("../img/whiteploybg.jpg");
     background-attachment: fixed;
@@ -29,9 +19,9 @@ nav form.dropdown{
 }
 #mainwrap
 { background-attachment: fixed;
-         background-image: url("../img/whiteploybg.jpg");
- 
-    background-size: cover;
+  background-image: url("../img/whiteploybg.jpg");
+
+  background-size: cover;
 }
 div#maincontainer .input-group {
     z-index: 200;
@@ -48,17 +38,32 @@ html, body
     overflow: hidden;
 }
 .modal-body .input-group textArea{
-    
+
     resize: none;
-    height: 300px;
+    height: 200px;
 }
- 
-#maincontainer .btn-group,
-.offmenu .btn-group,.multiselect.dropdown-toggle
+
+.input-group.prix{
+    width: 100%;
+}
+
+.input-group.prix table{
+    width: 100%;
+}
+.input-group.prix input{
+    margin-top:5px;border:0; color:red;background-color: transparent; font-weight:bold;
+}
+.input-group.prix .pricebuttons {
+    float: right;
+}
+
+.input-group .btn-group,
+.input-group .btn-group,.multiselect.dropdown-toggle
 {
     width: 100%;
 }
-#maincontainer .multiselect-container.dropdown-menu
+#maincontainer .multiselect-container.dropdown-menu,
+.modal-body .multiselect-container.dropdown-menu
 {
     width: 400px;
     padding-left: 50px;
@@ -70,14 +75,9 @@ html, body
     padding-left: 50px;
 
 }
- .multiselect-container.dropdown-menu li
+.multiselect-container.dropdown-menu li
 {
     border-left: 2px dashed red;
-}
-#maincontainer .sliderform, modal-body .sliderform
-{
-    margin-left: 50px;
-    margin-top: 10px;
 }
 #mainsearch
 {
@@ -87,14 +87,17 @@ html, body
 {
     margin: 7px;
 }
+#amount-vente{
+    width:100px
+}
 #search {
-    
+
     min-height: 100px;
     height: 100px;
     width: 100vw;
     -webkit-transition: height 1s; /* For Safari 3.1 to 6.0 */
     transition:  height 1s;
-    
+
     max-height:60vh;
 
     overflow-x: hidden;
@@ -102,7 +105,7 @@ html, body
 }
 
 #wrapper:hover #search {
-        overflow-y: scroll!important;
+    overflow-y: scroll!important;
 
     height: auto!important;
 }
@@ -112,7 +115,7 @@ html, body
     top: 0px;
 }
 #map:hover{
- 
+
     top:20vh;
     border-top: 3px solid black;
     position: absolute!important;
