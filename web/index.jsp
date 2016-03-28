@@ -96,7 +96,6 @@
                                     <div  class="input-group" style="z-index: 300">
                                         <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon glyphicon-globe"></span>&nbsp;Lieux</span>
                                         <select name="registerRegionSelect" id="registerRegionSelect" style="display:none" multiple="multiple">
-                                            <%@include file="/WEB-INF/jspf/selectEtablissement.jspf" %>
                                         </select></div>
                                 </li>
                                 <li> 
