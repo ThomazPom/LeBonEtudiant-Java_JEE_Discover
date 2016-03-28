@@ -78,18 +78,28 @@ public class init {
             InputStream is = getClass().getResourceAsStream("etablissement_superieur.csv");
             java.util.Scanner s = new java.util.Scanner(is, "UTF-8").useDelimiter("\r\n");
             s.next();//On ignore l'entete du CSV
+            System.out.println("->>>>>>#########Amptempting to feed the database".toUpperCase());
             while (s.hasNext()) {
                 String[] etabStrings = s.next().split(";");
                 System.out.println("------->while (s.hasNext())" + etabStrings[0]);
                 //0nom;1sigle;2adresse;3CP;4commune;5département;6région;7longitude (X);8latitude (Y)
-
+                
+                if(rc.getRegionByName(etabStrings[6], false)==null)
+                {
                 Region region = rc.getRegionByName(etabStrings[6], true);
                 Departement departement = dc.createDepartement(etabStrings[5], region);
               
                 Ville ville = vc.createVille(etabStrings[4], departement);
                 Etablissement Etablissement = ec.createEtablissement(etabStrings[0], etabStrings[1], etabStrings[2], etabStrings[3], ville, Double.parseDouble(etabStrings[7]),Double.parseDouble(etabStrings[8]) );
+                }
+                else
+                {
+                    System.out.println("->>>>>#####Base was already ready".toUpperCase());
+                    break;
+                }
             }
-
+            s.close();
+            
         } catch (Exception e) {
             e.printStackTrace();
 

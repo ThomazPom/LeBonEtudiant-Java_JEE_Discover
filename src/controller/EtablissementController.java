@@ -35,6 +35,12 @@ public class EtablissementController {
         }
         return null;
     }
+    public List<Etablissement> getEtablissements(){
+        System.out.println("-->>getEtablissements()");
+        return em.createQuery("SELECT r from Etablissement r").getResultList();
+        
+    }
+    
     
     public Etablissement createEtablissement(String nom, String sigle, String adresse, String codepostal, Ville ville, double LongitudeX, double LatitudeY) {
         System.out.println("-----> createEtablissement(nom, sigle, adresse, codepostal, ville, LongitudeX, LatitudeY");

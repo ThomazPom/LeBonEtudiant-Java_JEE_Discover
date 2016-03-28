@@ -23,6 +23,7 @@
         <link href="css/bootstrap.min.css" rel="stylesheet">
         <link href="css/appcss.css" rel="stylesheet">
 
+        <link href="css/font-awesome.min.css" rel="stylesheet">
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
         <!--[if lt IE 9]>
@@ -48,7 +49,7 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 
                 <%if (session.getAttribute("userlogged") == null) {%>
-                <form method="post" >
+                <form method="post" action="StaticServlet?action=registerUser" >
 
                     <ul class="nav navbar-nav navbar-right">
                         <li class="dropdown" style="margin-right: 30px">
@@ -58,49 +59,44 @@
                                 <li>
                                     <div class="input-group">
                                         <span class="input-group-addon" id="basic-addon1">@Email</span>
-                                        <input type="text" class="form-control" placeholder="email@example.com" aria-describedby="basic-addon1">
+                                        <input type="text" name="email" class="form-control" placeholder="email@example.com" aria-describedby="basic-addon1">
                                     </div>
                                 </li>
                                 <li>
                                     <div class="input-group">
                                         <span class="input-group-addon" id="basic-addon1">Nom</span>
-                                        <input type="text" class="form-control" placeholder="Nom" aria-describedby="basic-addon1">
+                                        <input type="text" name="nom" class="form-control" placeholder="Nom" aria-describedby="basic-addon1">
                                     </div></li>
                                 <li>
                                     <div class="input-group">
                                         <span class="input-group-addon" id="basic-addon1">Prénom</span>
-                                        <input type="text" class="form-control" placeholder="Prénom" aria-describedby="basic-addon1">
+                                        <input type="text" name="prenom" class="form-control" placeholder="Prénom" aria-describedby="basic-addon1">
                                     </div>
                                 </li>
                                 <li>
                                     <div class="input-group">
                                         <span class="input-group-addon" id="basic-addon1">Mot de passe</span>
-                                        <input type="password" class="form-control" placeholder="*******" aria-describedby="basic-addon1">
+                                        <input type="password" name="password" class="form-control" placeholder="*******" aria-describedby="basic-addon1">
                                     </div>
                                 </li>
                                 <li>
                                     <div class="input-group">
                                         <span class="input-group-addon" id="basic-addon1">Confirmation</span>
-                                        <input type="password" class="form-control" placeholder="*******" aria-describedby="basic-addon1">
+                                        <input type="password"  class="form-control" placeholder="*******" aria-describedby="basic-addon1">
                                     </div>
                                 </li>
                                 <li>
                                     <div class="input-group">
                                         <span class="input-group-addon" id="basic-addon1">N°Tel</span>
-                                        <input type="tel" class="form-control" placeholder="0620350511" aria-describedby="basic-addon1">
+                                        <input type="tel" name="telephonne" class="form-control" placeholder="0620350511" aria-describedby="basic-addon1">
                                     </div>
 
                                 </li>
                                 <li>
                                     <div  class="input-group" style="z-index: 300">
                                         <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon glyphicon-globe"></span>&nbsp;Lieux</span>
-                                        <select id="registerRegionSelect" style="display:none" multiple="multiple">
-                                            <option value="06">Alpes maritimes</option>
-                                            <option value="29">Bretagne</option>
-                                            <option value="75">Ile de france</option>
-                                            <option value="83">Var</option>
-                                            <option value="13">Marseille</option>
-                                            <option value="AA">Exemple</option>
+                                        <select name="registerRegionSelect" id="registerRegionSelect" style="display:none" multiple="multiple">
+                                            <%@include file="/WEB-INF/jspf/selectEtablissement.jspf" %>
                                         </select></div>
                                 </li>
                                 <li> 
@@ -179,6 +175,17 @@
         </div><!-- /.container-fluid -->
     </nav>
     <div id="wrapper">
+
+        <%  if (session.getAttribute("success") != null) {%><div class="alert alert-success" role="alert"> <%out.println(session.getAttribute("success"));
+            session.removeAttribute("message");
+            session.removeAttribute("success");%></div>
+        <%}
+            if (session.getAttribute("info") != null) {%><div class="alert alert-info" role="alert"><%out.println(session.getAttribute("info")); %><% session.removeAttribute("info");%></div>
+        <%}
+            if (session.getAttribute("warning") != null) {%><div class="alert alert-warning" role="alert"><%out.println(session.getAttribute("warning")); %><% session.removeAttribute("warning");%></div>
+        <%}
+            if (session.getAttribute("danger") != null) {%><div class="alert alert-danger" role="alert"><%out.println(session.getAttribute("danger")); %><% session.removeAttribute("danger");%></div>
+        <% } %>
         <div id="lesswrap">
             <div id="mainwrap">
                 <div id="maincontainer" class="container">
@@ -198,9 +205,9 @@
                             <option value="AA">Exemple</option>
                         </select></div>
                     <div  class="input-group prix">
-                        
+
                         <table><tr>
-                                
+
                                 <td style="width: 370px">
                                     <span class="input-group-addon" id="basic-addon1" >
                                         <span class="glyphicon glyphicon glyphicon-euro"></span>
@@ -247,7 +254,7 @@
     <script src="js/appjvs.js"></script>
 
 
-    <%if (session.getAttribute("userlogged") == null && false) {%>
+    <%if (session.getAttribute("userlogged") == null) {%>
 
     <%} else {%>
     <!-- Modal -->
@@ -289,7 +296,7 @@
                     <div  class="input-group prix">
 
                         <table><tr>
-                                
+
                                 <td style="width: 300px">
                                     <span class="input-group-addon" id="basic-addon1" >
                                         <span class="glyphicon glyphicon glyphicon-euro"></span>

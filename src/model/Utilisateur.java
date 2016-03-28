@@ -8,6 +8,7 @@ package model;
 import controller.UserController;
 import java.math.BigInteger;
 import java.security.SecureRandom;
+import java.util.ArrayList;
 import java.util.Collection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -24,13 +25,13 @@ public class Utilisateur {
     private static SecureRandom random = new SecureRandom();
 
     public Utilisateur(){}
-    public Utilisateur(String login, String nom, String prenom,String numtel, String role, Collection<Etablissement> etabsUser) {
+    public Utilisateur(String login, String nom, String prenom,String numtel, String role) {
         this.userSalt = new BigInteger(130, random).toString(32);
         this.login = login.toLowerCase();
         this.nom = nom;
         this.prenom=prenom;
         this.role = role;
-        this.etabsUser = etabsUser;
+        this.etabsUser = new ArrayList<Etablissement>();
         
     }
     private Collection<Etablissement> etabsUser;

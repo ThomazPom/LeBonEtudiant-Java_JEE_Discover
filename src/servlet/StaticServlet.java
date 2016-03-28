@@ -5,10 +5,13 @@
  */
 package servlet;
 
+import controller.EtablissementController;
 import controller.UserController;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -17,6 +20,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import model.Etablissement;
 import model.Utilisateur;
 
 /**
@@ -28,6 +32,8 @@ public class StaticServlet extends HttpServlet {
 
     @EJB
     private UserController userController;
+    @EJB
+    private EtablissementController etabController;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -48,6 +54,58 @@ public class StaticServlet extends HttpServlet {
         String alert = "";
 
         if (action != null) {
+
+            if (action.equals("registerUser")) {
+                if (!"".equals(request.getParameter("email"))
+                        && request.getParameter("email") != null
+                        && !"".equals(request.getParameter("password"))
+                        && request.getParameter("password") != null
+                        && !"".equals(request.getParameter("nom"))
+                        && request.getParameter("nom") != null
+                        && !"".equals(request.getParameter("prenom"))
+                        && request.getParameter("prenom") != null
+                        && !"".equals(request.getParameter("telephonne"))
+                        && request.getParameter("telephonne") != null) {
+
+                    if (userController.getOneLogin(request.getParameter("email")) != null) {
+                        request.getSession(false).setAttribute("danger","Impossible d'enregistrer ce compte, car cet email est déja inscrit");
+                    } else {
+                        ArrayList<Etablissement> etabsNewUser = new ArrayList<Etablissement>();
+                        if (request.getParameterValues("registerRegionSelect") != null) {
+                            String[] idEtabs = request.getParameterValues("registerRegionSelect");
+                            for (String idEtab : idEtabs) {
+                                int intIdEtab = -1;
+                                try {
+                                    intIdEtab = Integer.parseInt(idEtab);
+                                } catch (Exception e) {
+                                    System.out.println("[[[[ERREUR, VALEUR INVALIDE POUR L'ENTIER " + idEtab + "]]");
+                                }
+                                Etablissement etabRegister = etabController.getEtablissementByID(intIdEtab);
+                                if (etabRegister != null) {
+                                    etabsNewUser.add(etabRegister);
+                                }
+                            }
+                        }
+                        userController.creerUser(
+                                request.getParameter("email"),
+                                request.getParameter("password"),
+                                request.getParameter("nom"),
+                                request.getParameter("prenom"),
+                                "ROLEUSER",
+                                request.getParameter("telephonne"),
+                                etabsNewUser
+                        );
+                        action="connect";
+                    }
+
+                }
+                else {
+                request.getSession(false).setAttribute("warning","Les champs obligatoires d'inscription n'ont pas été correctement remplis");
+            }
+
+            }
+            System.out.println(action);
+
             if (action.equals("connect")) {
                 System.out.println("if (action.equals(\"connect\"))");
 
@@ -64,13 +122,16 @@ public class StaticServlet extends HttpServlet {
                         session.setAttribute("nom", userFound.getNom());
                         session.setAttribute("prenom", userFound.getPrenom());
                         session.setAttribute("email", userFound.getLogin());
+                        session.setAttribute("success", "Heureux de vous revoir, " + userFound.getPrenom() + " ! <i class=\"fa fa-smile-o\"></i>");
                     } else {
-                        System.out.println(" # #  #   ########################\nAUCUN UTILISATEUR CORRESPONDANT");
+                        
+                        HttpSession session = request.getSession(false);
+                        session.setAttribute("danger", "Impossible de se connecter : L'email ou le mot de passe est incorrect");
+
                     }
                 }
 
-            }
-            else if (action.equals("disconnect")) {
+            } else if (action.equals("disconnect")) {
                 System.out.println("if (action.equals(\"disconnect\"))");
                 HttpSession session = request.getSession(false);
                 session.setAttribute("userlogged", null);
