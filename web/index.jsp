@@ -59,36 +59,36 @@
                                 <li>
                                     <div class="input-group">
                                         <span class="input-group-addon" id="basic-addon1">@Email</span>
-                                        <input type="text" name="email" class="form-control" placeholder="email@example.com" aria-describedby="basic-addon1">
+                                        <input required type="email" name="email" class="form-control" placeholder="email@example.com" aria-describedby="basic-addon1">
                                     </div>
                                 </li>
                                 <li>
                                     <div class="input-group">
                                         <span class="input-group-addon" id="basic-addon1">Nom</span>
-                                        <input type="text" name="nom" class="form-control" placeholder="Nom" aria-describedby="basic-addon1">
+                                        <input required type="text" name="nom" class="form-control" placeholder="Nom" aria-describedby="basic-addon1">
                                     </div></li>
                                 <li>
                                     <div class="input-group">
                                         <span class="input-group-addon" id="basic-addon1">Prénom</span>
-                                        <input type="text" name="prenom" class="form-control" placeholder="Prénom" aria-describedby="basic-addon1">
+                                        <input required type="text" name="prenom" class="form-control" placeholder="Prénom" aria-describedby="basic-addon1">
                                     </div>
                                 </li>
                                 <li>
                                     <div class="input-group">
                                         <span class="input-group-addon" id="basic-addon1">Mot de passe</span>
-                                        <input type="password" name="password" class="form-control" placeholder="*******" aria-describedby="basic-addon1">
+                                        <input required type="password" id="password" name="password" class="form-control" placeholder="*******" aria-describedby="basic-addon1">
                                     </div>
                                 </li>
                                 <li>
                                     <div class="input-group">
                                         <span class="input-group-addon" id="basic-addon1">Confirmation</span>
-                                        <input type="password"  class="form-control" placeholder="*******" aria-describedby="basic-addon1">
+                                        <input required type="password"  id="confirm_password" class="form-control" placeholder="*******" aria-describedby="basic-addon1">
                                     </div>
                                 </li>
                                 <li>
                                     <div class="input-group">
                                         <span class="input-group-addon" id="basic-addon1">N°Tel</span>
-                                        <input type="tel" name="telephonne" class="form-control" placeholder="0620350511" aria-describedby="basic-addon1">
+                                        <input required type="tel" name="telephonne" class="form-control" placeholder="0620350511" aria-describedby="basic-addon1">
                                     </div>
 
                                 </li>
@@ -121,14 +121,14 @@
                                 <li>
                                     <div class="input-group">
                                         <span class="input-group-addon" id="basic-addon1">@Email</span>
-                                        <input type="text" name="email" class="form-control" placeholder="email@example.com" aria-describedby="basic-addon1">
+                                        <input required type="email" name="email" class="form-control" placeholder="email@example.com" aria-describedby="basic-addon1">
                                     </div>
                                 </li>
                                 <li>
 
                                     <div class="input-group">
                                         <span class="input-group-addon" id="basic-addon1">Mot de passe</span>
-                                        <input type="password" name="password" class="form-control" placeholder="*******" aria-describedby="basic-addon1">
+                                        <input required type="password" name="password" class="form-control" placeholder="*******" aria-describedby="basic-addon1">
                                     </div>
 
                                 </li>

@@ -12,6 +12,8 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -44,6 +46,13 @@ public class StaticServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    private Pattern pattern = Pattern.compile(EMAIL_PATTERN, Pattern.CASE_INSENSITIVE);
+    private Matcher matcher;
+
+    private static final String EMAIL_PATTERN
+            = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+            + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         System.out.println("---->protected void processRequest(HttpServletRequest request, HttpServletResponse response)");
@@ -68,7 +77,7 @@ public class StaticServlet extends HttpServlet {
 
                     if (userController.getOneLogin(request.getParameter("email")) != null) {
                         request.getSession(false).setAttribute("danger", "Impossible d'enregistrer ce compte, car cet email est déja inscrit");
-                    } else {
+                    } else if (pattern.matcher(request.getParameter("email")).find()) {
                         ArrayList<Etablissement> etabsNewUser = new ArrayList<Etablissement>();
                         if (request.getParameterValues("registerRegionSelect") != null) {
                             String[] idEtabs = request.getParameterValues("registerRegionSelect");
@@ -95,6 +104,9 @@ public class StaticServlet extends HttpServlet {
                                 etabsNewUser
                         );
                         action = "connect";
+                    } else {
+                               request.getSession(false).setAttribute("danger", "L'email envoyé à l'inscription ("+request.getParameter("email")+") est invalide");
+                  
                     }
 
                 } else {

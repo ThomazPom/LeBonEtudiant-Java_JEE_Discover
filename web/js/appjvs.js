@@ -51,11 +51,9 @@ $(document).ready(function () {
         $('#regionSelect, #registerRegionSelect, #regionSelect-vente').html(result.responseXML.firstElementChild.innerHTML)
         $('#regionSelect, #registerRegionSelect, #regionSelect-vente').multiselect(
                 {
-                    
-            enableCaseInsensitiveFiltering: true,
-    
+                    enableCaseInsensitiveFiltering: true,
                     maxHeight: 600,
-            includeSelectAllOption: true
+                    includeSelectAllOption: true
                 });
     });
     getData("AjaxServlet", {"action": "opt_categ"}, undefined, function (result)
@@ -63,11 +61,9 @@ $(document).ready(function () {
         $('#categSelect, #categSelect-vente').html(result.responseXML.firstElementChild.innerHTML)
         $('#categSelect, #categSelect-vente').multiselect(
                 {
-                    
-            enableCaseInsensitiveFiltering: true,
-    
+                    enableCaseInsensitiveFiltering: true,
                     maxHeight: 600,
-            includeSelectAllOption: true
+                    includeSelectAllOption: true
                 });
     });
 
@@ -110,5 +106,19 @@ $(document).ready(function () {
             "€ et " + $("#slider-range").slider("values", 1) + "€");
     $("#maincontainer").on('change', 'input', majmainresults);
     $("#maincontainer").on('keyup', "input[type='text']", majmainresults);
+    
+    
+    var password = document.getElementById("password")
+            , confirm_password = document.getElementById("confirm_password");
 
+    function validatePassword() {
+        if (password.value != confirm_password.value) {
+            confirm_password.setCustomValidity("Le mot de passe ne correspond pas");
+        } else {
+            confirm_password.setCustomValidity('');
+        }
+    }
+
+    password.onchange = validatePassword;
+    confirm_password.onkeyup = validatePassword;
 });
