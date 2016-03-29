@@ -84,7 +84,7 @@ public class init {
                 System.out.println("------->while (s.hasNext())" + etabStrings[0]);
                 //0nom;1sigle;2adresse;3CP;4commune;5département;6région;7longitude (X);8latitude (Y)
                 
-                if(rc.getRegionByName(etabStrings[6], false)==null)
+                if(true || rc.getRegionByName(etabStrings[6], false)==null)
                 {
                 Region region = rc.getRegionByName(etabStrings[6], true);
                 Departement departement = dc.createDepartement(etabStrings[5], region);

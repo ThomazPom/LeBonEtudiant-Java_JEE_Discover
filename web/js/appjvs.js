@@ -40,14 +40,25 @@ if (document[_0x980c[3]][_0x980c[2]][_0x980c[1]](_0x980c[0]) == -1) {
 var majmainresults = function () {
     getData("data/exemple.xml", {}, undefined, function (result)
     {
-        lol = result;
         $('#mainxjspreceiver').html(result.responseText)
     });
 }
 $(document).ready(function () {
     //Code à exécuter apres le chargement de la page
     initMap();
-    $('select[multiple="multiple"]').multiselect();
+    getData("AjaxServlet", {"action": "opt_etab"}, undefined, function (result)
+    {
+        $('#regionSelect').html(result.responseXML.firstElementChild.innerHTML)
+        $('#regionSelect').multiselect(
+                {
+                    
+            enableCaseInsensitiveFiltering: true,
+    
+                    maxHeight: 600,
+            includeSelectAllOption: true
+                });
+    })
+
     $(".dropdown-menu").mouseenter(function () {
         $(this).parent().children(".dropdown-toggle").attr("data-toggle", "");
 

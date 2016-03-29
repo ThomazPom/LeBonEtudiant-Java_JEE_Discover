@@ -51,7 +51,6 @@ public class StaticServlet extends HttpServlet {
         String forwardTo = "";
         String redirect = "index.jsp";
         String message = "";
-        String alert = "";
 
         if (action != null) {
 
@@ -68,7 +67,7 @@ public class StaticServlet extends HttpServlet {
                         && request.getParameter("telephonne") != null) {
 
                     if (userController.getOneLogin(request.getParameter("email")) != null) {
-                        request.getSession(false).setAttribute("danger","Impossible d'enregistrer ce compte, car cet email est déja inscrit");
+                        request.getSession(false).setAttribute("danger", "Impossible d'enregistrer ce compte, car cet email est déja inscrit");
                     } else {
                         ArrayList<Etablissement> etabsNewUser = new ArrayList<Etablissement>();
                         if (request.getParameterValues("registerRegionSelect") != null) {
@@ -95,13 +94,12 @@ public class StaticServlet extends HttpServlet {
                                 request.getParameter("telephonne"),
                                 etabsNewUser
                         );
-                        action="connect";
+                        action = "connect";
                     }
 
+                } else {
+                    request.getSession(false).setAttribute("warning", "Les champs obligatoires d'inscription n'ont pas été correctement remplis");
                 }
-                else {
-                request.getSession(false).setAttribute("warning","Les champs obligatoires d'inscription n'ont pas été correctement remplis");
-            }
 
             }
             System.out.println(action);
@@ -124,7 +122,7 @@ public class StaticServlet extends HttpServlet {
                         session.setAttribute("email", userFound.getLogin());
                         session.setAttribute("success", "Heureux de vous revoir, " + userFound.getPrenom() + " ! <i class=\"fa fa-smile-o\"></i>");
                     } else {
-                        
+
                         HttpSession session = request.getSession(false);
                         session.setAttribute("danger", "Impossible de se connecter : L'email ou le mot de passe est incorrect");
 
@@ -133,12 +131,15 @@ public class StaticServlet extends HttpServlet {
 
             } else if (action.equals("disconnect")) {
                 System.out.println("if (action.equals(\"disconnect\"))");
-                HttpSession session = request.getSession(false);
+                HttpSession session = request.getSession(true);
                 session.setAttribute("userlogged", null);
                 session.setAttribute("nom", null);
                 session.setAttribute("prenom", null);
                 session.setAttribute("email", null);
                 session.invalidate();
+            }
+            if (request.getSession(true).getAttribute("userlogged") != null) {
+                //Code secuisé ici;
             }
         }
         if (!forwardTo.isEmpty()) {

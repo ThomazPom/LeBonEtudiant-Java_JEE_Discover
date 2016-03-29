@@ -5,8 +5,12 @@
  */
 package servlet;
 
+import controller.EtablissementController;
+import controller.UserController;
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.ejb.EJB;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -29,21 +33,40 @@ public class AjaxServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    
+    @EJB
+    private UserController userController;
+    @EJB
+    private EtablissementController etabController;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet AjaxServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet AjaxServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        String forwardTo = "";
+        String message = "";
+        String redirect = "index.jsp";
+        
+        
+        String action = request.getParameter("action");
+        if (action != null) {
+            if(action.equals("opt_etab"))
+            {
+                System.out.println("In action "+action);
+                request.setAttribute("opt_etab", etabController.getEtablissements());
+                forwardTo = "ajax/opt_etab.jsp";
+            }
+            
+            if (request.getSession(true).getAttribute("userlogged") != null) {
+                //Code secuisé ici;
+            }
+
+            if (!forwardTo.isEmpty()) {
+                System.out.println("Forward to " + forwardTo);
+                RequestDispatcher dp = request.getRequestDispatcher(forwardTo + "?message=" + message);
+                dp.forward(request, response);
+            } else {
+                response.sendRedirect(redirect);
+            }
         }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

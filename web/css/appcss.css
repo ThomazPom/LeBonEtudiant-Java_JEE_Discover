@@ -65,7 +65,7 @@ html, body
 #maincontainer .multiselect-container.dropdown-menu,
 .modal-body .multiselect-container.dropdown-menu
 {
-    width: 400px;
+    min-width: 400px;
     padding-left: 50px;
 
 }
