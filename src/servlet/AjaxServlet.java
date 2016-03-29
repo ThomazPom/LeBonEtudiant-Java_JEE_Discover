@@ -5,6 +5,7 @@
  */
 package servlet;
 
+import controller.CategorieController;
 import controller.EtablissementController;
 import controller.UserController;
 import java.io.IOException;
@@ -38,6 +39,8 @@ public class AjaxServlet extends HttpServlet {
     private UserController userController;
     @EJB
     private EtablissementController etabController;
+    @EJB
+    private CategorieController categController;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String forwardTo = "";
@@ -52,6 +55,13 @@ public class AjaxServlet extends HttpServlet {
                 System.out.println("In action "+action);
                 request.setAttribute("opt_etab", etabController.getEtablissements());
                 forwardTo = "ajax/opt_etab.jsp";
+            }
+            
+            if(action.equals("opt_categ"))
+            {
+                System.out.println("In action "+action);
+                request.setAttribute("opt_categ", categController.getCategories());
+                forwardTo = "ajax/opt_categ.jsp";
             }
             
             if (request.getSession(true).getAttribute("userlogged") != null) {

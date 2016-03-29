@@ -317,12 +317,7 @@
                     <div  class="input-group">
                         <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;Catégorie(s) de l'objet</span>
                         <select id="categSelect" style="display:none" multiple="multiple">
-                            <option value="06">Vêtements</option>
-                            <option value="29">Informatique</option>
-                            <option value="75">Automobile</option>
-                            <option value="83">Multimédia</option>
-                            <option value="13">Meubles</option>
-                            <option value="AA">Mobile</option>
+                            
                         </select></div>
                 </div>
                 <div class="modal-footer">

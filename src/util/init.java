@@ -5,6 +5,7 @@
  */
 package util;
 
+import controller.CategorieController;
 import controller.DepartementController;
 import controller.EtablissementController;
 import controller.RegionController;
@@ -34,7 +35,8 @@ import model.Ville;
 @Singleton
 @Startup
 public class init {
-
+    @EJB
+    private CategorieController cc;
     @EJB
     private DepartementController dc;
     @EJB
@@ -67,6 +69,7 @@ public class init {
         uc.creerUser("benoit.silvestro@gmail.com", "passbenoit", "Silvestro", "Benoit", "0102030405", "ADMIN_ROLE", new ArrayList<Etablissement>());
 
         initEtabRegionDeptVille();
+        initCategorie();
         System.out.println("init finished");
     }
 
@@ -104,5 +107,24 @@ public class init {
             e.printStackTrace();
 
         }
+    }
+    
+    public void initCategorie() {
+        System.out.println("-------->public void initCategorie()");
+        
+        try {
+            System.out.println("------->TRY");
+            InputStream is = getClass().getResourceAsStream("categorie.csv");
+            java.util.Scanner s = new java.util.Scanner(is, "UTF-8").useDelimiter("\r\n");
+            while(s.hasNext()) {
+                String nomCategorie = s.next();
+                System.out.println("------->while (s.hasNext())" + nomCategorie);
+                
+                cc.getCategorieByName(nomCategorie, true);
+                
+            }
+        } catch (Exception e) {
+        }
+
     }
 }

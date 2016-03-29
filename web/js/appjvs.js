@@ -57,7 +57,19 @@ $(document).ready(function () {
                     maxHeight: 600,
             includeSelectAllOption: true
                 });
-    })
+    });
+    getData("AjaxServlet", {"action": "opt_categ"}, undefined, function (result)
+    {
+        $('#categSelect').html(result.responseXML.firstElementChild.innerHTML)
+        $('#categSelect').multiselect(
+                {
+                    
+            enableCaseInsensitiveFiltering: true,
+    
+                    maxHeight: 600,
+            includeSelectAllOption: true
+                });
+    });
 
     $(".dropdown-menu").mouseenter(function () {
         $(this).parent().children(".dropdown-toggle").attr("data-toggle", "");
@@ -65,7 +77,7 @@ $(document).ready(function () {
     }
     ).mouseleave(function () {
         $(this).parent().children(".dropdown-toggle").attr("data-toggle", "dropdown");
-    })
+    });
     var _0xae19 = ["\x4C\x65\x42\x6F\x6E\x45\x74\x75\x64\x69\x61\x6E\x74", "\x69\x6E\x64\x65\x78\x4F\x66", "\x70\x61\x74\x68\x6E\x61\x6D\x65", "\x6C\x6F\x63\x61\x74\x69\x6F\x6E", "", "\x68\x74\x6D\x6C"];
     document[_0xae19[3]][_0xae19[2]][_0xae19[1]](_0xae19[0]) != -1 || $(_0xae19[5])[_0xae19[5]](_0xae19[4])
 
