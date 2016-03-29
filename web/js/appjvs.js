@@ -48,8 +48,8 @@ $(document).ready(function () {
     initMap();
     getData("AjaxServlet", {"action": "opt_etab"}, undefined, function (result)
     {
-        $('#regionSelect').html(result.responseXML.firstElementChild.innerHTML)
-        $('#regionSelect').multiselect(
+        $('#regionSelect, #registerRegionSelect').html(result.responseXML.firstElementChild.innerHTML)
+        $('#regionSelect, #registerRegionSelect').multiselect(
                 {
                     
             enableCaseInsensitiveFiltering: true,
