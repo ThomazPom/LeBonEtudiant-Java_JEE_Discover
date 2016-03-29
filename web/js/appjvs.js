@@ -48,8 +48,8 @@ $(document).ready(function () {
     initMap();
     getData("AjaxServlet", {"action": "opt_etab"}, undefined, function (result)
     {
-        $('#regionSelect, #registerRegionSelect').html(result.responseXML.firstElementChild.innerHTML)
-        $('#regionSelect, #registerRegionSelect').multiselect(
+        $('#regionSelect, #registerRegionSelect, #regionSelect-vente').html(result.responseXML.firstElementChild.innerHTML)
+        $('#regionSelect, #registerRegionSelect, #regionSelect-vente').multiselect(
                 {
                     
             enableCaseInsensitiveFiltering: true,
@@ -60,8 +60,8 @@ $(document).ready(function () {
     });
     getData("AjaxServlet", {"action": "opt_categ"}, undefined, function (result)
     {
-        $('#categSelect').html(result.responseXML.firstElementChild.innerHTML)
-        $('#categSelect').multiselect(
+        $('#categSelect, #categSelect-vente').html(result.responseXML.firstElementChild.innerHTML)
+        $('#categSelect, #categSelect-vente').multiselect(
                 {
                     
             enableCaseInsensitiveFiltering: true,

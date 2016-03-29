@@ -7,7 +7,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <root>
     <c:forEach var="u" items="${opt_categ}"> 
-            <option id="${u.id}">${u.libelle.replace("&","et")}</option>
+            <option value="${u.id}">${u.libelle.replace("&","et")}</option>
 
     </c:forEach>
 </root>

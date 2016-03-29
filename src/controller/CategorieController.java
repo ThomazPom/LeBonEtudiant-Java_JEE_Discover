@@ -5,6 +5,7 @@
  */
 package controller;
 
+import java.util.Iterator;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -49,5 +50,18 @@ EntityManager em;
     public List<Categorie> getCategories() {
         System.out.println("-->>getCategories()");
         return em.createQuery("SELECT c from Categorie c").getResultList();
-    } 
+    }
+    
+    public Categorie getCategoriesById(int id) {
+        System.out.println("-->>getCategoriesById()");
+        Query q = em.createQuery("SELECT c from Categorie c where id=:id");
+        q.setParameter("id", id);
+        List<Categorie> listCateg = q.getResultList();
+        
+        Iterator<Categorie> i = listCateg.iterator();
+        if (i.hasNext()) {
+            return i.next();
+        }
+        return null;
+    }
 }

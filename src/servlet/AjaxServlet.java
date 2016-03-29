@@ -64,6 +64,10 @@ public class AjaxServlet extends HttpServlet {
                 forwardTo = "ajax/opt_categ.jsp";
             }
             
+            if (action.equals("sendVente")) {
+                forwardTo = "ajax/confirmVente.jsp";
+            }
+            
             if (request.getSession(true).getAttribute("userlogged") != null) {
                 //Code secuisé ici;
             }
