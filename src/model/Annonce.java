@@ -35,20 +35,139 @@ public class Annonce {
         this.id = id;
     }
     
-    private String Proprietaire;
+    @ManyToOne
+    private Utilisateur Proprietaire;
     private String Titre;
     private String numeroOverride;
+    private String emailOverride;
     private String Description;
-
+    private boolean active;
     public Annonce() {
+    }
+
+    public Annonce(Long id, Utilisateur Proprietaire, String Titre, String numeroOverride, String emailOverride, String Description, boolean active, List<Categorie> categories, List<Etablissement> etablissements) {
+        
+        this.Proprietaire = Proprietaire;
+        this.Titre = Titre;
+        this.numeroOverride = numeroOverride;
+        this.emailOverride = emailOverride;
+        this.Description = Description;
+        this.active = active;
+        this.categories = categories;
+        this.etablissements = etablissements;
     }
     
     
     @ManyToMany
-    List<Categorie> categories;
+    private List<Categorie> categories;
     
     @ManyToMany
-    List<Etablissement> etablissements;
+    private List<Etablissement> etablissements;
+
+    /**
+     * @return the Proprietaire
+     */
+    public Utilisateur getProprietaire() {
+        return Proprietaire;
+    }
+
+    /**
+     * @return the Titre
+     */
+    public String getTitre() {
+        return Titre;
+    }
+
+    /**
+     * @param Titre the Titre to set
+     */
+    public void setTitre(String Titre) {
+        this.Titre = Titre;
+    }
+
+    /**
+     * @return the numeroOverride
+     */
+    public String getNumeroOverride() {
+        return numeroOverride;
+    }
+
+    /**
+     * @param numeroOverride the numeroOverride to set
+     */
+    public void setNumeroOverride(String numeroOverride) {
+        this.numeroOverride = numeroOverride;
+    }
+
+    /**
+     * @return the emailOverride
+     */
+    public String getEmailOverride() {
+        return emailOverride;
+    }
+
+    /**
+     * @param emailOverride the emailOverride to set
+     */
+    public void setEmailOverride(String emailOverride) {
+        this.emailOverride = emailOverride;
+    }
+
+    /**
+     * @return the Description
+     */
+    public String getDescription() {
+        return Description;
+    }
+
+    /**
+     * @param Description the Description to set
+     */
+    public void setDescription(String Description) {
+        this.Description = Description;
+    }
+
+    /**
+     * @return the categories
+     */
+    public List<Categorie> getCategories() {
+        return categories;
+    }
+
+    /**
+     * @param categories the categories to set
+     */
+    public void setCategories(List<Categorie> categories) {
+        this.categories = categories;
+    }
+
+    /**
+     * @return the etablissements
+     */
+    public List<Etablissement> getEtablissements() {
+        return etablissements;
+    }
+
+    /**
+     * @param etablissements the etablissements to set
+     */
+    public void setEtablissements(List<Etablissement> etablissements) {
+        this.etablissements = etablissements;
+    }
+
+    /**
+     * @return the active
+     */
+    public boolean isActive() {
+        return active;
+    }
+
+    /**
+     * @param active the active to set
+     */
+    public void setActive(boolean active) {
+        this.active = active;
+    }
     
     
 }

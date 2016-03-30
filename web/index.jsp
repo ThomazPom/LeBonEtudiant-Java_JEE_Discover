@@ -270,12 +270,12 @@
                         </div>
                         <div class="input-group">
                             <span class="input-group-addon" id="basic-addon1">N°de téléphone de contact</span>
-                            <input name="tel" type="text" class="form-control" placeholder="0682858320" aria-describedby="basic-addon1">
+                            <input name="telephonne" type="text" class="form-control" placeholder="0682858320" aria-describedby="basic-addon1">
                         </div>
 
                         <div class="input-group">
                             <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-edit"></span>&nbsp;Description</span>
-                            <textarea name="descr" class="form-control" width="100%" height="300px" placeholder="Dimensions, couleur, état.." aria-describedby="basic-addon1"></textarea>
+                            <textarea name="description" class="form-control" width="100%" height="300px" placeholder="Dimensions, couleur, état.." aria-describedby="basic-addon1"></textarea>
                         </div>
                         <div  class="input-group">
                             <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon glyphicon-globe"></span>&nbsp;Lieux</span>

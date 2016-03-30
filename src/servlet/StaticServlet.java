@@ -46,12 +46,7 @@ public class StaticServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    private Pattern pattern = Pattern.compile(EMAIL_PATTERN, Pattern.CASE_INSENSITIVE);
-    private Matcher matcher;
 
-    private static final String EMAIL_PATTERN
-            = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
-            + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -77,7 +72,7 @@ public class StaticServlet extends HttpServlet {
 
                     if (userController.getOneLogin(request.getParameter("email")) != null) {
                         request.getSession(false).setAttribute("danger", "Impossible d'enregistrer ce compte, car cet email est déja inscrit");
-                    } else if (pattern.matcher(request.getParameter("email")).find()) {
+                    } else if (util.validator.validateEmail(request.getParameter("email"))) {
                         ArrayList<Etablissement> etabsNewUser = new ArrayList<Etablissement>();
                         if (request.getParameterValues("registerRegionSelect") != null) {
                             String[] idEtabs = request.getParameterValues("registerRegionSelect");
