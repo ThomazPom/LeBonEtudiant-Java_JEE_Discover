@@ -45,7 +45,8 @@ public class Annonce {
     public Annonce() {
     }
 
-    public Annonce(Long id, Utilisateur Proprietaire, String Titre, String numeroOverride, String emailOverride, String Description, boolean active, List<Categorie> categories, List<Etablissement> etablissements) {
+    
+    public Annonce(Utilisateur Proprietaire, String Titre, String numeroOverride, String emailOverride, String Description, boolean active, List<Categorie> categories, List<Etablissement> etablissements) {
         
         this.Proprietaire = Proprietaire;
         this.Titre = Titre;
@@ -55,6 +56,13 @@ public class Annonce {
         this.active = active;
         this.categories = categories;
         this.etablissements = etablissements;
+        if(numeroOverride.isEmpty()){
+            numeroOverride=Proprietaire.getNumtel();
+        }
+        if(emailOverride.isEmpty())
+        {
+            
+        }
     }
     
     

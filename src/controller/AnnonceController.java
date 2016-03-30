@@ -13,5 +13,5 @@ import javax.ejb.Stateless;
  */
 @Stateless
 public class AnnonceController {
-    
+    public void creerAnnonce()
 }
