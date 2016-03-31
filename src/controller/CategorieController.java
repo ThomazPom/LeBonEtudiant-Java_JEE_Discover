@@ -54,7 +54,7 @@ EntityManager em;
     
     public Categorie getCategoriesById(int id) {
         System.out.println("-->>getCategoriesById()");
-        Query q = em.createQuery("SELECT c from Categorie c where id=:id");
+        Query q = em.createQuery("SELECT c from Categorie c where c.id=:id");
         q.setParameter("id", id);
         List<Categorie> listCateg = q.getResultList();
         

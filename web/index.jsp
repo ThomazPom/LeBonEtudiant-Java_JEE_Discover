@@ -179,7 +179,7 @@
             session.removeAttribute("message");
             session.removeAttribute("success");%></div>
         <%}
-            if (session.getAttribute("info") != null) {%><div class="alert alert-info" role="alert"><%out.println(session.getAttribute("info")); %><% session.removeAttribute("info");%></div>
+                if (session.getAttribute("info") != null) {%><div class="alert alert-info" role="alert"><%out.println(session.getAttribute("info")); %><% session.removeAttribute("info");%></div>
         <%}
             if (session.getAttribute("warning") != null) {%><div class="alert alert-warning" role="alert"><%out.println(session.getAttribute("warning")); %><% session.removeAttribute("warning");%></div>
         <%}
@@ -196,12 +196,6 @@
                     <div  class="input-group" style="z-index: 300">
                         <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon glyphicon-globe"></span>&nbsp;Lieux</span>
                         <select id="regionSelect" style="display:none" multiple="multiple">
-                            <option value="06">Alpes maritimes</option>
-                            <option value="29">Bretagne</option>
-                            <option value="75">Ile de france</option>
-                            <option value="83">Var</option>
-                            <option value="13">Marseille</option>
-                            <option value="AA">Exemple</option>
                         </select></div>
                     <div  class="input-group prix">
 
@@ -253,33 +247,35 @@
     <!-- Modal -->
     <div class="modal fade" id="modalVente" tabindex="-1" role="dialog" aria-labelledby="modalVenteLabel">
         <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="modalVenteLabel">Vendre un objet :</h4>
-                </div>
+            <div id="mcvente" class="modal-content">
+
+
                 <form method="post" name="formVente" id="formVente" action="AjaxServlet?action=sendVente">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="modalVenteLabel">Vendre un objet :</h4>
+                    </div>
                     <div class="modal-body">
                         <div class="input-group">
                             <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-edit"></span>&nbsp;Titre</span>
-                            <input name="titre" type="text" class="form-control" placeholder="Table de chevet bien stylée, bouteille de vin cassée.." aria-describedby="basic-addon1">
+                            <input required name="titre" type="text" class="form-control" placeholder="Table de chevet bien stylée, bouteille de vin cassée.." aria-describedby="basic-addon1">
                         </div>
                         <div class="input-group">
                             <span class="input-group-addon" id="basic-addon1">@Email de contact</span>
-                            <input name="email" type="email" class="form-control" placeholder="email@example.com" aria-describedby="basic-addon1">
+                            <input  name="email" type="email" class="form-control" placeholder="email@example.com" aria-describedby="basic-addon1">
                         </div>
                         <div class="input-group">
                             <span class="input-group-addon" id="basic-addon1">N°de téléphone de contact</span>
-                            <input name="telephonne" type="text" class="form-control" placeholder="0682858320" aria-describedby="basic-addon1">
+                            <input name="telephone" type="text" class="form-control" placeholder="0682858320" aria-describedby="basic-addon1">
                         </div>
 
-                        <div class="input-group">
+                        <div   class="input-group">
                             <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-edit"></span>&nbsp;Description</span>
-                            <textarea name="description" class="form-control" width="100%" height="300px" placeholder="Dimensions, couleur, état.." aria-describedby="basic-addon1"></textarea>
+                            <textarea  required  name="description" class="form-control" width="100%" height="300px" placeholder="Dimensions, couleur, état.." aria-describedby="basic-addon1"></textarea>
                         </div>
-                        <div  class="input-group">
+                        <div    class="input-group">
                             <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon glyphicon-globe"></span>&nbsp;Lieux</span>
-                            <select name="regionSelect-vente" id="regionSelect-vente" style="display:none" multiple="multiple">
+                            <select  required  name="regionSelect-vente" id="regionSelect-vente" style="display:none" multiple="multiple">
                             </select></div>
                         <div  class="input-group prix">
 
@@ -287,7 +283,10 @@
                                     <td style="width: 300px">
                                         <span class="input-group-addon" id="basic-addon1" >
                                             <span class="glyphicon glyphicon glyphicon-euro"></span>
-                                            &nbsp;Prix : &nbsp;<input name="prix" type="text" id="amount-vente" readonly><div class="pricebuttons">
+                                            &nbsp;Prix : &nbsp;
+                                            <input type="text" id="amount-vente" readonly>
+                                            <input name="amount-vente" type="text" id="hidden-amount-vente" hidden>
+                                            <div class="pricebuttons">
                                                 <button type="button" class=".slideminus btn btn-default" aria-label="Left Align">
                                                     <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
                                                 </button>
@@ -304,7 +303,7 @@
                         </div>
                         <div  class="input-group">
                             <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;Catégorie(s) de l'objet</span>
-                            <select name="categSelect-vente" id="categSelect-vente" style="display:none" multiple="multiple">
+                            <select required name="categSelect-vente" id="categSelect-vente" style="display:none" multiple="multiple">
                             </select></div>
                     </div>
                     <div class="modal-footer">

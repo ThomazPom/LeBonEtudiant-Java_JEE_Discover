@@ -20,9 +20,9 @@ import javax.persistence.OneToMany;
  *
  * @author Thomas
  */
-
 @Entity
 public class Annonce {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -34,41 +34,44 @@ public class Annonce {
     public void setId(Long id) {
         this.id = id;
     }
-    
+
     @ManyToOne
     private Utilisateur Proprietaire;
     private String Titre;
+    private int prix;
     private String numeroOverride;
     private String emailOverride;
     private String Description;
     private boolean active;
+
     public Annonce() {
     }
 
-    
-    public Annonce(Utilisateur Proprietaire, String Titre, String numeroOverride, String emailOverride, String Description, boolean active, List<Categorie> categories, List<Etablissement> etablissements) {
-        
+    public Annonce(Utilisateur Proprietaire, String Titre,int prix, String numeroOverride, String emailOverride, String Description, boolean active, List<Categorie> categories, List<Etablissement> etablissements) {
+
         this.Proprietaire = Proprietaire;
         this.Titre = Titre;
-        this.numeroOverride = numeroOverride;
-        this.emailOverride = emailOverride;
+        if (!numeroOverride.isEmpty()) {
+            if (!numeroOverride.equals(Proprietaire.getNumtel())) {
+                this.numeroOverride = numeroOverride;
+            }
+        }
+        if (!emailOverride.isEmpty()) {
+            if (!emailOverride.equals(Proprietaire.getLogin())) {
+                setEmailOverride(emailOverride);
+            }
+        }
+        this.prix=prix;
         this.Description = Description;
         this.active = active;
         this.categories = categories;
         this.etablissements = etablissements;
-        if(numeroOverride.isEmpty()){
-            numeroOverride=Proprietaire.getNumtel();
-        }
-        if(emailOverride.isEmpty())
-        {
-            
-        }
+
     }
-    
-    
+
     @ManyToMany
     private List<Categorie> categories;
-    
+
     @ManyToMany
     private List<Etablissement> etablissements;
 
@@ -97,6 +100,9 @@ public class Annonce {
      * @return the numeroOverride
      */
     public String getNumeroOverride() {
+        if (numeroOverride.isEmpty()) {
+            return Proprietaire.getNumtel();
+        }
         return numeroOverride;
     }
 
@@ -111,6 +117,9 @@ public class Annonce {
      * @return the emailOverride
      */
     public String getEmailOverride() {
+        if (emailOverride.isEmpty()) {
+            return Proprietaire.getLogin();
+        }
         return emailOverride;
     }
 
@@ -118,7 +127,11 @@ public class Annonce {
      * @param emailOverride the emailOverride to set
      */
     public void setEmailOverride(String emailOverride) {
-        this.emailOverride = emailOverride;
+        if (!util.validator.validateEmail(emailOverride)) {
+            this.emailOverride="";
+        } else {
+            this.emailOverride = emailOverride;
+        }
     }
 
     /**
@@ -176,6 +189,19 @@ public class Annonce {
     public void setActive(boolean active) {
         this.active = active;
     }
-    
-    
+
+    /**
+     * @return the prix
+     */
+    public int getPrix() {
+        return prix;
+    }
+
+    /**
+     * @param prix the prix to set
+     */
+    public void setPrix(int prix) {
+        this.prix = prix;
+    }
+
 }

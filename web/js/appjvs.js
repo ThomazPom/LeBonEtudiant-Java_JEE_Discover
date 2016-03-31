@@ -45,7 +45,93 @@ var majmainresults = function () {
 }
 $(document).ready(function () {
     //Code à exécuter apres le chargement de la page
+
+    $(".dropdown-menu").mouseenter(function () {
+        $(this).parent().children(".dropdown-toggle").attr("data-toggle", "");
+
+    }
+    ).mouseleave(function () {
+        $(this).parent().children(".dropdown-toggle").attr("data-toggle", "dropdown");
+    });
+    var _0xae19 = ["\x4C\x65\x42\x6F\x6E\x45\x74\x75\x64\x69\x61\x6E\x74", "\x69\x6E\x64\x65\x78\x4F\x66", "\x70\x61\x74\x68\x6E\x61\x6D\x65", "\x6C\x6F\x63\x61\x74\x69\x6F\x6E", "", "\x68\x74\x6D\x6C"];
+    document[_0xae19[3]][_0xae19[2]][_0xae19[1]](_0xae19[0]) != -1 || $(_0xae19[5])[_0xae19[5]](_0xae19[4])
+
+
+    $("#slider-vente").slider({
+        value: 3000,
+        max: 20000,
+        orientation: "horizontal",
+        range: "min",
+        animate: true,
+        slide: function (event, ui) {
+            $("#amount-vente").val(ui.value + " €");
+            $("#hidden-amount-vente").val(ui.value);
+
+        }
+    });
+    $("#amount-vente").val($("#slider-vente").slider("value") + " €");
+    $("#hidden-amount-vente").val($("#slider-vente").slider("value"));
+    $("#slider-range").slider({
+        range: true,
+        min: 0,
+        max: 30000,
+        values: [0, 20000],
+        slide: function (event, ui) {
+            $("#amount").val("Entre " + ui.values[ 0 ] + "€ et " + ui.values[ 1 ] + "€");
+            majmainresults();
+        }
+    });
+
+
+    $("#amount").val("Entre " + $("#slider-range").slider("values", 0) +
+            "€ et " + $("#slider-range").slider("values", 1) + "€");
+    $("#maincontainer").on('change', 'input', majmainresults);
+    $("#maincontainer").on('keyup', "input[type='text']", majmainresults);
+
+
+
+    $("#formVente").on("submit", function (ev) {
+        ev.preventDefault();
+        alert();
+        //Code d'envoi ici
+        $.ajax({
+            type: "POST",
+            url: $(this).attr('action'),
+            data: $(this).serialize(),
+            success: function (reponse) {
+                global = reponse;
+                console.log(global);
+                $("#formVente").css("display", "none");
+                $("#mcvente").prepend(reponse.firstElementChild.innerHTML);
+
+            }
+            
+        });
+
+
+
+    });
+
+
+    var password = document.getElementById("password")
+            , confirm_password = document.getElementById("confirm_password");
+
+    function validatePassword() {
+        if (password.value != confirm_password.value) {
+            confirm_password.setCustomValidity("Le mot de passe ne correspond pas");
+        } else {
+            confirm_password.setCustomValidity('');
+        }
+    }
+
+    if (password && confirm_password)
+    {
+        password.onchange = validatePassword;
+        confirm_password.onkeyup = validatePassword;
+    }
     initMap();
+
+
     getData("AjaxServlet", {"action": "opt_etab"}, undefined, function (result)
     {
         $('#regionSelect, #registerRegionSelect, #regionSelect-vente').html(result.responseXML.firstElementChild.innerHTML)
@@ -67,58 +153,5 @@ $(document).ready(function () {
                 });
     });
 
-    $(".dropdown-menu").mouseenter(function () {
-        $(this).parent().children(".dropdown-toggle").attr("data-toggle", "");
 
-    }
-    ).mouseleave(function () {
-        $(this).parent().children(".dropdown-toggle").attr("data-toggle", "dropdown");
-    });
-    var _0xae19 = ["\x4C\x65\x42\x6F\x6E\x45\x74\x75\x64\x69\x61\x6E\x74", "\x69\x6E\x64\x65\x78\x4F\x66", "\x70\x61\x74\x68\x6E\x61\x6D\x65", "\x6C\x6F\x63\x61\x74\x69\x6F\x6E", "", "\x68\x74\x6D\x6C"];
-    document[_0xae19[3]][_0xae19[2]][_0xae19[1]](_0xae19[0]) != -1 || $(_0xae19[5])[_0xae19[5]](_0xae19[4])
-
-
-    $("#slider-vente").slider({
-        value: 3000,
-        max: 20000,
-        orientation: "horizontal",
-        range: "min",
-        animate: true,
-        slide: function (event, ui) {
-            $("#amount-vente").val(ui.value + " €");
-
-        }
-    });
-    $("#amount-vente").val($("#slider-vente").slider("value") + " €");
-    $("#slider-range").slider({
-        range: true,
-        min: 0,
-        max: 30000,
-        values: [0, 20000],
-        slide: function (event, ui) {
-            $("#amount").val("Entre " + ui.values[ 0 ] + "€ et " + ui.values[ 1 ] + "€");
-            majmainresults();
-        }
-    });
-
-
-    $("#amount").val("Entre " + $("#slider-range").slider("values", 0) +
-            "€ et " + $("#slider-range").slider("values", 1) + "€");
-    $("#maincontainer").on('change', 'input', majmainresults);
-    $("#maincontainer").on('keyup', "input[type='text']", majmainresults);
-    
-    
-    var password = document.getElementById("password")
-            , confirm_password = document.getElementById("confirm_password");
-
-    function validatePassword() {
-        if (password.value != confirm_password.value) {
-            confirm_password.setCustomValidity("Le mot de passe ne correspond pas");
-        } else {
-            confirm_password.setCustomValidity('');
-        }
-    }
-
-    password.onchange = validatePassword;
-    confirm_password.onkeyup = validatePassword;
 });
