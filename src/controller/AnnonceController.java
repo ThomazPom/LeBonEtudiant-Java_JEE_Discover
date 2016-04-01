@@ -41,8 +41,18 @@ public class AnnonceController {
         return a;
     }
 
-    public Annonce majAnnonce() {
-        return new Annonce();
+    public Annonce majAnnonce(int id,String titre, int prix, String numeroOverride, String emailOverride, String Description, boolean active, List<Categorie> categories, List<Etablissement> etablissements) {
+        Annonce annonce =  getAnnonceById(id);
+        if(annonce!=null)
+        {
+            if(prix!=-1) annonce.setPrix(prix);
+            if(numeroOverride!=null) annonce.setNumeroOverride(numeroOverride);
+            if(emailOverride!=null) annonce.setEmailOverride(emailOverride);
+            if(Description!=null) annonce.setPrix(prix);
+            em.persist(annonce);
+            return annonce;
+        }
+        return null;
     }
 
     public Annonce getAnnonceById(int id) {
@@ -55,6 +65,7 @@ public class AnnonceController {
         if (i.hasNext()) {
             return i.next();
         }
+        System.out.println("Annonce : " + id +" is not an ID");
         return null;
     }
 
