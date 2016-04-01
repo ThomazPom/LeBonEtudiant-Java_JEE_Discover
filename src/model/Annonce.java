@@ -37,17 +37,17 @@ public class Annonce {
 
     @ManyToOne
     private Utilisateur Proprietaire;
-    private String Titre;
-    private int prix;
-    private String numeroOverride;
-    private String emailOverride;
-    private String Description;
+    private String Titre="";
+    private int prix=0;
+    private String numeroOverride ="";
+    private String emailOverride ="";
+    private String Description="";
     private boolean active;
 
     public Annonce() {
     }
 
-    public Annonce(Utilisateur Proprietaire, String Titre,int prix, String numeroOverride, String emailOverride, String Description, boolean active, List<Categorie> categories, List<Etablissement> etablissements) {
+    public Annonce(Utilisateur Proprietaire, String Titre, int prix, String numeroOverride, String emailOverride, String Description, boolean active, List<Categorie> categories, List<Etablissement> etablissements) {
 
         this.Proprietaire = Proprietaire;
         this.Titre = Titre;
@@ -61,6 +61,7 @@ public class Annonce {
                 setEmailOverride(emailOverride);
             }
         }
+        
         this.prix=prix;
         this.Description = Description;
         this.active = active;

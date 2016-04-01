@@ -74,7 +74,8 @@ public class AjaxServlet extends HttpServlet {
                 if (action.equals("sendVente")) {
                     forwardTo = "ajax/erreurVente.jsp";
 
-                    if (request.getParameter("titre") != null
+                    if (request.getParameter("idVenteAnnonce") != null
+                            && request.getParameter("titre") != null
                             && request.getParameter("description") != null
                             && request.getParameter("telephone") != null
                             && request.getParameter("email") != null
@@ -100,7 +101,9 @@ public class AjaxServlet extends HttpServlet {
                                     request.getParameterValues("regionSelect-vente")
                             );
                             if (annonce != null) {
-                                   forwardTo = "ajax/confirmVente.jsp";
+                               request.getSession(false).setAttribute("success", "Félicitations ! Ton annonce est en ligne !<br/>Voici à quoi elle ressemble :");
+                
+                                forwardTo = "ajax/confirmVente.jsp";
                                    request.setAttribute("annonce", annonce);
 
                             }

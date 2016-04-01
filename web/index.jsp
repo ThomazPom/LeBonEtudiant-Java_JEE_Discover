@@ -179,7 +179,7 @@
             session.removeAttribute("message");
             session.removeAttribute("success");%></div>
         <%}
-                if (session.getAttribute("info") != null) {%><div class="alert alert-info" role="alert"><%out.println(session.getAttribute("info")); %><% session.removeAttribute("info");%></div>
+            if (session.getAttribute("info") != null) {%><div class="alert alert-info" role="alert"><%out.println(session.getAttribute("info")); %><% session.removeAttribute("info");%></div>
         <%}
             if (session.getAttribute("warning") != null) {%><div class="alert alert-warning" role="alert"><%out.println(session.getAttribute("warning")); %><% session.removeAttribute("warning");%></div>
         <%}
@@ -250,10 +250,14 @@
             <div id="mcvente" class="modal-content">
 
 
+                <input value="-1" name="idVenteAnnonce" form="formVente" id="idVenteAnnonce"/>
+
                 <form method="post" name="formVente" id="formVente" action="AjaxServlet?action=sendVente">
+
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                         <h4 class="modal-title" id="modalVenteLabel">Vendre un objet :</h4>
+
                     </div>
                     <div class="modal-body">
                         <div class="input-group">
@@ -307,7 +311,7 @@
                             </select></div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-warning"><span class="glyphicon glyphicon-refresh"></span>&nbsp;Réinitialiser</button>
+                        <button type="button" class="btn btn-warning effacerForm-Vente"><span class="glyphicon glyphicon-refresh"></span>&nbsp;Tout effacer</button>
                         <button type="button" class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span>&nbsp;Close</button>
                         <input type="submit" class="btn btn-primary" id="sendAnnonce" value="Envoyer">
                     </div>
