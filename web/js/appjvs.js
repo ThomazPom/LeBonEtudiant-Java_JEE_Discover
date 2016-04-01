@@ -41,7 +41,6 @@ $(document).ready(function () {
     $("#hidden-amount-vente").val($("#slider-vente").slider("value"));
     var slidERange = function (event, ui) {
         $("#amount").val("Entre " + ui.values[ 0 ] + "€ et " + ui.values[ 1 ] + "€");
-        console.log(ui);
         majmainresults();
     }
     $("#slider-range").slider({
@@ -63,8 +62,6 @@ $(document).ready(function () {
             url: $(this).attr('action'),
             data: $(this).serialize(),
             success: function (reponse) {
-                console.log(reponse);
-                console.log(reponse);
                 $("#idVenteAnnonce").remove();
                 $("#formVente").hide();
                 $("#mcvente").prepend(reponse);

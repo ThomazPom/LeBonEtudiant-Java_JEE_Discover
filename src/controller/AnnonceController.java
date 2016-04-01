@@ -6,12 +6,14 @@
 package controller;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import model.Annonce;
 import model.Categorie;
 import model.Etablissement;
@@ -37,6 +39,23 @@ public class AnnonceController {
         Annonce a = new Annonce(Proprietaire, titre, prix, numeroOverride, emailOverride, Description, active, categories, etablissements);
         em.persist(a);
         return a;
+    }
+
+    public Annonce majAnnonce() {
+        return new Annonce();
+    }
+
+    public Annonce getAnnonceById(int id) {
+        System.out.println("-->>getAnnonceById()");
+        Query q = em.createQuery("SELECT a from Annonce c where a.id=:id");
+        q.setParameter("id", id);
+        List<Annonce> listAnnonce = q.getResultList();
+
+        Iterator<Annonce> i = listAnnonce.iterator();
+        if (i.hasNext()) {
+            return i.next();
+        }
+        return null;
     }
 
     public Annonce creerAnnonce(Utilisateur Proprietaire, String Titre, String prix, String numeroOverride, String emailOverride, String Description, boolean active, String[] categories, String[] etablissements) {
