@@ -118,6 +118,15 @@ html, body
     padding-left: 50px;
 
 }
+#regionSelect-vente,#categSelect-vente{
+    
+    display: block!important;
+        height: 0px;
+    width: 0px;
+    position: absolute;
+    left: 50%;
+    top: 30px;
+}
 .multiselect-container.dropdown-menu li
 {
     border-left: 2px dashed red;

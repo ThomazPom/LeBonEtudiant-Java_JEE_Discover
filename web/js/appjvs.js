@@ -85,7 +85,6 @@ $(document).ready(function () {
         password.onchange = validatePassword;
         confirm_password.onkeyup = validatePassword;
     }
-    initMap();
     $.ajax({
         type: "POST",
         url: "AjaxServlet",
@@ -112,6 +111,8 @@ $(document).ready(function () {
                         includeSelectAllOption: true
                     });
         }});
+
+    initMap();
 });
 
 function reinitFormVente() {

@@ -279,7 +279,7 @@
                         </div>
                         <div    class="input-group">
                             <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon glyphicon-globe"></span>&nbsp;Lieux</span>
-                            <select  required  name="regionSelect-vente" id="regionSelect-vente" style="display:none" multiple="multiple">
+                            <select  required  name="regionSelect-vente" id="regionSelect-vente"  multiple="multiple">
                             </select></div>
                         <div  class="input-group prix">
 
@@ -307,7 +307,7 @@
                         </div>
                         <div  class="input-group">
                             <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;Catégorie(s) de l'objet</span>
-                            <select required name="categSelect-vente" id="categSelect-vente" style="display:none" multiple="multiple">
+                            <select required name="categSelect-vente" id="categSelect-vente"  multiple="multiple">
                             </select></div>
                     </div>
                     <div class="modal-footer">
