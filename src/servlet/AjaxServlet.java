@@ -72,7 +72,7 @@ public class AjaxServlet extends HttpServlet {
                 //Code secuisé ici;
 
                 if (action.equals("sendVente")) {
-                                   request.getSession(false).setAttribute("danger", "Il y a eu un probleme...");
+                                   //request.getSession(false).setAttribute("danger", "Il y a eu un probleme...");
                 
                     forwardTo = "ajax/erreurVente.jsp";
 

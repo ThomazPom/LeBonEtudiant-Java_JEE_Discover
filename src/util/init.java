@@ -69,6 +69,7 @@ public class init {
 
         initEtabRegionDeptVille();
         initCategorie();
+        initUsers();
         System.out.println("init finished");
     }
 
@@ -125,5 +126,28 @@ public class init {
         } catch (Exception e) {
         }
 
+    }
+    
+    public void initUsers() {
+        System.out.println("-------->public void initUsers()");
+        try {
+            System.out.println("------->TRY");
+            InputStream is = getClass().getResourceAsStream("etudiantL3.csv");
+            java.util.Scanner s = new java.util.Scanner(is, "UTF-8").useDelimiter("\r\n");
+            s.next();                           //On ignore l'entete du CSV
+            while(s.hasNext()) {
+                String[] userStrings = s.next().split(";");
+                System.out.println("------->while (s.hasNext())" + userStrings[0]);
+                //0Nom;1Prenom;2Email
+                
+               uc.creerUser(userStrings[2], "pass"+userStrings[1], 
+                       userStrings[0], userStrings[1], "USER_ROLE", null, "Universite Sophia Antipolis");
+            } 
+            
+            
+            s.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

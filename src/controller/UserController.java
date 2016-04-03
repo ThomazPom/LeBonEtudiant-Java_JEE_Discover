@@ -96,4 +96,13 @@ public class UserController {
         em.persist(u);
         return u;
     }
+    
+    public Utilisateur creerUser(String login, String passWord, String nom, String prenom, String role,String numtel, String etabsUser) {
+        System.out.println("------>public Utilisateur creerUser(String login, String passWord, String nom, String prenom, String role, String etabsUser)");
+        Utilisateur u = new Utilisateur(login, nom, prenom,numtel, role);
+        em.persist(u);
+        u.setPass(passWord);
+        em.persist(u);
+        return u;
+    }
 }
