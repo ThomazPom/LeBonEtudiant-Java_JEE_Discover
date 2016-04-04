@@ -111,6 +111,7 @@ public class AnnonceController {
             idAnnonce = Integer.parseInt(id);
         } catch (Exception e) {
             System.err.println(id + "is not an id (majAnnonce)");
+            return null;
         }
         for (String idA : categories) {
             int idCateg = -1;
@@ -144,6 +145,7 @@ public class AnnonceController {
             prixAnnonce = Integer.parseInt(prix);
         } catch (Exception e) {
             System.err.println(prix + "is not a number (majAnnonce)");
+            return null;
         }
         return majAnnonce(idAnnonce, titre, prixAnnonce, numeroOverride, emailOverride, Description, active, arcateg, aretab);
     }

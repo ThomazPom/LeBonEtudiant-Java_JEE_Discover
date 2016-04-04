@@ -141,10 +141,8 @@ public class init {
                 //0Nom;1Prenom;2Email
                 
                uc.creerUser(userStrings[2], "pass"+userStrings[1], 
-                       userStrings[0], userStrings[1], "USER_ROLE", null, "Universite Sophia Antipolis");
+                       userStrings[0], userStrings[1], "USER_ROLE", null, new ArrayList<Etablissement>());
             } 
-            
-            
             s.close();
         } catch (Exception e) {
             e.printStackTrace();
