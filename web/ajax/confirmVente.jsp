@@ -55,6 +55,13 @@
         </div>
 
         <div class="input-group">
+            <span class="input-group-addon" id="basic-addon1">Date de publication</span>
+            <p>
+                <%=annonce.getDatePublication() %>
+            </p>
+        </div>
+            
+        <div class="input-group">
             <span class="input-group-addon glyphicon-euro" id="basic-addon1">Prix</span>
             <p style="color:orange">
                 <%=annonce.getPrix() %> €
@@ -66,12 +73,23 @@
                 <%=annonce.getDescription() %>
             </textarea>
         </div>
-        <div    class="input-group">
+        <div class="input-group">
             <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon glyphicon-globe"></span>&#160;Lieux</span>
-            <select    name="regionSelect-vente" id="regionSelect-vente" style="display:none" multiple="multiple">
-            </select></div>
-
-
+            <select multiple="multiple">
+                <c:forEach var="u" items="${annonce.getEtablissements()}"> 
+                    <option value="${u.id}">${u.nom}</option>
+                </c:forEach>
+            </select>
+        </div>
+        
+        <div class="input-group">
+            <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon glyphicon-shopping-cart"></span>&#160;Categorie</span>
+            <select multiple="multiple" readonly style="background: #FAFAFA">
+                <c:forEach var="u" items="${annonce.getCategories()}"> 
+                    <option value="${u.id}">${u.libelle}</option>
+                </c:forEach>
+            </select>
+        </div>
 
 
     </div>

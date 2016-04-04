@@ -62,6 +62,12 @@ public class AjaxServlet extends HttpServlet {
                 forwardTo = "ajax/opt_etab.jsp";
             }
 
+            if (action.equals("listAllAnnonces")) {
+                System.out.println("In action " + action);
+                request.setAttribute("annonces", annonController.getAnnonces());
+                forwardTo = "ajax/listAnnonces.jsp";
+            }
+            
             if (action.equals("opt_categ")) {
                 System.out.println("In action " + action);
                 request.setAttribute("opt_categ", categController.getCategories());

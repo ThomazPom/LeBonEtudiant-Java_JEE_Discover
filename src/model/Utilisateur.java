@@ -29,16 +29,17 @@ public class Utilisateur {
     private List<Annonce> annonces;
 
     public Utilisateur(){}
-    public Utilisateur(String login, String nom, String prenom,String numtel, String role) {
+    public Utilisateur(String login, String nom, String prenom,String numtel, String role,List<Etablissement> etabsUser) {
         this.userSalt = new BigInteger(130, random).toString(32);
         this.login = login.toLowerCase();
         this.nom = nom;
         this.prenom=prenom;
         this.role = role;
-        this.etabsUser = new ArrayList<Etablissement>();
+        this.numtel = numtel;
+        this.etabsUser = etabsUser;
         
     }
-    private Collection<Etablissement> etabsUser;
+    private List<Etablissement> etabsUser;
 
     private String userSalt;
 
@@ -131,14 +132,14 @@ public String toString()
     /**
      * @return the etabsUser
      */
-    public Collection<Etablissement> getEtabsUser() {
+    public List<Etablissement> getEtabsUser() {
         return etabsUser;
     }
 
     /**
      * @param etabsUser the etabsUser to set
      */
-    public void setEtabsUser(Collection<Etablissement> etabsUser) {
+    public void setEtabsUser(List<Etablissement> etabsUser) {
         this.etabsUser = etabsUser;
     }
     public void addEtabsUser(Etablissement etabUser) {

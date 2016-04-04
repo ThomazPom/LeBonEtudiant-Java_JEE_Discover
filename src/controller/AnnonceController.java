@@ -84,6 +84,16 @@ public class AnnonceController {
         return creerAnnonce(Proprietaire, Titre, prixCreate, numeroOverride, emailOverride, Description, active, arcateg, aretab);
     }
     
+    public void creerAnnonces() {
+        System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+        Query q = em.createQuery("SELECT a from Utilisateur a");
+        List<Utilisateur> listUsers = q.getResultList();
+        for (Utilisateur user : listUsers) {
+            int randomEtab = (int)(Math.random() * (ec.getEtablissements().size()));
+            this.creerAnnonce(user, "", randomEtab, "", "", "", true, cc.getCategories(),ec.getEtablissements());
+        }
+    }
+    
     public Annonce majAnnonce(int id, String titre, int prix, String numeroOverride, String emailOverride, String Description, boolean active, List<Categorie> categories, List<Etablissement> etablissements) {
         Annonce annonce =  getAnnonceById(id);
         if(annonce!=null)
@@ -162,5 +172,10 @@ public class AnnonceController {
         }
         System.out.println("Annonce : " + id +" is not an ID");
         return null;
+    }
+    
+    public List<Annonce> getAnnonces() {
+        System.out.println("-->>getAnnonces()");
+        return em.createQuery("SELECT a from Annonce a").getResultList();
     }
 }

@@ -34,6 +34,7 @@ public class Etablissement {
         this.sigle = sigle;
         this.adresse = adresse;
         this.ville = ville;
+        if(ville == null) System.out.println("VILLE NULLE CONSTRUCT ETAB !");
         this.LongitudeX = Math.round(LongitudeX*100000)/100000.00;
         this.LatitudeY = Math.round(LatitudeY*100000)/100000.00;
       

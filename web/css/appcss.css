@@ -173,3 +173,7 @@ html, body
     position: absolute!important;
     z-index: 300;
 }
+
+.confirmVenteOverlay .input-group-addon {
+    min-width: 205px;
+}

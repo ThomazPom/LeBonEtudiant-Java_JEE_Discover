@@ -5,8 +5,11 @@
  */
 package model;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,6 +18,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
+import static javax.persistence.TemporalType.DATE;
 
 /**
  *
@@ -42,6 +47,8 @@ public class Annonce {
     private String numeroOverride ="";
     private String emailOverride ="";
     private String Description="";
+    @Temporal(DATE)
+    private Date datePublication;
     private boolean active;
 
     public Annonce() {
@@ -65,6 +72,7 @@ public class Annonce {
         this.prix=prix;
         this.Description = Description;
         this.active = active;
+        this.datePublication = new Date();
         this.categories = categories;
         this.etablissements = etablissements;
 
@@ -149,6 +157,12 @@ public class Annonce {
         this.Description = Description;
     }
 
+    public String getDatePublication() {
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        return df.format(datePublication);
+    }
+
+    
     /**
      * @return the categories
      */

@@ -5,6 +5,7 @@
  */
 package util;
 
+import controller.AnnonceController;
 import controller.CategorieController;
 import controller.DepartementController;
 import controller.EtablissementController;
@@ -16,6 +17,8 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -35,6 +38,8 @@ import model.Ville;
 @Singleton
 @Startup
 public class init {
+    @EJB
+    private AnnonceController ac;
     @EJB
     private CategorieController cc;
     @EJB
@@ -63,13 +68,13 @@ public class init {
 
     @PostConstruct
     public void initbd() {
-        uc.creerUser("Thomas.benhamou@hotmail.fr", "passtom", "Benhamou", "Thomas", "0678097826", "ADMIN_ROLE", new ArrayList<Etablissement>());
-        uc.creerUser("myriamrouis@gmail.com", "passmyriam", "Rouis", "Myriam", "0102030405", "ADMIN_ROLE", new ArrayList<Etablissement>());
-        uc.creerUser("benoit.silvestro@gmail.com", "passbenoit", "Silvestro", "Benoit", "0102030405", "ADMIN_ROLE", new ArrayList<Etablissement>());
-
+        uc.creerUser("Thomas.benhamou@hotmail.fr", "passtom", "Benhamou", "Thomas", "ADMIN_ROLE", "0674597826", new ArrayList<Etablissement>());
+        uc.creerUser("myriamrouis@gmail.com", "passmyriam", "Rouis", "Myriam", "ADMIN_ROLE", "0678097898", new ArrayList<Etablissement>());
+        uc.creerUser("benoit.silvestro@gmail.com", "passbenoit", "Silvestro", "Benoit", "ADMIN_ROLE", "0678094526", new ArrayList<Etablissement>());
         initEtabRegionDeptVille();
         initCategorie();
         initUsers();
+        initAnnonces();
         System.out.println("init finished");
     }
 
@@ -97,6 +102,7 @@ public class init {
                 }
                 else
                 {
+                    
                     System.out.println("->>>>>#####Base was already ready".toUpperCase());
                     break;
                 }
@@ -135,17 +141,25 @@ public class init {
             InputStream is = getClass().getResourceAsStream("etudiantL3.csv");
             java.util.Scanner s = new java.util.Scanner(is, "UTF-8").useDelimiter("\r\n");
             s.next();                           //On ignore l'entete du CSV
+            Random rand = new Random();
+            List<Etablissement> allEtab = ec.getEtablissements();
+            System.out.println("Taille de la collection Etablissement: " + allEtab.size());
             while(s.hasNext()) {
                 String[] userStrings = s.next().split(";");
-                System.out.println("------->while (s.hasNext())" + userStrings[0]);
+                System.out.println("------->while (s.hasNext())" +  userStrings[0]);
                 //0Nom;1Prenom;2Email
-                
                uc.creerUser(userStrings[2], "pass"+userStrings[1], 
-                       userStrings[0], userStrings[1], "USER_ROLE", null, new ArrayList<Etablissement>());
+                       userStrings[0], userStrings[1], "USER_ROLE", "0"+rand.nextInt(1000000000), allEtab);
             } 
             s.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+    
+    public void initAnnonces () {
+        System.out.println("-------->public void initAnnonces()");
+        ac.creerAnnonces();
+        
+    } 
 }

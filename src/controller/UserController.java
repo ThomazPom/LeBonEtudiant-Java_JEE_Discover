@@ -7,6 +7,7 @@ package controller;
 
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -88,9 +89,9 @@ public class UserController {
     @PersistenceContext
     private EntityManager em;
     
-    public Utilisateur creerUser(String login, String passWord, String nom, String prenom, String role,String numtel, Collection<Etablissement> etabsUser) {
+    public Utilisateur creerUser(String login, String passWord, String nom, String prenom, String role,String numtel, List<Etablissement> etabsUser) {
         System.out.println("------>public Utilisateur creerUser(String login, String passWord, String nom, String prenom, String role, Collection<Etablissement> etabsUser)");
-        Utilisateur u = new Utilisateur(login, nom, prenom,numtel, role);
+        Utilisateur u = new Utilisateur(login, nom, prenom,numtel, role,etabsUser);
         em.persist(u);
         u.setPass(passWord);
         em.persist(u);
