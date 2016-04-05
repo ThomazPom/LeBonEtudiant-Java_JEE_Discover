@@ -4,14 +4,19 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/Benoit/Documents/NetBeansProjects/LeBonEtudiant/LeBonEtudiant/web/js/npm.js</file>
+            <file>file:/C:/Users/Benoit/Documents/NetBeansProjects/LeBonEtudiant/LeBonEtudiant/src/controller/EtablissementController.java</file>
+            <file>file:/C:/Users/Benoit/Documents/NetBeansProjects/LeBonEtudiant/LeBonEtudiant/src/util/init.java</file>
+            <file>file:/C:/Users/Benoit/Documents/NetBeansProjects/LeBonEtudiant/LeBonEtudiant/src/model/Categorie.java</file>
+            <file>file:/C:/Users/Benoit/Documents/NetBeansProjects/LeBonEtudiant/LeBonEtudiant/web/ajax/listAnnonces.jsp</file>
+            <file>file:/C:/Users/Benoit/Documents/NetBeansProjects/LeBonEtudiant/LeBonEtudiant/web/data/exemple.jsp</file>
+            <file>file:/C:/Users/Benoit/Documents/NetBeansProjects/LeBonEtudiant/LeBonEtudiant/src/model/Etablissement.java</file>
+            <file>file:/C:/Users/Benoit/Documents/NetBeansProjects/LeBonEtudiant/LeBonEtudiant/src/model/Ville.java</file>
+            <file>file:/C:/Users/Benoit/Documents/NetBeansProjects/LeBonEtudiant/LeBonEtudiant/src/controller/UserController.java</file>
             <file>file:/C:/Users/Benoit/Documents/NetBeansProjects/LeBonEtudiant/LeBonEtudiant/src/servlet/AjaxServlet.java</file>
             <file>file:/C:/Users/Benoit/Documents/NetBeansProjects/LeBonEtudiant/LeBonEtudiant/web/ajax/confirmVente.jsp</file>
-            <file>file:/C:/Users/Benoit/Documents/NetBeansProjects/LeBonEtudiant/LeBonEtudiant/src/util/init.java</file>
             <file>file:/C:/Users/Benoit/Documents/NetBeansProjects/LeBonEtudiant/LeBonEtudiant/src/model/Annonce.java</file>
-            <file>file:/C:/Users/Benoit/Documents/NetBeansProjects/LeBonEtudiant/LeBonEtudiant/web/ajax/listAnnonces.jsp</file>
             <file>file:/C:/Users/Benoit/Documents/NetBeansProjects/LeBonEtudiant/LeBonEtudiant/web/js/appjvs.js</file>
-            <file>file:/C:/Users/Benoit/Documents/NetBeansProjects/LeBonEtudiant/LeBonEtudiant/web/data/exemple.jsp</file>
-            <file>file:/C:/Users/Benoit/Documents/NetBeansProjects/LeBonEtudiant/LeBonEtudiant/src/controller/UserController.java</file>
+            <file>file:/C:/Users/Benoit/Documents/NetBeansProjects/LeBonEtudiant/LeBonEtudiant/src/model/Utilisateur.java</file>
             <file>file:/C:/Users/Benoit/Documents/NetBeansProjects/LeBonEtudiant/LeBonEtudiant/src/controller/AnnonceController.java</file>
         </group>
     </open-files>

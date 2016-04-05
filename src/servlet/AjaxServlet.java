@@ -104,6 +104,7 @@ public class AjaxServlet extends HttpServlet {
                                     request.getParameter("telephone"),
                                     request.getParameter("email"),
                                     request.getParameter("description"),
+                                    request.getParameter("date-fin"),
                                     true,
                                     request.getParameterValues("categSelect-vente"),
                                     request.getParameterValues("regionSelect-vente")

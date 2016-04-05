@@ -26,8 +26,10 @@
                 <td>${a.getProprietaire().getPrenom()}&#160;${a.getProprietaire().getNom()}</td>
                 <td>${a.getDatePublication()}</td>
                 <td>${a.getPrix()}</td>
-                <td>${a.getEtablissements().get(0).getVille().getLibelle()}</td>
+                <td></td>
             </tr>
         </c:forEach>
+    </tbody>
+</table>
         
 

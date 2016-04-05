@@ -5,6 +5,7 @@
  */
 package controller;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -36,13 +37,13 @@ public class AnnonceController {
     @EJB
     EtablissementController ec;
 
-    public Annonce creerAnnonce(Utilisateur Proprietaire, String titre, int prix, String numeroOverride, String emailOverride, String Description, boolean active, List<Categorie> categories, List<Etablissement> etablissements) {
-        Annonce a = new Annonce(Proprietaire, titre, prix, numeroOverride, emailOverride, Description, active, categories, etablissements);
+    public Annonce creerAnnonce(Utilisateur Proprietaire, String titre, int prix, String numeroOverride, String emailOverride, String Description, String dateFin, boolean active, List<Categorie> categories, List<Etablissement> etablissements) {
+        Annonce a = new Annonce(Proprietaire, titre, prix, numeroOverride, emailOverride, Description, dateFin, active, categories, etablissements);
         em.persist(a);
         return a;
     }
     
-    public Annonce creerAnnonce(Utilisateur Proprietaire, String Titre, String prix, String numeroOverride, String emailOverride, String Description, boolean active, String[] categories, String[] etablissements) {
+    public Annonce creerAnnonce(Utilisateur Proprietaire, String Titre, String prix, String numeroOverride, String emailOverride, String Description, String dateFin, boolean active, String[] categories, String[] etablissements) {
         ArrayList<Categorie> arcateg = new ArrayList<>();
         ArrayList<Etablissement> aretab = new ArrayList<>();
 
@@ -80,21 +81,24 @@ public class AnnonceController {
             System.err.println(prix + " is not a number");
             return null;
         }
+        
+        if(numeroOverride==null) numeroOverride = Proprietaire.getNumtel();
+        if(emailOverride==null) emailOverride = Proprietaire.getLogin();
 
-        return creerAnnonce(Proprietaire, Titre, prixCreate, numeroOverride, emailOverride, Description, active, arcateg, aretab);
+        return creerAnnonce(Proprietaire, Titre, prixCreate, numeroOverride, emailOverride, Description, dateFin, active, arcateg, aretab);
     }
     
     public void creerAnnonces() {
         System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-        Query q = em.createQuery("SELECT a from Utilisateur a");
-        List<Utilisateur> listUsers = q.getResultList();
-        for (Utilisateur user : listUsers) {
-            int randomEtab = (int)(Math.random() * (ec.getEtablissements().size()));
-            this.creerAnnonce(user, "", randomEtab, "", "", "", true, cc.getCategories(),ec.getEtablissements());
-        }
+//        Query q = em.createQuery("SELECT a from Utilisateur a");
+//        List<Utilisateur> listUsers = q.getResultList();
+//        for (Utilisateur user : listUsers) {
+//            int randomEtab = (int)(Math.random() * (ec.getEtablissements().size()));
+//            this.creerAnnonce(user, "", randomEtab, "", "", "", true, cc.getCategories(),ec.getEtablissements());
+//        }
     }
     
-    public Annonce majAnnonce(int id, String titre, int prix, String numeroOverride, String emailOverride, String Description, boolean active, List<Categorie> categories, List<Etablissement> etablissements) {
+    public Annonce majAnnonce(int id, String titre, int prix, String numeroOverride, String emailOverride, String Description, String dateFin, boolean active, List<Categorie> categories, List<Etablissement> etablissements) throws ParseException {
         Annonce annonce =  getAnnonceById(id);
         if(annonce!=null)
         {
@@ -102,6 +106,7 @@ public class AnnonceController {
             if(numeroOverride!=null) annonce.setNumeroOverride(numeroOverride);
             if(emailOverride!=null) annonce.setEmailOverride(emailOverride);
             if(Description!=null) annonce.setDescription(Description);
+            if(dateFin!=null) annonce.setDateFin(dateFin);
             if(!active) annonce.setActive(active);                              //si l'annonce est desactivee on l'active.
             if(!categories.isEmpty()) annonce.setCategories(categories);
             if(!etablissements.isEmpty()) annonce.setEtablissements(etablissements);
@@ -112,7 +117,7 @@ public class AnnonceController {
         return null;
     }
     
-    public Annonce majAnnonce(String id, String titre, String prix, String numeroOverride, String emailOverride, String Description, boolean active, String[] categories, String[] etablissements){
+    public Annonce majAnnonce(String id, String titre, String prix, String numeroOverride, String emailOverride, String Description, String dateFin, boolean active, String[] categories, String[] etablissements) throws ParseException{
         ArrayList<Categorie> arcateg = new ArrayList<>();
         ArrayList<Etablissement> aretab = new ArrayList<>();
         
@@ -157,7 +162,7 @@ public class AnnonceController {
             System.err.println(prix + "is not a number (majAnnonce)");
             return null;
         }
-        return majAnnonce(idAnnonce, titre, prixAnnonce, numeroOverride, emailOverride, Description, active, arcateg, aretab);
+        return majAnnonce(idAnnonce, titre, prixAnnonce, numeroOverride, emailOverride, Description, dateFin, active, arcateg, aretab);
     }
 
     public Annonce getAnnonceById(int id) {

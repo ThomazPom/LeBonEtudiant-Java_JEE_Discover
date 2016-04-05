@@ -6,11 +6,14 @@
 package model;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -49,12 +52,14 @@ public class Annonce {
     private String Description="";
     @Temporal(DATE)
     private Date datePublication;
+    @Temporal(DATE)
+    private Date dateFin;
     private boolean active;
 
     public Annonce() {
     }
 
-    public Annonce(Utilisateur Proprietaire, String Titre, int prix, String numeroOverride, String emailOverride, String Description, boolean active, List<Categorie> categories, List<Etablissement> etablissements) {
+    public Annonce(Utilisateur Proprietaire, String Titre, int prix, String numeroOverride, String emailOverride, String Description, String dateFin, boolean active, List<Categorie> categories, List<Etablissement> etablissements) {
 
         this.Proprietaire = Proprietaire;
         this.Titre = Titre;
@@ -73,6 +78,11 @@ public class Annonce {
         this.Description = Description;
         this.active = active;
         this.datePublication = new Date();
+        try {
+            this.dateFin = new SimpleDateFormat("dd/MM/yyyy").parse(dateFin);
+        } catch (ParseException ex) {
+            Logger.getLogger(Annonce.class.getName()).log(Level.SEVERE, null, ex);
+        }
         this.categories = categories;
         this.etablissements = etablissements;
 
@@ -160,6 +170,16 @@ public class Annonce {
     public String getDatePublication() {
         DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
         return df.format(datePublication);
+    }
+
+    public String getDateFin() {
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        return df.format(dateFin);
+    }
+
+    public void setDateFin(String dateFin) throws ParseException {
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        this.dateFin = df.parse(dateFin);
     }
 
     

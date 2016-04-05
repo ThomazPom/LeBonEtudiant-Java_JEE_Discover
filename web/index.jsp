@@ -265,17 +265,20 @@
                             <input required name="titre" type="text" class="form-control" placeholder="Table de chevet bien stylée, bouteille de vin cassée.." aria-describedby="basic-addon1">
                         </div>
                         <div class="input-group">
-                            <span class="input-group-addon" id="basic-addon1">@Email de contact</span>
+                            <span class="input-group-addon" id="basic-addon1">"><span class="glyphicon glyphicon-user"></span>&nbsp;Email</span>
                             <input  name="email" type="email" class="form-control" placeholder="email@example.com" aria-describedby="basic-addon1">
                         </div>
                         <div class="input-group">
-                            <span class="input-group-addon" id="basic-addon1">N°de téléphone de contact</span>
+                            <span class="input-group-addon" id="basic-addon1">"><span class="glyphicon glyphicon-edit"></span>&nbsp;N°de téléphone</span>
                             <input name="telephone" type="text" class="form-control" placeholder="0682858320" aria-describedby="basic-addon1">
                         </div>
-
                         <div   class="input-group">
                             <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-edit"></span>&nbsp;Description</span>
                             <textarea  required  name="description" class="form-control" width="100%" height="300px" placeholder="Dimensions, couleur, état.." aria-describedby="basic-addon1"></textarea>
+                        </div>
+                        <div   class="input-group">
+                            <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-time"></span>&nbsp;Date de fin</span>
+                            <input name="date-fin" type="text" class="form-control" placeholder="31/12/2005" aria-describedby="basic-addon1">
                         </div>
                         <div    class="input-group">
                             <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon glyphicon-globe"></span>&nbsp;Lieux</span>

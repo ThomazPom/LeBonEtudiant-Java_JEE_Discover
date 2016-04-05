@@ -35,34 +35,41 @@
     <div  class="confirmVenteOverlayBody">
         
         <div class="input-group">
-            <span class="input-group-addon" id="basic-addon1">Vendeur</span>
+            <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-user"></span>&#160;Vendeur</span>
             <p>
                 <%=annonce.getProprietaire().getPrenom()+" "+annonce.getProprietaire().getNom() %>
             </p>
         </div>
         
         <div class="input-group">
-            <span class="input-group-addon" id="basic-addon1">@Email de contact</span>
+            <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-home"></span>&#160;Email</span>
             <p>
                 <%=annonce.getEmailOverride() %>
             </p>
         </div>
         <div class="input-group">
-            <span class="input-group-addon" id="basic-addon1">N°de téléphone de contact</span>
+            <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-edit"></span>&#160;N°de téléphone de contact</span>
             <p>
                 <%=annonce.getNumeroOverride() %>
             </p>
         </div>
 
         <div class="input-group">
-            <span class="input-group-addon" id="basic-addon1">Date de publication</span>
+            <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-time"></span>&#160;Date de publication</span>
             <p>
                 <%=annonce.getDatePublication() %>
             </p>
         </div>
+        
+        <div class="input-group">
+            <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-time"></span>&#160;Date de fin</span>
+            <p>
+                <%=annonce.getDateFin() %>
+            </p>
+        </div>
             
         <div class="input-group">
-            <span class="input-group-addon glyphicon-euro" id="basic-addon1">Prix</span>
+            <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-euro"></span>&#160;Prix</span>
             <p style="color:orange">
                 <%=annonce.getPrix() %> €
             </p>

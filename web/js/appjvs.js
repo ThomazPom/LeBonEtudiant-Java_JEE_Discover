@@ -10,7 +10,7 @@ function initMap() {
 var majmainresults = function () {
     $.ajax({
         type: "POST",
-        url: "data/exemple.jsp",
+        url: "ajax/listAnnonces.jsp",
         success: function (data, textStatus, jqXHR) {
             $('#mainxjspreceiver').html(data);
 
