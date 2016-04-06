@@ -55,11 +55,13 @@ public class Annonce {
     @Temporal(DATE)
     private Date dateFin;
     private boolean active;
+    
+    private String typeAnnonce="";
 
     public Annonce() {
     }
 
-    public Annonce(Utilisateur Proprietaire, String Titre, int prix, String numeroOverride, String emailOverride, String Description, String dateFin, boolean active, List<Categorie> categories, List<Etablissement> etablissements) {
+    public Annonce(Utilisateur Proprietaire, String Titre, int prix, String numeroOverride, String emailOverride, String Description, String dateFin, boolean active, List<Categorie> categories, List<Etablissement> etablissements, String type) {
 
         this.Proprietaire = Proprietaire;
         this.Titre = Titre;
@@ -67,12 +69,13 @@ public class Annonce {
             if (!numeroOverride.equals(Proprietaire.getNumtel())) {
                 this.numeroOverride = numeroOverride;
             }
-        }
+        } else this.numeroOverride = Proprietaire.getNumtel();
+        
         if (!emailOverride.isEmpty()) {
             if (!emailOverride.equals(Proprietaire.getLogin())) {
                 setEmailOverride(emailOverride);
             }
-        }
+        } else this.emailOverride = Proprietaire.getLogin();
         
         this.prix=prix;
         this.Description = Description;
@@ -85,7 +88,7 @@ public class Annonce {
         }
         this.categories = categories;
         this.etablissements = etablissements;
-
+        this.typeAnnonce = type;
     }
 
     @ManyToMany
@@ -238,5 +241,11 @@ public class Annonce {
     public void setPrix(int prix) {
         this.prix = prix;
     }
+
+    public String getTypeAnnonce() {
+        return typeAnnonce;
+    }
+    
+    
 
 }

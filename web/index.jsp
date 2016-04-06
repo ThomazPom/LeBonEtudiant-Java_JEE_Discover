@@ -19,6 +19,11 @@
         <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
         <title>LeBonEtudiant</title>
 
+        <!-- Librairy Dropzone -->
+        <!-- Drag & Drop Upload Image -->
+        <script src="./js/dropzone.js"></script>
+        <link rel="stylesheet" href="./css/dropzone.css">
+        
         <!-- Bootstrap -->
         <link href="css/bootstrap.min.css" rel="stylesheet">
         <link href="css/appcss.css" rel="stylesheet">
@@ -157,7 +162,7 @@
                     </li>
                     <li>  
                         <button class="btnav btn btn-primary"  data-toggle="modal" data-target="#modalVente">Vendre un objet</button>
-
+                        <button class="btnav btn btn-secondary"  data-toggle="modal" data-target="#modalDemander">Demander un objet</button>
                     </li>
 
                     <li>  
@@ -265,17 +270,26 @@
                             <input required name="titre" type="text" class="form-control" placeholder="Table de chevet bien stylée, bouteille de vin cassée.." aria-describedby="basic-addon1">
                         </div>
                         <div class="input-group">
-                            <span class="input-group-addon" id="basic-addon1">"><span class="glyphicon glyphicon-user"></span>&nbsp;Email</span>
+                            <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-user"></span>&nbsp;Email</span>
                             <input  name="email" type="email" class="form-control" placeholder="email@example.com" aria-describedby="basic-addon1">
                         </div>
                         <div class="input-group">
-                            <span class="input-group-addon" id="basic-addon1">"><span class="glyphicon glyphicon-edit"></span>&nbsp;N°de téléphone</span>
+                            <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-edit"></span>&nbsp;N°de téléphone</span>
                             <input name="telephone" type="text" class="form-control" placeholder="0682858320" aria-describedby="basic-addon1">
                         </div>
                         <div   class="input-group">
                             <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-edit"></span>&nbsp;Description</span>
                             <textarea  required  name="description" class="form-control" width="100%" height="300px" placeholder="Dimensions, couleur, état.." aria-describedby="basic-addon1"></textarea>
                         </div>
+<!--                        <div class="input-group">
+                            <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-edit"></span>&nbsp;Images</span>
+                            <form action="./upload-target" class="dropzone dz-clickable" id="dropzone">
+                                <div class="dz-default dz-message" id="dropzone">
+                                        <span>Drop files here to upload</span>
+                                </div>
+                            </form>
+                        </div>-->
+                        
                         <div   class="input-group">
                             <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-time"></span>&nbsp;Date de fin</span>
                             <input name="date-fin" type="text" class="form-control" placeholder="31/12/2005" aria-describedby="basic-addon1">
@@ -322,6 +336,59 @@
             </div>
         </div>
     </div>
+    
+    <div class="modal fade" id="modalDemander" tabindex="-1" role="dialog" aria-labelledby="modalDemandeLabel">
+        <div class="modal-dialog modal-lg" role="document">
+            <div id="mcdemande" class="modal-content">
+                <input value="-1" name="idDemanderAnnonce" form="formDemander" id="idVenteAnnonce"/>
+
+                <form method="post" name="formDemander" id="formDemander" action="AjaxServlet?action=askVente">
+
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="modalVenteLabel">Demander un objet :</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="input-group">
+                            <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-edit"></span>&nbsp;Titre</span>
+                            <input required name="titre" type="text" class="form-control" placeholder="Table de chevet bien stylée, bouteille de vin cassée.." aria-describedby="basic-addon1">
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-user"></span>&nbsp;Email</span>
+                            <input  name="email" type="email" class="form-control" placeholder="email@example.com" aria-describedby="basic-addon1">
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-edit"></span>&nbsp;N°de téléphone</span>
+                            <input name="telephone" type="text" class="form-control" placeholder="0682858320" aria-describedby="basic-addon1">
+                        </div>
+                        <div   class="input-group">
+                            <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-edit"></span>&nbsp;Description</span>
+                            <textarea  required  name="description" class="form-control" width="100%" height="300px" placeholder="Dimensions, couleur, état.." aria-describedby="basic-addon1"></textarea>
+                        </div>
+                        <div   class="input-group">
+                            <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-time"></span>&nbsp;Date de fin</span>
+                            <input name="date-fin" type="text" class="form-control" placeholder="31/12/2005" aria-describedby="basic-addon1">
+                        </div>
+                        <div    class="input-group">
+                            <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon glyphicon-globe"></span>&nbsp;Lieux</span>
+                            <select  required  name="regionSelect-vente" id="regionSelect-vente"  multiple="multiple">
+                            </select></div>
+                        
+                        <div  class="input-group">
+                            <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;Catégorie(s) de l'objet</span>
+                            <select required name="categSelect-vente" id="categSelect-vente"  multiple="multiple">
+                            </select></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-warning effacerForm-Demande"><span class="glyphicon glyphicon-refresh"></span>&nbsp;Tout effacer</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span>&nbsp;Close</button>
+                        <input type="submit" class="btn btn-primary" id="sendAnnonce" value="Envoyer">
+                    </div>
+                </form>    
+            </div>
+        </div>
+    </div>
+    
     <%}%>
 </body><link rel="stylesheet" href="js/jui/jquery-ui.min.css">
 </body><link rel="stylesheet" href="js/jui/jquery-ui.theme.css">

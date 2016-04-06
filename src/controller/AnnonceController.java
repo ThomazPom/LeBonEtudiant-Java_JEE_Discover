@@ -38,7 +38,7 @@ public class AnnonceController {
     EtablissementController ec;
 
     public Annonce creerAnnonce(Utilisateur Proprietaire, String titre, int prix, String numeroOverride, String emailOverride, String Description, String dateFin, boolean active, List<Categorie> categories, List<Etablissement> etablissements) {
-        Annonce a = new Annonce(Proprietaire, titre, prix, numeroOverride, emailOverride, Description, dateFin, active, categories, etablissements);
+        Annonce a = new Annonce(Proprietaire, titre, prix, numeroOverride, emailOverride, Description, dateFin, active, categories, etablissements, "vente");
         em.persist(a);
         return a;
     }
@@ -86,6 +86,49 @@ public class AnnonceController {
         if(emailOverride==null) emailOverride = Proprietaire.getLogin();
 
         return creerAnnonce(Proprietaire, Titre, prixCreate, numeroOverride, emailOverride, Description, dateFin, active, arcateg, aretab);
+    }
+    
+    public Annonce creerDemande(Utilisateur Proprietaire, String titre, String numeroOverride, String emailOverride, String Description, String dateFin, boolean active, List<Categorie> categories, List<Etablissement> etablissements) {
+        Annonce a = new Annonce(Proprietaire, titre, 0, numeroOverride, emailOverride, Description, dateFin, active, categories, etablissements, "demande");
+        em.persist(a);
+        return a;
+    }
+    
+    public Annonce creerDemande(Utilisateur Proprietaire, String Titre, String prix, String numeroOverride, String emailOverride, String Description, String dateFin, boolean active, String[] categories, String[] etablissements) {
+        ArrayList<Categorie> arcateg = new ArrayList<>();
+        ArrayList<Etablissement> aretab = new ArrayList<>();
+
+        for (String id : categories) {
+            int idCateg = -1;
+            try {
+                idCateg = Integer.parseInt(id);
+            } catch (Exception e) {
+                System.err.println(id + " is not an id");
+                return null;
+            }
+            Categorie et = cc.getCategoriesById(idCateg);
+            if (et != null) {
+                arcateg.add(et);
+            }
+        }
+        for (String id : etablissements) {
+            int idEtab = -1;
+            try {
+                idEtab = Integer.parseInt(id);
+            } catch (Exception e) {
+                System.err.println(id + " is not an id");
+                return null;
+            }
+            Etablissement et = ec.getEtablissementByID(idEtab);
+            if (et != null) {
+                aretab.add(et);
+            }
+        }
+        
+        if(numeroOverride==null) numeroOverride = Proprietaire.getNumtel();
+        if(emailOverride==null) emailOverride = Proprietaire.getLogin();
+
+        return creerAnnonce(Proprietaire, Titre, 0, numeroOverride, emailOverride, Description, dateFin, active, arcateg, aretab);
     }
     
     public void creerAnnonces() {

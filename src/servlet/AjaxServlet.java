@@ -87,6 +87,7 @@ public class AjaxServlet extends HttpServlet {
                             && request.getParameter("description") != null
                             && request.getParameter("telephone") != null
                             && request.getParameter("email") != null
+                            && request.getParameter("date-fin") != null
                             && request.getParameterValues("regionSelect-vente") != null
                             && request.getParameter("amount-vente") != null
                             && request.getParameterValues("categSelect-vente") != null) {
@@ -121,6 +122,46 @@ public class AjaxServlet extends HttpServlet {
                     }
                 }
 
+                if (action.equals("askVente")) {
+                                   //request.getSession(false).setAttribute("danger", "Il y a eu un probleme...");
+                
+                    forwardTo = "ajax/erreurVente.jsp";
+
+                    if (request.getParameter("idDemanderAnnonce") != null
+                            && request.getParameter("titre") != null
+                            && request.getParameter("description") != null
+                            && request.getParameter("telephone") != null
+                            && request.getParameter("email") != null
+                            && request.getParameter("date-fin") != null
+                            && request.getParameterValues("regionSelect-vente") != null
+                            && request.getParameterValues("categSelect-vente") != null) {
+
+                        if (request.getParameterValues("regionSelect-vente").length > 0
+                                && request.getParameterValues("categSelect-vente").length > 0
+                                && !request.getParameter("titre").isEmpty()
+                                && !request.getParameter("description").isEmpty()) {
+                            // Arrays.asList(request.getPAr)
+                            Utilisateur userAnnonce = userController.getOneLogin(request.getSession(false).getAttribute("email").toString());
+                            Annonce annonce = annonController.creerDemande(userAnnonce,
+                                    request.getParameter("titre"),
+                                    null,
+                                    request.getParameter("telephone"),
+                                    request.getParameter("email"),
+                                    request.getParameter("description"),
+                                    request.getParameter("date-fin"),
+                                    true,
+                                    request.getParameterValues("categSelect-vente"),
+                                    request.getParameterValues("regionSelect-vente")
+                            );
+                            if (annonce != null) {
+                               request.getSession(false).setAttribute("success", "Félicitations ! Ton annonce est en ligne !<br/>Voici à quoi elle ressemble :");
+                
+                                forwardTo = "ajax/confirmDemande.jsp";
+                                   request.setAttribute("annonce", annonce);
+                            }
+                        }
+                    }
+                }
             }
         }
 
