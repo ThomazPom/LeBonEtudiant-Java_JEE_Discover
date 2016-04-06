@@ -56,12 +56,12 @@ public class Annonce {
     private Date dateFin;
     private boolean active;
     
-    private String typeAnnonce="";
+    private boolean typeAnnonce; // true = vente, false = demande
 
     public Annonce() {
     }
 
-    public Annonce(Utilisateur Proprietaire, String Titre, int prix, String numeroOverride, String emailOverride, String Description, String dateFin, boolean active, List<Categorie> categories, List<Etablissement> etablissements, String type) {
+    public Annonce(Utilisateur Proprietaire, String Titre, int prix, String numeroOverride, String emailOverride, String Description, String dateFin, boolean active, List<Categorie> categories, List<Etablissement> etablissements, boolean type) {
 
         this.Proprietaire = Proprietaire;
         this.Titre = Titre;
@@ -242,7 +242,7 @@ public class Annonce {
         this.prix = prix;
     }
 
-    public String getTypeAnnonce() {
+    public boolean isVente() {
         return typeAnnonce;
     }
     

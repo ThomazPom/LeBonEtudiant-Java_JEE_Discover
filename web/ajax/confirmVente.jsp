@@ -97,12 +97,9 @@
                 </c:forEach>
             </select>
         </div>
-
-
     </div>
 
     <div class="confirmVenteOverlayFooter">
-
         <button class="btn btn-warning editNewAnnonce">Modifier mon annonce</button>
         <button class="btn btn-primary postOtherAnnonce">Poster une autre annonce</button>
         <button class="btn btn-danger delNewAnnonce">Supprimer cette annonce</button>
