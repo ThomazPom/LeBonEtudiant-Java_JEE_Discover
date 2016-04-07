@@ -38,7 +38,7 @@ public class AnnonceController {
     EtablissementController ec;
 
     public Annonce creerAnnonce(Utilisateur Proprietaire, String titre, int prix, String numeroOverride, String emailOverride, String Description, String dateFin, boolean active, List<Categorie> categories, List<Etablissement> etablissements) {
-        Annonce a = new Annonce(Proprietaire, titre, prix, numeroOverride, emailOverride, Description, dateFin, active, categories, etablissements, "vente");
+        Annonce a = new Annonce(Proprietaire, titre, prix, numeroOverride, emailOverride, Description, dateFin, active, categories, etablissements, true);
         em.persist(a);
         return a;
     }
@@ -89,7 +89,7 @@ public class AnnonceController {
     }
     
     public Annonce creerDemande(Utilisateur Proprietaire, String titre, String numeroOverride, String emailOverride, String Description, String dateFin, boolean active, List<Categorie> categories, List<Etablissement> etablissements) {
-        Annonce a = new Annonce(Proprietaire, titre, 0, numeroOverride, emailOverride, Description, dateFin, active, categories, etablissements, "demande");
+        Annonce a = new Annonce(Proprietaire, titre, 0, numeroOverride, emailOverride, Description, dateFin, active, categories, etablissements, false);
         em.persist(a);
         return a;
     }
@@ -128,7 +128,7 @@ public class AnnonceController {
         if(numeroOverride==null) numeroOverride = Proprietaire.getNumtel();
         if(emailOverride==null) emailOverride = Proprietaire.getLogin();
 
-        return creerAnnonce(Proprietaire, Titre, 0, numeroOverride, emailOverride, Description, dateFin, active, arcateg, aretab);
+        return creerDemande(Proprietaire, Titre, numeroOverride, emailOverride, Description, dateFin, active, arcateg, aretab);
     }
     
     public void creerAnnonces() {
