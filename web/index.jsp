@@ -162,7 +162,7 @@
                     </li>
                     <li>  
                         <button class="btnav btn btn-primary"  data-toggle="modal" data-target="#modalVente">Vendre un objet</button>
-                        <button class="btnav btn btn-secondary"  data-toggle="modal" data-target="#modalDemander">Demander un objet</button>
+                        <button class="btnav btn btn-warning"  data-toggle="modal" data-target="#modalDemander">Poster une demande</button>
                     </li>
 
                     <li>  
