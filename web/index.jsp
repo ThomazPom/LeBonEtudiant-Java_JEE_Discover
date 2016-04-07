@@ -292,7 +292,7 @@
                         
                         <div   class="input-group">
                             <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-time"></span>&nbsp;Date de fin</span>
-                            <input name="date-fin" type="text" class="form-control" placeholder="31/12/2005" aria-describedby="basic-addon1">
+                            <input readonly required name="date-fin" class="datepicker" placeholder="31/12/2005" aria-describedby="basic-addon1">
                         </div>
                         <div    class="input-group">
                             <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon glyphicon-globe"></span>&nbsp;Lieux</span>
@@ -340,7 +340,7 @@
     <div class="modal fade" id="modalDemander" tabindex="-1" role="dialog" aria-labelledby="modalDemandeLabel">
         <div class="modal-dialog modal-lg" role="document">
             <div id="mcdemande" class="modal-content">
-                <input value="-1" name="idDemanderAnnonce" form="formDemander" id="idVenteAnnonce"/>
+                <input value="-1" name="idDemanderAnnonce" form="formDemander" id="idDemanderAnnonce"/>
 
                 <form method="post" name="formDemander" id="formDemander" action="AjaxServlet?action=askVente">
 
@@ -367,7 +367,7 @@
                         </div>
                         <div   class="input-group">
                             <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-time"></span>&nbsp;Date de fin</span>
-                            <input name="date-fin" type="text" class="form-control" placeholder="31/12/2005" aria-describedby="basic-addon1">
+                            <input  readonly required name="date-fin" class="datepicker" placeholder="31/12/2005" aria-describedby="basic-addon1">
                         </div>
                         <div    class="input-group">
                             <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon glyphicon-globe"></span>&nbsp;Lieux</span>
@@ -390,7 +390,9 @@
     </div>
     
     <%}%>
-</body><link rel="stylesheet" href="js/jui/jquery-ui.min.css">
-</body><link rel="stylesheet" href="js/jui/jquery-ui.theme.css">
+</body><
+<link rel="stylesheet" href="js/jui/jquery-ui.min.css">
+<link rel="stylesheet" href="js/jui/jquery-ui.theme.css">
 <script src="js/jui/jquery-ui.min.js"></script>
+<script src="js/jui/datepicker-fr.js"></script>
 </html>

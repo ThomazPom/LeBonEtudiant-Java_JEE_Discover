@@ -10,7 +10,7 @@ function initMap() {
 var majmainresults = function () {
     $.ajax({
         type: "POST",
-        url: "ajax/listAnnonces.jsp",
+        url: "AjaxServlet?action=listAllAnnonces",
         success: function (data, textStatus, jqXHR) {
             $('#mainxjspreceiver').html(data);
 
@@ -18,6 +18,7 @@ var majmainresults = function () {
     });
 }
 $(document).ready(function () {
+    $('input.datepicker').datepicker( $.datepicker.regional[ "fr" ] );
 //Code à exécuter apres le chargement de la page
 
     $(".dropdown-menu").mouseenter(function () {
@@ -141,6 +142,8 @@ $(document).ready(function () {
     initMap();
 });
 
+
+
 function reinitFormVente() {
     $("#formVente [name='titre']").val("");
     $("#formVente [name='email']").val("");
@@ -160,33 +163,19 @@ function reinitFormDemande() {
     $("#formDemander textarea").val("");
     $("#formDemander #regionSelect-vente").multiselect('deselectAll', false).multiselect('updateButtonText');
     $("#formDemander #categSelect-vente").multiselect('deselectAll', false).multiselect('updateButtonText');
-    slidEVente(undefined, {value: 3000});
 }
 
 $("body").on("click", ".btn.btn-primary.postOtherAnnonce", function () {
-
     $(".confirmVenteOverlay").remove();
     $("#idVenteAnnonce").val("-1");
     $("#formVente").show();
     reinitFormVente();
-
-    $(".confirmDemandeOverlay").remove();
-    $("#idDemanderAnnonce").val("-1");
-    $("#formDemander").show();
-    reinitFormDemande();
-
 }).on("click", ".btn.btn-warning.editNewAnnonce", function () {
     $(".confirmVenteOverlay").remove();
     $("#formVente").show();
 }).on("click", ".btn.btn-warning.effacerForm-Vente", function () {
     reinitFormVente();
-});
-var slidEVente = function (event, ui) {
-    $("#amount-vente").val(ui.value + " €");
-    $("#hidden-amount-vente").val(ui.value);
-}
-
-$("body").on("click", ".btn.btn-primary.postOtherDemande", function () {
+}).on("click", ".btn.btn-primary.postOtherDemande", function () {
 
     $(".confirmDemandeOverlay").remove();
     $("#idDemanderAnnonce").val("-1");
@@ -198,4 +187,12 @@ $("body").on("click", ".btn.btn-primary.postOtherDemande", function () {
     $("#formDemander").show();
 }).on("click", ".btn.btn-warning.effacerForm-Demande", function () {
     reinitFormDemande();
-});
+});;
+
+
+
+
+var slidEVente = function (event, ui) {
+    $("#amount-vente").val(ui.value + " €");
+    $("#hidden-amount-vente").val(ui.value);
+}

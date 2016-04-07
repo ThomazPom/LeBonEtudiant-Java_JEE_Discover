@@ -20,6 +20,7 @@ import javax.persistence.ManyToMany;
 
 @Entity
 public class Categorie {
+
     @ManyToMany(mappedBy = "categories")
     private List<Annonce> annonces;
     @Id

@@ -44,7 +44,7 @@ EntityManager em;
         System.out.println("----->public Ville createVille(String libelle)");
       Ville v = new Ville(libelle, departement);
       em.persist(v);
-    return null;
+    return v;
 
     }
 }

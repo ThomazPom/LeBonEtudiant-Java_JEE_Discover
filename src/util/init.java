@@ -97,7 +97,7 @@ public class init {
                 Region region = rc.getRegionByName(etabStrings[6], true);
                 Departement departement = dc.createDepartement(etabStrings[5], region);
               
-                Ville ville = vc.createVille(etabStrings[4], departement);
+                Ville ville = vc.getVilleByName(etabStrings[4],true, departement);
                 Etablissement Etablissement = ec.createEtablissement(etabStrings[0], etabStrings[1], etabStrings[2], etabStrings[3], ville, Double.parseDouble(etabStrings[7]),Double.parseDouble(etabStrings[8]) );
                 }
                 else
