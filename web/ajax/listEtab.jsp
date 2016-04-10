@@ -6,7 +6,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
-    <c:forEach var="u" items="${opt_etab}"> 
-            <option value="${u.id}">${u.nom}</option>
-
-    </c:forEach>
+<table>
+    <c:forEach var="ae" items="${lst_etab}"> 
+        <tr class="infoEtab">
+        <td class="idEtab">${ae.getId()}</td>
+        <td class="nomEtab">${ae.getNom()}</td>
+        <td class="lonEtab">${ae.getLongitudeX()}</td>
+        <td class="latEtab">${ae.getLatitudeY()}</td>
+    </tr>
+</c:forEach>
+</table>

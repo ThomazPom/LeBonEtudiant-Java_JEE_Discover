@@ -5,8 +5,20 @@ function initMap() {
         center: {lat: 48.8534100, lng: 2.3488000},
         zoom: 6
     });
-
+    
+ $.ajax({
+        type: "POST",
+        url: "AjaxServlet?action=lst_etab",
+        success: function (data, textStatus, jqXHR) {
+             $('<div>').append(jqXHR.responseText).find(".infoEtab").each(function (){
+               var idetab = $(this).children(".idEtab").html();
+                 pointhashmap[idetab] = createPointOnMap(map, $(this).children(".latEtab").html(), $(this).children(".lonEtab").html(),idetab);
+                
+             })
+        }
+    });
 }
+
 
 var majmainresults = function () {
     $.ajax({
@@ -27,8 +39,6 @@ var majmainresults = function () {
                 {
                     newpointhashmap[idetab] = createPointOnMap(map, $(this).children(".latEtab").html(), $(this).children(".lonEtab").html(), idetab)
                 }
-
-
             });
 
             for (var k in pointhashmap) {
