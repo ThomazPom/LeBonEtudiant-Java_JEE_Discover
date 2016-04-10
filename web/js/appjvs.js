@@ -1,4 +1,5 @@
 var map;
+var pointhashmap = {};
 function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
         center: {lat: 48.8534100, lng: 2.3488000},
@@ -13,12 +14,56 @@ var majmainresults = function () {
         url: "AjaxServlet?action=listAllAnnonces",
         success: function (data, textStatus, jqXHR) {
             $('#mainxjspreceiver').html(data);
+            var newpointhashmap = {}
+
+            $(".infoetab").each(function () {
+
+                var idetab = $(this).children(".idEtab").html();
+                if (pointhashmap[idetab])
+                {
+                    newpointhashmap[idetab] = pointhashmap[idetab];
+                }
+                else
+                {
+                    newpointhashmap[idetab] = createPointOnMap(map, $(this).children(".latEtab").html(), $(this).children(".lonEtab").html(), idetab)
+                }
+
+
+            });
+
+            for (var k in pointhashmap) {
+                if (!newpointhashmap[k])
+                {
+                    pointhashmap[k].setMap(null);
+
+                    newpointhashmap[k] = undefined;
+                }
+            }
+            pointhashmap = newpointhashmap;
 
         },
     });
 }
+
+function createPointOnMap(map, latitude, longitude, UAI)
+{
+    console.log(latitude + " " + longitude + " " + UAI);
+    var xsltReceiver = document.createElement("div");
+    var infowindow = new google.maps.InfoWindow({
+        content: xsltReceiver
+    });
+    var marker = new google.maps.Marker({
+        position: {lat: parseFloat(latitude), lng: parseFloat(longitude)},
+        map: map
+    });
+    marker.addListener('click', function () {
+        infowindow.open(map, marker);
+    });
+    return marker;
+}
+
 $(document).ready(function () {
-    $('input.datepicker').datepicker( $.datepicker.regional[ "fr" ] );
+    $('input.datepicker').datepicker($.datepicker.regional[ "fr" ]);
 //Code à exécuter apres le chargement de la page
 
     $(".dropdown-menu").mouseenter(function () {
@@ -84,7 +129,7 @@ $(document).ready(function () {
             }
         });
     });
-    
+
     // "myAwesomeDropzone" is the camelized version of the HTML element's ID
 //    Dropzone.options.dropzone = {
 //        paramName: "file", // The name that will be used to transfer the file
@@ -96,7 +141,7 @@ $(document).ready(function () {
 //            else { done(); }
 //        }
 //    };
-    
+
     var password = document.getElementById("password")
             , confirm_password = document.getElementById("confirm_password");
     function validatePassword() {
@@ -187,7 +232,8 @@ $("body").on("click", ".btn.btn-primary.postOtherAnnonce", function () {
     $("#formDemander").show();
 }).on("click", ".btn.btn-warning.effacerForm-Demande", function () {
     reinitFormDemande();
-});;
+});
+;
 
 
 

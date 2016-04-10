@@ -13,9 +13,9 @@
             <th>#</th>
             <th>Titre</th>
             <th>Vendeur</th>
-            <td>Date</td>
+            <th>Date</th>
             <th>Prix</th>
-            <td>Région</td>
+            <th>Région</th>
         </tr>
     </thead>
     <tbody>
@@ -27,9 +27,21 @@
                 <td>${a.getDatePublication()}</td>
                 <td>${a.getPrix()}</td>
                 <td>${a.getEtablissements().get(0).getVille().getDepartement().getRegion().getLibelle()}</td>
+                <td class="hidden infoetabs">
+                        <c:forEach var="ae" items="${a.getEtablissements()}"> 
+                    <ul class="infoetab">
+
+                            <li class="idEtab">${ae.getId()}</li>
+                            <li class="nomEtab">${ae.getNom()}</li>
+                            <li class="lonEtab">${ae.getLongitudeX()}</li>
+                            <li class="latEtab">${ae.getLatitudeY()}</li>
+
+                    </ul>
+                        </c:forEach>
+                </td>
             </tr>
         </c:forEach>
     </tbody>
 </table>
-        
+
 
