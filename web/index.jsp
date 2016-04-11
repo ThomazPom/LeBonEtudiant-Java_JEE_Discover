@@ -170,6 +170,12 @@
                             <input type="submit" class="btnav btn btn-danger" value="Se déconnecter"/>
                         </form>
                     </li>
+                    
+                    <button type="button" class="btnav btn btn-info dropdown-toggle" data-toggle = "dropdown"><span class="glyphicon glyphicon-asterisk">&nbsp;</span><span class = "caret"></span></button>
+                        <ul class = "dropdown-menu">
+                            <li><a href = "admin.jsp">Annonces</a></li>
+                            <li><a href = "admin.jsp">Membres</a></li>
+                        </ul>
                     <!-- Button trigger modal -->
 
 
