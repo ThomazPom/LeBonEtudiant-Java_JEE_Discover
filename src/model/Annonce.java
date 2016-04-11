@@ -6,21 +6,15 @@
 package model;
 
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import static javax.persistence.TemporalType.DATE;
 
@@ -61,7 +55,7 @@ public class Annonce {
     public Annonce() {
     }
 
-    public Annonce(Utilisateur Proprietaire, String Titre, int prix, String numeroOverride, String emailOverride, String Description, String dateFin, boolean active, List<Categorie> categories, List<Etablissement> etablissements, boolean type) {
+    public Annonce(Utilisateur Proprietaire, String Titre, int prix, String numeroOverride, String emailOverride, String Description, Date dateFin, boolean active, List<Categorie> categories, List<Etablissement> etablissements, boolean type) {
 
         this.Proprietaire = Proprietaire;
         this.Titre = Titre;
@@ -81,11 +75,7 @@ public class Annonce {
         this.Description = Description;
         this.active = active;
         this.datePublication = new Date();
-        try {
-            this.dateFin = new SimpleDateFormat("dd/MM/yyyy").parse(dateFin);
-        } catch (ParseException ex) {
-            Logger.getLogger(Annonce.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        this.dateFin = dateFin;
         this.categories = categories;
         this.etablissements = etablissements;
         this.typeAnnonce = type;
@@ -180,9 +170,8 @@ public class Annonce {
         return df.format(dateFin);
     }
 
-    public void setDateFin(String dateFin) throws ParseException {
-        DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-        this.dateFin = df.parse(dateFin);
+    public void setDateFin(Date dateFin) {
+        this.dateFin = dateFin;
     }
 
     

@@ -52,7 +52,7 @@ public class AjaxServlet extends HttpServlet {
         String forwardTo = "";
         String message = "";
         String redirect = "index.jsp";
-       // int i =Integer.parseInt("a500"); //test de l'erreur 500
+        // int i =Integer.parseInt("a500"); //test de l'erreur 500
         String action = request.getParameter("action");
         if (action != null) {
             if (action.equals("opt_etab")) {
@@ -72,7 +72,7 @@ public class AjaxServlet extends HttpServlet {
                 request.setAttribute("annonces", annonController.getAnnonces());
                 forwardTo = "ajax/listAnnonces.jsp";
             }
-            
+
             if (action.equals("opt_categ")) {
                 System.out.println("In action " + action);
                 request.setAttribute("opt_categ", categController.getCategories());
@@ -84,7 +84,7 @@ public class AjaxServlet extends HttpServlet {
 
                 if (action.equals("sendVente")) {
                                    //request.getSession(false).setAttribute("danger", "Il y a eu un probleme...");
-                
+
                     forwardTo = "ajax/erreurVente.jsp";
 
                     if (request.getParameter("idVenteAnnonce") != null
@@ -104,22 +104,38 @@ public class AjaxServlet extends HttpServlet {
                                 && !request.getParameter("amount-vente").isEmpty()) {
                             // Arrays.asList(request.getPAr)
                             Utilisateur userAnnonce = userController.getOneLogin(request.getSession(false).getAttribute("email").toString());
-                            Annonce annonce = annonController.creerAnnonce(userAnnonce,
-                                    request.getParameter("titre"),
-                                    request.getParameter("amount-vente"),
-                                    request.getParameter("telephone"),
-                                    request.getParameter("email"),
-                                    request.getParameter("description"),
-                                    request.getParameter("date-fin"),
-                                    true,
-                                    request.getParameterValues("categSelect-vente"),
-                                    request.getParameterValues("regionSelect-vente")
-                            );
+                            Annonce annonce = annonController.getAnnonceById(request.getParameter("idVenteAnnonce"));
+                            if (annonce==null) {
+                                annonce = annonController.creerAnnonce(userAnnonce,
+                                        request.getParameter("titre"),
+                                        request.getParameter("amount-vente"),
+                                        request.getParameter("telephone"),
+                                        request.getParameter("email"),
+                                        request.getParameter("description"),
+                                        request.getParameter("date-fin"),
+                                        true,
+                                        request.getParameterValues("categSelect-vente"),
+                                        request.getParameterValues("regionSelect-vente")
+                                );
+                            } else {
+                                annonController.majAnnonce(annonce,
+                                        request.getParameter("titre"),
+                                        request.getParameter("amount-vente"),
+                                        request.getParameter("telephone"),
+                                        request.getParameter("email"),
+                                        request.getParameter("description"),
+                                        request.getParameter("date-fin"),
+                                        true,
+                                        request.getParameterValues("categSelect-vente"),
+                                        request.getParameterValues("regionSelect-vente")
+                                );
+                            }
+
                             if (annonce != null) {
-                               request.getSession(false).setAttribute("success", "Félicitations ! Ton annonce est en ligne !<br/>Voici à quoi elle ressemble :");
-                
+                                request.getSession(false).setAttribute("success", "Félicitations ! Ton annonce est en ligne !<br/>Voici à quoi elle ressemble :");
+
                                 forwardTo = "ajax/confirmVente.jsp";
-                                   request.setAttribute("annonce", annonce);
+                                request.setAttribute("annonce", annonce);
 
                             }
                         }
@@ -129,7 +145,7 @@ public class AjaxServlet extends HttpServlet {
 
                 if (action.equals("askVente")) {
                                    //request.getSession(false).setAttribute("danger", "Il y a eu un probleme...");
-                
+
                     forwardTo = "ajax/erreurVente.jsp";
 
                     if (request.getParameter("idDemanderAnnonce") != null
@@ -159,10 +175,10 @@ public class AjaxServlet extends HttpServlet {
                                     request.getParameterValues("regionSelect-vente")
                             );
                             if (annonce != null) {
-                               request.getSession(false).setAttribute("success", "Félicitations ! Ton annonce est en ligne !<br/>Voici à quoi elle ressemble :");
-                
+                                request.getSession(false).setAttribute("success", "Félicitations ! Ton annonce est en ligne !<br/>Voici à quoi elle ressemble :");
+
                                 forwardTo = "ajax/confirmDemande.jsp";
-                                   request.setAttribute("annonce", annonce);
+                                request.setAttribute("annonce", annonce);
                             }
                         }
                     }
