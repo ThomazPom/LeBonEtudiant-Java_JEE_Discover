@@ -22,6 +22,44 @@ import util.init;
  */
 @Stateless
 public class UserController {
+    public static class UserPage{
+        private int nbPages;
+        private int nbresSultPage;
+        private int pageCourante;
+        private Collection<Utilisateur> resultList;
+
+        public UserPage( int nbresSultPage, int pageCourante) {
+            this.nbresSultPage = nbresSultPage;
+            this.pageCourante = pageCourante;
+        }
+        public int getNbPages() {
+            return nbPages;
+        }
+
+        public void setNbPages(int nbPages) {
+            this.nbPages = nbPages;
+        }
+        
+        public int getNbresSultPage() {
+            return nbresSultPage;
+        }
+        public int getPageCourante() {
+            return pageCourante;
+        }
+        public Collection<Utilisateur> getResultList() {
+            return resultList;
+        }
+        public void setResultList(Collection<Utilisateur> resultList) {
+            this.resultList = resultList;
+        } 
+    }
+    public void getOnePageUser(UserPage userPage)
+    {
+        userPage.getNbresSultPage();
+        userPage.getPageCourante();
+        userPage.setNbPages(10);
+        userPage.setResultList(getUsers());
+    }
     
     public Collection<Utilisateur> getUsers() {
         System.out.println("---->public Collection<Utilisateur> getUsers()");

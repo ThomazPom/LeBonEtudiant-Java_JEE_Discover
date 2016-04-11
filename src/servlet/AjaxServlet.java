@@ -49,6 +49,7 @@ public class AjaxServlet extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+      //  UserController.UserPage userPage = new UserController.UserPage(10, 20);
         String forwardTo = "";
         String message = "";
         String redirect = "index.jsp";
@@ -116,6 +117,7 @@ public class AjaxServlet extends HttpServlet {
                                         true,
                                         request.getParameterValues("categSelect-vente"),
                                         request.getParameterValues("regionSelect-vente")
+                                        
                                 );
                             } else if(request.getSession(false).getAttribute("userID").equals(annonce.getProprietaire().getId())){
                                 annonController.majAnnonce(annonce,
