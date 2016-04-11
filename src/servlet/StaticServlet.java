@@ -128,6 +128,8 @@ public class StaticServlet extends HttpServlet {
                         session.setAttribute("prenom", userFound.getPrenom());
                         session.setAttribute("email", userFound.getLogin());
                         session.setAttribute("success", "Heureux de vous revoir, " + userFound.getPrenom() + " ! <i class=\"fa fa-smile-o\"></i>");
+                        session.setAttribute("userObject", userFound);
+
                     } else {
 
                         HttpSession session = request.getSession(false);
@@ -143,6 +145,7 @@ public class StaticServlet extends HttpServlet {
                 session.setAttribute("nom", null);
                 session.setAttribute("prenom", null);
                 session.setAttribute("email", null);
+                session.setAttribute("userObject", null);
                 session.invalidate();
             }
             if (request.getSession(true).getAttribute("userlogged") != null) {
