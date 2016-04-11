@@ -117,7 +117,7 @@ public class AjaxServlet extends HttpServlet {
                                         request.getParameterValues("categSelect-vente"),
                                         request.getParameterValues("regionSelect-vente")
                                 );
-                            } else if(request.getSession().getAttribute("userObject").equals(annonce.getProprietaire())){
+                            } else if(request.getSession(false).getAttribute("userID").equals(annonce.getProprietaire().getId())){
                                 annonController.majAnnonce(annonce,
                                         request.getParameter("titre"),
                                         request.getParameter("amount-vente"),

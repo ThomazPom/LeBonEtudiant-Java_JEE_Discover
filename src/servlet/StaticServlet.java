@@ -128,7 +128,7 @@ public class StaticServlet extends HttpServlet {
                         session.setAttribute("prenom", userFound.getPrenom());
                         session.setAttribute("email", userFound.getLogin());
                         session.setAttribute("success", "Heureux de vous revoir, " + userFound.getPrenom() + " ! <i class=\"fa fa-smile-o\"></i>");
-                        session.setAttribute("userObject", userFound);
+                        session.setAttribute("userID", userFound.getId());
 
                     } else {
 
