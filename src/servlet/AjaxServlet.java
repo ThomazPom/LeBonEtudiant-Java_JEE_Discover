@@ -79,6 +79,12 @@ public class AjaxServlet extends HttpServlet {
                 request.setAttribute("opt_categ", categController.getCategories());
                 forwardTo = "ajax/opt_categ.jsp";
             }
+            
+            if(action.equals("listAdsPagination")){
+                //code pour afficher la pagination
+                //System.out.println("In action " + action);
+                //request.setAttribute("listAdsPagination", annonController.countAllAds());
+            }
 
             if (request.getSession(true).getAttribute("userlogged") != null) {
                 //Code secuisé ici;

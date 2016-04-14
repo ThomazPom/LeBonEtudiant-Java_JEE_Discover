@@ -10,6 +10,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -40,6 +41,58 @@ public class AnnonceController {
 
     @EJB
     EtablissementController ec;
+    
+    //Classe anonyme pour la pagination des annonces
+    public static class AnnoncePage{
+        private int nbPages;
+        private int nbresSultPage;
+        private int pageCourante;
+        private Collection<Annonce> resultList;
+
+        public AnnoncePage( int nbresSultPage, int pageCourante) {
+            this.nbresSultPage = nbresSultPage;
+            this.pageCourante = pageCourante;
+        }
+        public int getNbPages() {
+            return nbPages;
+        }
+
+        public void setNbPages(int nbPages) {
+            this.nbPages = nbPages;
+        }
+        
+        public int getNbresSultPage() {
+            return nbresSultPage;
+        }
+        public int getPageCourante() {
+            return pageCourante;
+        }
+        public Collection<Annonce> getResultList() {
+            return resultList;
+        }
+        public void setResultList(Collection<Annonce> resultList) {
+            this.resultList = resultList;
+        } 
+    }
+    
+    public int countAllAds(){
+        Query query = em.createQuery("select COUNT(a) from Annonce a");
+       return Integer.parseInt(query.getSingleResult().toString());
+    }
+    
+    public void getOnePageAds(AnnoncePage annoncePage)
+    {
+        Query query = em.createQuery("select a from Annonce a");
+        query.setFirstResult(annoncePage.getPageCourante() * annoncePage.getNbresSultPage());
+        query.setMaxResults(annoncePage.getNbresSultPage());
+        
+        int nbAds = countAllAds();                 //on recupere le nombre d'utlisateurs
+        int NbPages = (int) Math.ceil(nbAds / annoncePage.getNbresSultPage());
+        
+        annoncePage.setNbPages(NbPages);
+        annoncePage.setResultList(query.getResultList());
+    }
+    
 
     public Annonce creerAnnonce(Utilisateur Proprietaire, String titre, int prix, String numeroOverride, String emailOverride, String Description, Date dateFin, boolean active, List<Categorie> categories, List<Etablissement> etablissements) {
         Annonce a = new Annonce(Proprietaire, titre, prix, numeroOverride, emailOverride, Description, dateFin, active, categories, etablissements, true);

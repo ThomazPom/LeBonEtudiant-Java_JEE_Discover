@@ -53,12 +53,24 @@ public class UserController {
             this.resultList = resultList;
         } 
     }
+    
+    public int countAllUsers(){
+        Query query = em.createQuery("select COUNT(u) from Utilisateur u");
+        return Integer.parseInt(query.getSingleResult().toString());
+        
+    }
+    
     public void getOnePageUser(UserPage userPage)
     {
-        userPage.getNbresSultPage();
-        userPage.getPageCourante();
-        userPage.setNbPages(10);
-        userPage.setResultList(getUsers());
+        Query query = em.createQuery("select u from Utilisateur u");
+        query.setFirstResult(userPage.getPageCourante() * userPage.getNbresSultPage());
+        query.setMaxResults(userPage.getNbresSultPage());
+        
+        int nbUsers = countAllUsers();                 //on recupere le nombre d'utlisateurs
+        int NbPages = (int) Math.ceil(nbUsers / userPage.getNbresSultPage());
+        
+        userPage.setNbPages(NbPages);
+        userPage.setResultList(query.getResultList());
     }
     
     public Collection<Utilisateur> getUsers() {
