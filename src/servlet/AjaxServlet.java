@@ -12,6 +12,7 @@ import controller.UserController;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Arrays;
+import java.util.Collection;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -46,6 +47,7 @@ public class AjaxServlet extends HttpServlet {
     private CategorieController categController;
     @EJB
     private AnnonceController annonController;
+    
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -79,11 +81,24 @@ public class AjaxServlet extends HttpServlet {
                 request.setAttribute("opt_categ", categController.getCategories());
                 forwardTo = "ajax/opt_categ.jsp";
             }
-            
+           
             if(action.equals("listAdsPagination")){
-                //code pour afficher la pagination
-                //System.out.println("In action " + action);
-                //request.setAttribute("listAdsPagination", annonController.countAllAds());
+                //code pour afficher la pagination des annonces
+                System.out.println("In action " + action);
+                int nbResultPage = 0;
+                int pageCourante = 0;
+                
+                try {
+                   nbResultPage = Integer.parseInt(request.getParameter("nbResultPage")); 
+                   pageCourante = Integer.parseInt(request.getParameter("pageCourante")); 
+                } catch (Exception e) {
+                    System.out.println("nbresultpage or pagecourante : NaN");
+                }
+                AnnonceController.AnnoncePage annoncePage = new AnnonceController.AnnoncePage(nbResultPage,pageCourante); 
+		annonController.getOnePageAds(annoncePage);
+                
+                request.setAttribute("wrapListPage",annoncePage);
+                forwardTo = "ajax/listAdsPagination.jsp";
             }
 
             if (request.getSession(true).getAttribute("userlogged") != null) {

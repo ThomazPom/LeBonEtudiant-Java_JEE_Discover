@@ -45,12 +45,12 @@ public class AnnonceController {
     //Classe anonyme pour la pagination des annonces
     public static class AnnoncePage{
         private int nbPages;
-        private int nbresSultPage;
+        private int nbresultPage;
         private int pageCourante;
         private Collection<Annonce> resultList;
 
         public AnnoncePage( int nbresSultPage, int pageCourante) {
-            this.nbresSultPage = nbresSultPage;
+            this.nbresultPage = nbresSultPage;
             this.pageCourante = pageCourante;
         }
         public int getNbPages() {
@@ -59,10 +59,12 @@ public class AnnonceController {
 
         public void setNbPages(int nbPages) {
             this.nbPages = nbPages;
+            if(nbPages>pageCourante)
+                pageCourante=nbPages-1;
         }
         
-        public int getNbresSultPage() {
-            return nbresSultPage;
+        public int getNbresultPage() {
+            return nbresultPage;
         }
         public int getPageCourante() {
             return pageCourante;
@@ -83,11 +85,11 @@ public class AnnonceController {
     public void getOnePageAds(AnnoncePage annoncePage)
     {
         Query query = em.createQuery("select a from Annonce a");
-        query.setFirstResult(annoncePage.getPageCourante() * annoncePage.getNbresSultPage());
-        query.setMaxResults(annoncePage.getNbresSultPage());
+        query.setFirstResult(annoncePage.getPageCourante() * annoncePage.getNbresultPage());
+        query.setMaxResults(annoncePage.getNbresultPage());
         
         int nbAds = countAllAds();                 //on recupere le nombre d'utlisateurs
-        int NbPages = (int) Math.ceil(nbAds / annoncePage.getNbresSultPage());
+        int NbPages = (int) Math.ceil(nbAds / annoncePage.getNbresultPage());
         
         annoncePage.setNbPages(NbPages);
         annoncePage.setResultList(query.getResultList());

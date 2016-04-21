@@ -245,10 +245,16 @@ $("body").on("click", ".btn.btn-primary.postOtherAnnonce", function () {
 });
 ;
 
-
-
-
 var slidEVente = function (event, ui) {
     $("#amount-vente").val(ui.value + " €");
     $("#hidden-amount-vente").val(ui.value);
 }
+//*****pagination*******//
+$("form[name='listAdPagin']").on('click',".pagination li",function(){
+    
+    $('input[name="pageCourante"]').val($(this).attr("data"));
+    $("form[name='listAdPagin']").submit();
+});
+$("form[name='listAdPagin']").on('change',"select[name='nbResultPage']",function(){
+    $("form[name='listAdPagin']").submit();
+});
