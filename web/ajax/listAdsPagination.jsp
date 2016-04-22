@@ -16,23 +16,25 @@
 <script src="js/appjvs.js"></script>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-  <% AnnonceController.AnnoncePage annnoncepage = (AnnonceController.AnnoncePage) request.getAttribute("wrapListPage");%>
-   
+<% AnnonceController.AnnoncePage annnoncepage = (AnnonceController.AnnoncePage) request.getAttribute("wrapListPage");%>
+
 <form name="listAdPagin" method="post" action="AjaxServlet?action=listAdsPagination">
     <div class="input-group" aria-describedby="nbresultaddon"><span class="input-group-addon" id="nbresultaddon">Nombre de résultats à afficher par page :</span>  
         <select class="form-control" name="nbResultPage">
-            
-           <% for(int a = 5; a < annnoncepage.getNbresultPage();a+=5)  {
-               out.print("<option value='"+a+"'>"+a+"</option>");}
-               out.print("<option value='"+annnoncepage.getNbresultPage()+"' selected>"+annnoncepage.getNbresultPage()+"</option>");
-           
-           for(int a = annnoncepage.getNbresultPage()+5; a <= 100;a+=5)  {
-               out.print("<option value='"+a+"'>"+a+"</option>");}
-           %>
-               
-            </select>
+
+            <% for (int a = 5; a < annnoncepage.getNbresultPage(); a += 5) {
+                    out.print("<option value='" + a + "'>" + a + "</option>");
+                }
+                out.print("<option value='" + annnoncepage.getNbresultPage() + "' selected>" + annnoncepage.getNbresultPage() + "</option>");
+
+                for (int a = annnoncepage.getNbresultPage() + 5; a <= 100; a += 5) {
+                    out.print("<option value='" + a + "'>" + a + "</option>");
+                }
+            %>
+
+        </select>
     </div>
-<div class="text-center">
+    <div class="text-center">
         <nav>
             <input name="pageCourante" value="${wrapListPage.getPageCourante()}" hidden></input>
             <ul class="pagination">
@@ -41,13 +43,13 @@
                         <span aria-hidden="true">&laquo;</span>
                     </a>
                 </li>
-                  <% for (int i = annnoncepage.getPageCourante() - 4; i <= annnoncepage.getPageCourante() + 4  && i <= annnoncepage.getNbPages(); i++) { 
-                    if(i>=0)
-                    {
+                <% for (int i = annnoncepage.getPageCourante() - 4; i <= annnoncepage.getPageCourante() + 4 && i <= annnoncepage.getNbPages(); i++) {
+                        if (i >= 0) {
                 %>
-                <% out.println("<li class='"+ ((annnoncepage.getPageCourante()==i) ? "active" : "inactive") +"' data="+i+"><a>"+(i+1)+"</a></li>"); %>
+                <% out.println("<li class='" + ((annnoncepage.getPageCourante() == i) ? "active" : "inactive") + "' data=" + i + "><a>" + (i + 1) + "</a></li>"); %>
 
-                <%}}%>
+                <%}
+                    }%>
                 <li data="${wrapListPage.getNbPages()}">
                     <a  aria-label="Next">
                         <span aria-hidden="true">&raquo;</span>
@@ -80,6 +82,6 @@
             </c:forEach>
         </tbody>
     </table>
-    
+
 </form>
 <script src="js/appjvs.js"></script>
