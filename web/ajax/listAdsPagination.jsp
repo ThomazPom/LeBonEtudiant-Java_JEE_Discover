@@ -16,30 +16,46 @@
 <script src="js/appjvs.js"></script>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-
-
+  <% AnnonceController.AnnoncePage annnoncepage = (AnnonceController.AnnoncePage) request.getAttribute("wrapListPage");%>
+   
 <form name="listAdPagin" method="post" action="AjaxServlet?action=listAdsPagination">
     <div class="input-group" aria-describedby="nbresultaddon"><span class="input-group-addon" id="nbresultaddon">Nombre de résultats à afficher par page :</span>  
         <select class="form-control" name="nbResultPage">
-            <optgroup label="Sélectionné :"
-                      <option value ="${wrapListPage.getNbresultPage()}" selected> ${wrapListPage.getNbresultPage()}</option>
-            </optgroup>
-            <optgroup label="Autres">
-            <option value="1">1</option>
-            <option value="5">5</option>
-            <option value="20">10</option>
-            <option value="20">20</option>
-            <option value="30">30</option>
-            <option value="40">40</option>
-            <option value="50">50</option>
-            <option value="60">60</option>
-            <option value="70">70</option>
-            <option value="80">80</option>
-            <option value="90">90</option>
-            <option value="100">100</option></optgroup>
-        </select>
+            
+           <% for(int a = 5; a < annnoncepage.getNbresultPage();a+=5)  {
+               out.print("<option value='"+a+"'>"+a+"</option>");}
+               out.print("<option value='"+annnoncepage.getNbresultPage()+"' selected>"+annnoncepage.getNbresultPage()+"</option>");
+           
+           for(int a = annnoncepage.getNbresultPage()+5; a <= 100;a+=5)  {
+               out.print("<option value='"+a+"'>"+a+"</option>");}
+           %>
+               
+            </select>
     </div>
+<div class="text-center">
+        <nav>
+            <input name="pageCourante" value="${wrapListPage.getPageCourante()}" hidden></input>
+            <ul class="pagination">
+                <li data="0">
+                    <a aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                  <% for (int i = annnoncepage.getPageCourante() - 4; i <= annnoncepage.getPageCourante() + 4  && i <= annnoncepage.getNbPages(); i++) { 
+                    if(i>=0)
+                    {
+                %>
+                <% out.println("<li class='"+ ((annnoncepage.getPageCourante()==i) ? "active" : "inactive") +"' data="+i+"><a>"+(i+1)+"</a></li>"); %>
 
+                <%}}%>
+                <li data="${wrapListPage.getNbPages()}">
+                    <a  aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
     <table class="table">
         <thead>
             <tr>
@@ -64,31 +80,6 @@
             </c:forEach>
         </tbody>
     </table>
-    <div class="text-center">
-        <nav>
-            <input name="pageCourante" value="${wrapListPage.getPageCourante()}" hidden></input>
-            <ul class="pagination">
-                <li data="1">
-                    <a href="#" aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
-                    </a>
-                </li>
-                <% AnnonceController.AnnoncePage annnoncepage = (AnnonceController.AnnoncePage) request.getAttribute("wrapListPage");
-                  //  for (int i = annnoncepage.getPageCourante() - 4; i < annnoncepage.getPageCourante() + 4 && i >= 0 && i <= annnoncepage.getNbPages(); i++) { 
-                for (int i = annnoncepage.getPageCourante() - 4; i <= annnoncepage.getPageCourante() + 4  && i < annnoncepage.getNbPages(); i++) { 
-                    if(i>=0)
-                    {
-                %>
-                <% out.println("<li data="+i+"><a>"+(i+1)+"</a></li>"); %>
-
-                <%}}%>
-                <li>
-                    <a href="#" aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
-                    </a>
-                </li>
-            </ul>
-        </nav>
-    </div>
+    
 </form>
 <script src="js/appjvs.js"></script>

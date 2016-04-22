@@ -59,8 +59,8 @@ public class AnnonceController {
 
         public void setNbPages(int nbPages) {
             this.nbPages = nbPages;
-            if(nbPages>pageCourante)
-                pageCourante=nbPages-1;
+            if(nbPages<pageCourante)
+                pageCourante=nbPages;
         }
         
         public int getNbresultPage() {
@@ -84,14 +84,16 @@ public class AnnonceController {
     
     public void getOnePageAds(AnnoncePage annoncePage)
     {
+        
+        int nbAds = countAllAds();                 //on recupere le nombre d'annonces
+        int nbPages = (int) Math.ceil(nbAds / annoncePage.getNbresultPage());  
+        annoncePage.setNbPages(nbPages);
+        
         Query query = em.createQuery("select a from Annonce a");
         query.setFirstResult(annoncePage.getPageCourante() * annoncePage.getNbresultPage());
         query.setMaxResults(annoncePage.getNbresultPage());
         
-        int nbAds = countAllAds();                 //on recupere le nombre d'utlisateurs
-        int NbPages = (int) Math.ceil(nbAds / annoncePage.getNbresultPage());
-        
-        annoncePage.setNbPages(NbPages);
+      
         annoncePage.setResultList(query.getResultList());
     }
     
@@ -213,15 +215,6 @@ public class AnnonceController {
         return creerDemande(Proprietaire, Titre, numeroOverride, emailOverride, Description, dateFin, active, arcateg, aretab);
     }
 
-    public void creerAnnonces() {
-        System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-//        Query q = em.createQuery("SELECT a from Utilisateur a");
-//        List<Utilisateur> listUsers = q.getResultList();
-//        for (Utilisateur user : listUsers) {
-//            int randomEtab = (int)(Math.random() * (ec.getEtablissements().size()));
-//            this.creerAnnonce(user, "", randomEtab, "", "", "", true, cc.getCategories(),ec.getEtablissements());
-//        }
-    }
 
     public Annonce majAnnonce(Annonce annonce, String titre, int prix, String numeroOverride, String emailOverride, String Description, Date dateFin, boolean active, List<Categorie> categories, List<Etablissement> etablissements) {
 

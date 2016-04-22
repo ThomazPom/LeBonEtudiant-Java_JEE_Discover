@@ -73,23 +73,11 @@ public class UserController {
         userPage.setResultList(query.getResultList());
     }
     
-    public Collection<Utilisateur> getUsers() {
+    public List<Utilisateur> getUsers() {
         System.out.println("---->public Collection<Utilisateur> getUsers()");
-        Query q = em.createQuery("select u from Utilisateur u");
+        return em.createQuery("select u from Utilisateur u").getResultList();
         
-        Collection<Utilisateur> result = q.getResultList();
-        Iterator<Utilisateur> iterator = result.iterator();
-        Utilisateur checkedUser = null;
         
-        if (!result.isEmpty()) {
-            while (iterator.hasNext()) {
-                checkedUser = iterator.next();
-                System.out.println(checkedUser.toString());
-            }
-        }
-        
-        System.out.println("###########ALL RESULT SIZE{{" + result.size() + "}}#############");
-        return result;
     }
     
     public Utilisateur getOneLogin(String email ) {

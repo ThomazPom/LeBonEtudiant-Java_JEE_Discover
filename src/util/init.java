@@ -17,6 +17,10 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.logging.Level;
@@ -25,6 +29,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
+import model.Categorie;
 import model.Departement;
 import model.Etablissement;
 import model.Region;
@@ -38,6 +43,7 @@ import model.Ville;
 @Singleton
 @Startup
 public class init {
+
     @EJB
     private AnnonceController ac;
     @EJB
@@ -91,49 +97,79 @@ public class init {
                 String[] etabStrings = s.next().split(";");
                 System.out.println("------->while (s.hasNext())" + etabStrings[0]);
                 //0nom;1sigle;2adresse;3CP;4commune;5département;6région;7longitude (X);8latitude (Y)
-                
-                if(true || rc.getRegionByName(etabStrings[6], false)==null)
-                {
-                Region region = rc.getRegionByName(etabStrings[6], true);
-                Departement departement = dc.createDepartement(etabStrings[5], region);
-              
-                Ville ville = vc.getVilleByName(etabStrings[4],true, departement);
-                Etablissement Etablissement = ec.createEtablissement(etabStrings[0], etabStrings[1], etabStrings[2], etabStrings[3], ville, Double.parseDouble(etabStrings[7]),Double.parseDouble(etabStrings[8]) );
-                }
-                else
-                {
-                    
+
+                if (true || rc.getRegionByName(etabStrings[6], false) == null) {
+                    Region region = rc.getRegionByName(etabStrings[6], true);
+                    Departement departement = dc.createDepartement(etabStrings[5], region);
+
+                    Ville ville = vc.getVilleByName(etabStrings[4], true, departement);
+                    Etablissement Etablissement = ec.createEtablissement(etabStrings[0], etabStrings[1], etabStrings[2], etabStrings[3], ville, Double.parseDouble(etabStrings[7]), Double.parseDouble(etabStrings[8]));
+                } else {
+
                     System.out.println("->>>>>#####Base was already ready".toUpperCase());
                     break;
                 }
             }
             s.close();
-            
+
         } catch (Exception e) {
             e.printStackTrace();
 
         }
     }
-    
+
     public void initCategorie() {
         System.out.println("-------->public void initCategorie()");
-        
+
         try {
             System.out.println("------->TRY");
             InputStream is = getClass().getResourceAsStream("categorie.csv");
             java.util.Scanner s = new java.util.Scanner(is, "UTF-8").useDelimiter("\r\n");
-            while(s.hasNext()) {
+            while (s.hasNext()) {
                 String nomCategorie = s.next();
                 System.out.println("------->while (s.hasNext())" + nomCategorie);
-                
+
                 cc.getCategorieByName(nomCategorie, true);
-                
+
             }
         } catch (Exception e) {
         }
 
     }
-    
+
+    public void initAnnonces() {
+        System.out.println("-------->public void initAnnonce()");
+        List<Categorie> listCateg = cc.getCategories();
+        List<Utilisateur> listUser = uc.getUsers();
+        Random randUser = new Random(listUser.size());
+        List<Etablissement> listEtab = ec.getEtablissements();
+        Random rand = new Random(listEtab.size());
+        try {
+            System.out.println("------->TRY");
+            InputStream is = getClass().getResourceAsStream("listeproduits.csv");
+            java.util.Scanner s = new java.util.Scanner(is, "UTF-8").useDelimiter("\r\n");
+            while (s.hasNext()) {
+                String titreAnnonce = s.next();
+                System.out.println("------->while (s.hasNext())" + titreAnnonce);
+
+                ac.creerAnnonce(listUser.get(rand.nextInt(listUser.size())),
+                        titreAnnonce,
+                        rand.nextInt(20000),
+                        "",
+                        "",
+                        "Je me sépares de  : " + titreAnnonce + " mais croyez moi, il est en bon état",
+                        Calendar.getInstance().getTime(),
+                        true,
+                        Arrays.asList(listCateg.get(rand.nextInt(listCateg.size()))),
+                        Arrays.asList(listEtab.get(rand.nextInt(listEtab.size())))
+                );
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
     public void initUsers() {
         System.out.println("-------->public void initUsers()");
         try {
@@ -144,22 +180,17 @@ public class init {
             Random rand = new Random();
             List<Etablissement> allEtab = ec.getEtablissements();
             System.out.println("Taille de la collection Etablissement: " + allEtab.size());
-            while(s.hasNext()) {
+            while (s.hasNext()) {
                 String[] userStrings = s.next().split(";");
-                System.out.println("------->while (s.hasNext())" +  userStrings[0]);
+                System.out.println("------->while (s.hasNext())" + userStrings[0]);
                 //0Nom;1Prenom;2Email
-               uc.creerUser(userStrings[2], "pass"+userStrings[1], 
-                       userStrings[0], userStrings[1], "USER_ROLE", "0"+rand.nextInt(1000000000), allEtab);
-            } 
+                uc.creerUser(userStrings[2], "pass" + userStrings[1],
+                        userStrings[0], userStrings[1], "USER_ROLE", "0" + rand.nextInt(1000000000), allEtab);
+            }
             s.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    
-    public void initAnnonces () {
-        System.out.println("-------->public void initAnnonces()");
-        ac.creerAnnonces();
-        
-    } 
+
 }

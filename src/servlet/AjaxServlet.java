@@ -85,7 +85,7 @@ public class AjaxServlet extends HttpServlet {
             if(action.equals("listAdsPagination")){
                 //code pour afficher la pagination des annonces
                 System.out.println("In action " + action);
-                int nbResultPage = 0;
+                int nbResultPage = 10;
                 int pageCourante = 0;
                 
                 try {
