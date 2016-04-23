@@ -23,7 +23,7 @@
         <!-- Drag & Drop Upload Image -->
         <script src="./js/dropzone.js"></script>
         <link rel="stylesheet" href="./css/dropzone.css">
-        
+
         <!-- Bootstrap -->
         <link href="css/bootstrap.min.css" rel="stylesheet">
         <link href="css/appcss.css" rel="stylesheet">
@@ -162,24 +162,23 @@
                     </li>
                     <li>  
                         <button class="btnav btn btn-primary"  data-toggle="modal" data-target="#modalVente">Vendre un objet</button>
-                        <button class="btnav btn btn-warning"  data-toggle="modal" data-target="#modalDemander">Poster une demande</button>
-                    </li>
+                        <button class="btnav btn btn-warning"  data-toggle="modal" data-target="#modalDemander">Poster une demande</button>  
+                        <button type="button" class="btnav btn btn-info" data-toggle = "dropdown"><span class="glyphicon glyphicon-th-list"></span> Listes<span class="caret"></span></button>
+                        <ul class = "dropdown-menu">
+                            <li><a href = "suivi.jsp">Annonces</a></li>
+                            <li><a href = "suivi.jsp">Membres</a></li>
 
+                        </ul>
+                    </li>
                     <li>  
                         <form method=post action="StaticServlet?action=disconnect">
                             <input type="submit" class="btnav btn btn-danger" value="Se déconnecter"/>
                         </form>
                     </li>
-                    
-                    <button type="button" class="btnav btn btn-info dropdown-toggle" data-toggle = "dropdown"><span class="glyphicon glyphicon-asterisk">&nbsp;</span><span class = "caret"></span></button>
-                        <ul class = "dropdown-menu">
-                            <li><a href = "admin.jsp">Annonces</a></li>
-                            <li><a href = "admin.jsp">Membres</a></li>
-                        </ul>
-                    <!-- Button trigger modal -->
-
-
                 </ul>
+                <!-- Button trigger modal -->
+
+
                 <%}%>
             </div><!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->
@@ -190,7 +189,7 @@
             session.removeAttribute("message");
             session.removeAttribute("success");%></div>
         <%}
-            if (session.getAttribute("info") != null) {%><div class="alert alert-info" role="alert"><%out.println(session.getAttribute("info")); %><% session.removeAttribute("info");%></div>
+                if (session.getAttribute("info") != null) {%><div class="alert alert-info" role="alert"><%out.println(session.getAttribute("info")); %><% session.removeAttribute("info");%></div>
         <%}
             if (session.getAttribute("warning") != null) {%><div class="alert alert-warning" role="alert"><%out.println(session.getAttribute("warning")); %><% session.removeAttribute("warning");%></div>
         <%}
@@ -232,9 +231,16 @@
                     <div  class="input-group">
                         <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;Catégories</span>
                         <select id="categSelect" style="display:none" multiple="multiple">
-                        </select></div>
-
+                        </select>
+                    </div>
+                    <div class="input-group" id="radioGroupSelecTypAnn" style="z-index: 100">
+                        <span class="input-group-addon" id="basic-addon1" >Afficher :</span>
+                        <input type="radio" id="radioSelecTypAnnVente" name="radioSelecTypAnn"><label for="radioSelecTypAnnVente">Les ventes</label>
+                        <input type="radio" id="radioSelecTypAnnAll" name="radioSelecTypAnn" checked="checked"><label for="radioSelecTypAnnAll">Tous</label>
+                        <input type="radio" id="radioSelecTypAnnDemande" name="radioSelecTypAnn"><label for="radioSelecTypAnnDemande">Les demandes</label>
+                    </div>
                 </div>
+
             </div>
             <div id="search"><div id="mainxjspreceiver" class="container"></div></div>
         </div>
@@ -287,15 +293,15 @@
                             <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-edit"></span>&nbsp;Description</span>
                             <textarea  required  name="description" class="form-control" width="100%" height="300px" placeholder="Dimensions, couleur, état.." aria-describedby="basic-addon1"></textarea>
                         </div>
-<!--                        <div class="input-group">
-                            <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-edit"></span>&nbsp;Images</span>
-                            <form action="./upload-target" class="dropzone dz-clickable" id="dropzone">
-                                <div class="dz-default dz-message" id="dropzone">
-                                        <span>Drop files here to upload</span>
-                                </div>
-                            </form>
-                        </div>-->
-                        
+                        <!--                        <div class="input-group">
+                                                    <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-edit"></span>&nbsp;Images</span>
+                                                    <form action="./upload-target" class="dropzone dz-clickable" id="dropzone">
+                                                        <div class="dz-default dz-message" id="dropzone">
+                                                                <span>Drop files here to upload</span>
+                                                        </div>
+                                                    </form>
+                                                </div>-->
+
                         <div   class="input-group">
                             <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-time"></span>&nbsp;Date de fin</span>
                             <input readonly required name="date-fin" class="datepicker" placeholder="31/12/2005" aria-describedby="basic-addon1">
@@ -331,7 +337,8 @@
                         <div  class="input-group">
                             <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;Catégorie(s) de l'objet</span>
                             <select required name="categSelect-vente" id="categSelect-vente"  multiple="multiple">
-                            </select></div>
+                            </select>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-warning effacerForm-Vente"><span class="glyphicon glyphicon-refresh"></span>&nbsp;Tout effacer</button>
@@ -342,7 +349,7 @@
             </div>
         </div>
     </div>
-    
+
     <div class="modal fade" id="modalDemander" tabindex="-1" role="dialog" aria-labelledby="modalDemandeLabel">
         <div class="modal-dialog modal-lg" role="document">
             <div id="mcdemande" class="modal-content">
@@ -379,7 +386,7 @@
                             <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon glyphicon-globe"></span>&nbsp;Lieux</span>
                             <select  required  name="regionSelect-vente" id="regionSelect-vente"  multiple="multiple">
                             </select></div>
-                        
+
                         <div  class="input-group">
                             <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;Catégorie(s) de l'objet</span>
                             <select required name="categSelect-vente" id="categSelect-vente"  multiple="multiple">
@@ -394,7 +401,7 @@
             </div>
         </div>
     </div>
-    
+
     <%}%>
 </body><
 <link rel="stylesheet" href="js/jui/jquery-ui.min.css">

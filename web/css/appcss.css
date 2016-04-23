@@ -24,8 +24,17 @@ and open the template in the editor.
     -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
     transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
 }
-
-
+#radioGroupSelecTypAnn{
+    width: 100%;
+}
+#radioGroupSelecTypAnn label
+{
+    width: 33%;
+    height: 100%;
+}
+#mainxjspreceiver tr:hover{
+        background: #ffe6e6;
+}
 .offmenu{
     width: 400px;
 }
@@ -114,7 +123,7 @@ html, body
     width: 100%;
 }
 .input-group.prix input{
-    margin-top:5px;border:0; color:red;background-color: transparent; font-weight:bold;
+    margin-top:5px;border:0; color:#cc0000;background-color: transparent; font-weight:bold;
 }
 .input-group.prix .pricebuttons {
     float: right;
@@ -148,11 +157,11 @@ html, body
 }
 .multiselect-container.dropdown-menu li
 {
-    border-left: 2px dashed red;
+    border-left: 2px dashed #cc0000;
 }
 #mainsearch
 {
-    border-left:  3px solid red;
+    border-left:  3px solid #cc0000;
 }
 .btnav
 {

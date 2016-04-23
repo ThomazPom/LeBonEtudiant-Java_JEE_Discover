@@ -5,21 +5,29 @@ function initMap() {
         center: {lat: 48.8534100, lng: 2.3488000},
         zoom: 6
     });
-    
- $.ajax({
+
+    $.ajax({
         type: "POST",
         url: "AjaxServlet?action=lst_etab",
         success: function (data, textStatus, jqXHR) {
-             $('<div>').append(jqXHR.responseText).find(".infoEtab").each(function (){
-               var idetab = $(this).children(".idEtab").html();
-                 pointhashmap[idetab] = createPointOnMap(map, $(this).children(".latEtab").html(), $(this).children(".lonEtab").html(),idetab);
-                
-             })
+            $('<div>').append(jqXHR.responseText).find(".infoEtab").each(function () {
+                var idetab = $(this).children(".idEtab").html();
+                pointhashmap[idetab] = createPointOnMap(map, $(this).children(".latEtab").html(), $(this).children(".lonEtab").html(), idetab);
+
+            })
         }
     });
 }
-
-
+/*
+  $("#mainxjspreceiver tr").hover(
+                    function () {
+                        $(this).addClass('active');
+                    },
+                    function () {
+                        $(this).removeClass('active');
+                    }
+            );
+  */        
 var majmainresults = function () {
     $.ajax({
         type: "POST",
@@ -74,6 +82,7 @@ function createPointOnMap(map, latitude, longitude, UAI)
 
 $(document).ready(function () {
     $('input.datepicker').datepicker($.datepicker.regional[ "fr" ]);
+    $( "#radioGroupSelecTypAnn" ).buttonset();
 //Code à exécuter apres le chargement de la page
 
     $(".dropdown-menu").mouseenter(function () {
@@ -250,11 +259,11 @@ var slidEVente = function (event, ui) {
     $("#hidden-amount-vente").val(ui.value);
 }
 //*****pagination*******//
-$("form[name='listAdPagin']").on('click',".pagination li",function(){
-    
+$("form[name='listAdPagin']").on('click', ".pagination li", function () {
+
     $('input[name="pageCourante"]').val($(this).attr("data"));
     $("form[name='listAdPagin']").submit();
 });
-$("form[name='listAdPagin']").on('change',"select[name='nbResultPage']",function(){
+$("form[name='listAdPagin']").on('change', "select[name='nbResultPage']", function () {
     $("form[name='listAdPagin']").submit();
 });
