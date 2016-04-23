@@ -49,12 +49,13 @@ var majmainresults = function () {
                 }
             });
 
+            console.log(newpointhashmap);
             for (var k in pointhashmap) {
-                if (!newpointhashmap[k])
+                if (newpointhashmap[k]==undefined)
                 {
                     pointhashmap[k].setMap(null);
 
-                    newpointhashmap[k] = undefined;
+//                    newpointhashmap[k] = undefined;
                 }
             }
             pointhashmap = newpointhashmap;

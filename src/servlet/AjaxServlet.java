@@ -13,6 +13,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
+import java.util.Random;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -72,7 +74,10 @@ public class AjaxServlet extends HttpServlet {
 
             if (action.equals("listAllAnnonces")) {
                 System.out.println("In action " + action);
-                request.setAttribute("annonces", annonController.getAnnonces());
+              List<Annonce> listann = annonController.getAnnonces();
+                Random rand = new Random();
+                request.setAttribute("annonces", Arrays.asList(listann.get(rand.nextInt(listann.size())),listann.get(rand.nextInt(listann.size())),listann.get(rand.nextInt(listann.size()))));
+                //  request.setAttribute("annonces", annonController.getAnnonces());
                 forwardTo = "ajax/listAnnonces.jsp";
             }
 
