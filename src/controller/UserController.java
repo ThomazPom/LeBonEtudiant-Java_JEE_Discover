@@ -5,6 +5,7 @@
  */
 package controller;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -91,6 +92,24 @@ public class UserController {
             return iterator.next();
         }
         return null;
+    }
+     public List<Utilisateur> getUtilisateursById(List<Long> idUtilisateur) {
+        System.out.println("-->>getUtilisateursById()");
+        Query q = em.createQuery("SELECT r from Utilisateur r WHERE r.id IN :idUtilisateur");
+        q.setParameter("idUtilisateur", idUtilisateur);
+        return q.getResultList();
+    }
+    public List<Utilisateur> getUtilisateursById(String[] idUtilisateur) {
+        List<Long> arIdsList = new ArrayList<Long>() ;
+        for(String s : idUtilisateur)
+        {
+            try {
+                arIdsList.add(Long.parseLong(s));
+            } catch (Exception e) {
+                System.err.println(s + " is not a valid id ");
+            }
+        }
+        return getUtilisateursById(arIdsList);
     }
     public Utilisateur getOneConnect(String email, String password) {
         System.out.println("------>public Utilisateur getOneConnect(String email, String password)");

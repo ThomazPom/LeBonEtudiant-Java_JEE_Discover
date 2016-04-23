@@ -5,6 +5,7 @@
  */
 package controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -39,7 +40,25 @@ public class RegionController {
         }
         return  null;
     }
+ public List<Region> getRegionsById(List<Long> idRegion) {
+        System.out.println("-->>getRegionsById()");
+        Query q = em.createQuery("SELECT r from Region r WHERE r.id IN :idRegion");
+        q.setParameter("idRegion", idRegion);
+        return q.getResultList();
+    }
 
+    public List<Region> getRegionsById(String[] idRegion) {
+        List<Long> arIdsList = new ArrayList<Long>() ;
+        for(String s : idRegion)
+        {
+            try {
+                arIdsList.add(Long.parseLong(s));
+            } catch (Exception e) {
+                System.err.println(s + " is not a valid id ");
+            }
+        }
+        return getRegionsById(arIdsList);
+    }
     public Region createRegion(String libelle) {
         System.out.println("----->public Region createRegion(String libelle)");
         Region r = new Region(libelle);

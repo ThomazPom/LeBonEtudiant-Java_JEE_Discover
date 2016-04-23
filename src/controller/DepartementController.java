@@ -5,6 +5,7 @@
  */
 package controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -44,5 +45,24 @@ EntityManager em;
         Departement r = new Departement(libelle,region);
        em.persist(r);
        return r;
+    }
+    
+    public List<Departement> getDepartementById(List<Long> idDept) {
+        System.out.println("-->>getDepartementById()");
+        Query q = em.createQuery("SELECT r from Departement r WHERE r.id IN :idDept");
+        q.setParameter("idDept", idDept);
+        return q.getResultList();
+    }
+
+    public List<Departement> getDepartementById(String[] idDept) {
+        List<Long> arIdsList = new ArrayList<Long>();
+        for (String s : idDept) {
+            try {
+                arIdsList.add(Long.parseLong(s));
+            } catch (Exception e) {
+                System.err.println(s + " is not a valid id ");
+            }
+        }
+        return getDepartementById(arIdsList);
     }
 }

@@ -9,6 +9,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
@@ -41,62 +42,65 @@ public class AnnonceController {
 
     @EJB
     EtablissementController ec;
-    
+
     //Classe anonyme pour la pagination des annonces
-    public static class AnnoncePage{
+    public static class AnnoncePage {
+
         private int nbPages;
         private int nbresultPage;
         private int pageCourante;
         private Collection<Annonce> resultList;
 
-        public AnnoncePage( int nbresSultPage, int pageCourante) {
+        public AnnoncePage(int nbresSultPage, int pageCourante) {
             this.nbresultPage = nbresSultPage;
             this.pageCourante = pageCourante;
         }
+
         public int getNbPages() {
             return nbPages;
         }
 
         public void setNbPages(int nbPages) {
             this.nbPages = nbPages;
-            if(nbPages<pageCourante)
-                pageCourante=nbPages;
+            if (nbPages < pageCourante) {
+                pageCourante = nbPages;
+            }
         }
-        
+
         public int getNbresultPage() {
             return nbresultPage;
         }
+
         public int getPageCourante() {
             return pageCourante;
         }
+
         public Collection<Annonce> getResultList() {
             return resultList;
         }
+
         public void setResultList(Collection<Annonce> resultList) {
             this.resultList = resultList;
-        } 
+        }
     }
-    
-    public int countAllAds(){
+
+    public int countAllAds() {
         Query query = em.createQuery("select COUNT(a) from Annonce a");
-       return Integer.parseInt(query.getSingleResult().toString());
+        return Integer.parseInt(query.getSingleResult().toString());
     }
-    
-    public void getOnePageAds(AnnoncePage annoncePage)
-    {
-        
+
+    public void getOnePageAds(AnnoncePage annoncePage) {
+
         int nbAds = countAllAds();                 //on recupere le nombre d'annonces
-        int nbPages = (int) Math.ceil(nbAds / annoncePage.getNbresultPage());  
+        int nbPages = (int) Math.ceil(nbAds / annoncePage.getNbresultPage());
         annoncePage.setNbPages(nbPages);
-        
+
         Query query = em.createQuery("select a from Annonce a");
         query.setFirstResult(annoncePage.getPageCourante() * annoncePage.getNbresultPage());
         query.setMaxResults(annoncePage.getNbresultPage());
-        
-      
+
         annoncePage.setResultList(query.getResultList());
     }
-    
 
     public Annonce creerAnnonce(Utilisateur Proprietaire, String titre, int prix, String numeroOverride, String emailOverride, String Description, Date dateFin, boolean active, List<Categorie> categories, List<Etablissement> etablissements) {
         System.out.println("------>public Annonce creerAnnonce(Utilisateur Proprietaire, String titre, int prix, String numeroOverride, String emailOverride, String Description, Date dateFin ....");
@@ -104,38 +108,26 @@ public class AnnonceController {
         em.persist(a);
         return a;
     }
+    List allowedTypes = Arrays.asList("demande", "tous", "ventes");
+
+    public List<Annonce> searchAnnonce(String titre, String type, String prixMin, String prixMax, String[] idEtabs, String[] idVilles, String[] idDepts, String idRegions) {
+        int prixmin = 0;
+        int prixmax = 20000;
+        try {
+            prixmin = Integer.parseInt(prixMin);
+            prixmax = Integer.parseInt(prixMax);
+        } catch (Exception e) {
+            System.err.println(prixMin + " or " + prixMax + " is not a valid price");
+        }
+        System.out.println(idEtabs.toString());
+        List<Etablissement> etabs = ec.getEtablissementsById(idEtabs);
+        //    System.out.println(idEtabs.length +"////// "+etabs.size());
+        return getAnnonces();
+    }
 
     public Annonce creerAnnonce(Utilisateur Proprietaire, String Titre, String prix, String numeroOverride, String emailOverride, String Description, String strDateFin, boolean active, String[] categories, String[] etablissements) {
-        ArrayList<Categorie> arcateg = new ArrayList<>();
-        ArrayList<Etablissement> aretab = new ArrayList<>();
-
-        for (String id : categories) {
-            int idCateg = -1;
-            try {
-                idCateg = Integer.parseInt(id);
-            } catch (Exception e) {
-                System.err.println(id + " is not an id");
-                return null;
-            }
-            Categorie et = cc.getCategoriesById(idCateg);
-            if (et != null) {
-                arcateg.add(et);
-            }
-        }
-        for (String id : etablissements) {
-            int idEtab = -1;
-            try {
-                idEtab = Integer.parseInt(id);
-            } catch (Exception e) {
-                System.err.println(id + " is not an id");
-                return null;
-            }
-            Etablissement et = ec.getEtablissementByID(idEtab);
-            if (et != null) {
-                aretab.add(et);
-            }
-        }
-
+        List<Categorie> arcateg = cc.getCategoriesById(categories);
+        List<Etablissement> aretab = ec.getEtablissementsById(categories);
         int prixCreate = 999999;
         try {
             prixCreate = Integer.parseInt(prix);
@@ -151,13 +143,6 @@ public class AnnonceController {
             System.out.println(strDateFin + " is not a valid date string");
         }
 
-        if (numeroOverride == null) {
-            numeroOverride = Proprietaire.getNumtel();
-        }
-        if (emailOverride == null) {
-            emailOverride = Proprietaire.getLogin();
-        }
-
         return AnnonceController.this.creerAnnonce(Proprietaire, Titre, prixCreate, numeroOverride, emailOverride, Description, dateFin, active, arcateg, aretab);
     }
 
@@ -168,36 +153,8 @@ public class AnnonceController {
     }
 
     public Annonce creerDemande(Utilisateur Proprietaire, String Titre, String prix, String numeroOverride, String emailOverride, String Description, String strDateFin, boolean active, String[] categories, String[] etablissements) {
-        ArrayList<Categorie> arcateg = new ArrayList<>();
-        ArrayList<Etablissement> aretab = new ArrayList<>();
-
-        for (String id : categories) {
-            int idCateg = -1;
-            try {
-                idCateg = Integer.parseInt(id);
-            } catch (Exception e) {
-                System.err.println(id + " is not an id");
-                return null;
-            }
-            Categorie et = cc.getCategoriesById(idCateg);
-            if (et != null) {
-                arcateg.add(et);
-            }
-        }
-        for (String id : etablissements) {
-            int idEtab = -1;
-            try {
-                idEtab = Integer.parseInt(id);
-            } catch (Exception e) {
-                System.err.println(id + " is not an id");
-                return null;
-            }
-            Etablissement et = ec.getEtablissementByID(idEtab);
-            if (et != null) {
-                aretab.add(et);
-            }
-        }
-
+        List<Categorie> arcateg = cc.getCategoriesById(categories);
+        List<Etablissement> aretab = ec.getEtablissementsById(categories);
         DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
         Date dateFin = Calendar.getInstance().getTime();
         try {
@@ -216,18 +173,17 @@ public class AnnonceController {
         return creerDemande(Proprietaire, Titre, numeroOverride, emailOverride, Description, dateFin, active, arcateg, aretab);
     }
 
-
     public Annonce majAnnonce(Annonce annonce, String titre, int prix, String numeroOverride, String emailOverride, String Description, Date dateFin, boolean active, List<Categorie> categories, List<Etablissement> etablissements) {
 
         if (annonce != null) {
-            
+
             if (prix != -1) {
                 annonce.setPrix(prix);
             }
             if (numeroOverride != null) {
                 annonce.setNumeroOverride(numeroOverride);
             }
-            
+
             if (titre != null) {
                 annonce.setTitre(titre);
             }
@@ -263,35 +219,8 @@ public class AnnonceController {
     public Annonce majAnnonce(Annonce annonce, String titre, String prix, String numeroOverride, String emailOverride, String Description, String strDateFin, boolean active, String[] categories, String[] etablissements) {
         {
 
-            ArrayList<Categorie> arcateg = new ArrayList<>();
-            ArrayList<Etablissement> aretab = new ArrayList<>();
-
-            for (String idA : categories) {
-                int idCateg = -1;
-                try {
-                    idCateg = Integer.parseInt(idA);
-                } catch (Exception e) {
-                    System.err.println(idA + " is not an id (majAnnonce)");
-                    return null;
-                }
-                Categorie et = cc.getCategoriesById(idCateg);
-                if (et != null) {
-                    arcateg.add(et);
-                }
-            }
-            for (String idA : etablissements) {
-                int idEtab = -1;
-                try {
-                    idEtab = Integer.parseInt(idA);
-                } catch (Exception e) {
-                    System.err.println(idA + " is not an id (majAnnonce)");
-                    return null;
-                }
-                Etablissement et = ec.getEtablissementByID(idEtab);
-                if (et != null) {
-                    aretab.add(et);
-                }
-            }
+               List<Categorie> arcateg = cc.getCategoriesById(categories);
+         List<Etablissement> aretab = ec.getEtablissementsById(categories);
             DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
             Date dateFin = Calendar.getInstance().getTime();
             try {
@@ -309,8 +238,9 @@ public class AnnonceController {
             return majAnnonce(annonce, titre, prixAnnonce, numeroOverride, emailOverride, Description, dateFin, active, arcateg, aretab);
         }
     }
+
     public Annonce majAnnonce(String id, String titre, String prix, String numeroOverride, String emailOverride, String Description, String strDateFin, boolean active, String[] categories, String[] etablissements) {
-     return majAnnonce(getAnnonceById(id), titre, prix, numeroOverride, emailOverride, Description, strDateFin, active, categories, etablissements);
+        return majAnnonce(getAnnonceById(id), titre, prix, numeroOverride, emailOverride, Description, strDateFin, active, categories, etablissements);
     }
 
     public Annonce getAnnonceById(String strid) {

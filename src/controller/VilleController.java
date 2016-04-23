@@ -5,6 +5,7 @@
  */
 package controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -40,6 +41,25 @@ EntityManager em;
         return  null;
     }
 
+     public List<Ville> getVillesById(List<Long> idVille) {
+        System.out.println("-->>getVillesById()");
+        Query q = em.createQuery("SELECT r from Ville r WHERE r.id IN :idVille");
+        q.setParameter("idVille", idVille);
+        return q.getResultList();
+    }
+
+    public List<Ville> getVillesById(String[] idVille) {
+        List<Long> arIdsList = new ArrayList<Long>() ;
+        for(String s : idVille)
+        {
+            try {
+                arIdsList.add(Long.parseLong(s));
+            } catch (Exception e) {
+                System.err.println(s + " is not a valid id ");
+            }
+        }
+        return getVillesById(arIdsList);
+    }
     public Ville createVille(String libelle, Departement departement) {
         System.out.println("----->public Ville createVille(String libelle)");
       Ville v = new Ville(libelle, departement);

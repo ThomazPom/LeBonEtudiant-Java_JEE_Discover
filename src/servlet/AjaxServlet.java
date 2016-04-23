@@ -5,12 +5,14 @@
  */
 package servlet;
 
+import com.sun.javafx.scene.control.skin.VirtualFlow;
 import controller.AnnonceController;
 import controller.CategorieController;
 import controller.EtablissementController;
 import controller.UserController;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -49,11 +51,10 @@ public class AjaxServlet extends HttpServlet {
     private CategorieController categController;
     @EJB
     private AnnonceController annonController;
-    
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-      //  UserController.UserPage userPage = new UserController.UserPage(10, 20);
+        //  UserController.UserPage userPage = new UserController.UserPage(10, 20);
         String forwardTo = "";
         String message = "";
         String redirect = "index.jsp";
@@ -74,11 +75,28 @@ public class AjaxServlet extends HttpServlet {
 
             if (action.equals("listAllAnnonces")) {
                 System.out.println("In action " + action);
-              List<Annonce> listann = annonController.getAnnonces();
-                Random rand = new Random();
-                request.setAttribute("annonces", Arrays.asList(listann.get(rand.nextInt(listann.size())),listann.get(rand.nextInt(listann.size())),listann.get(rand.nextInt(listann.size()))));
-                //  request.setAttribute("annonces", annonController.getAnnonces());
+                request.setAttribute("annonces", annonController.getAnnonces());
                 forwardTo = "ajax/listAnnonces.jsp";
+            }
+            if (action.equals("3randAnnonce")) {
+                System.out.println("In action " + action);
+                List<Annonce> listann = annonController.getAnnonces();
+                Random rand = new Random();
+                request.setAttribute("annonces", Arrays.asList(listann.get(rand.nextInt(listann.size())), listann.get(rand.nextInt(listann.size())), listann.get(rand.nextInt(listann.size()))));
+                forwardTo = "ajax/listAnnonces.jsp";
+            }
+            if (action.equals("searchAnnonce")) {
+                System.out.println("In action " + action);
+                
+                if(request.getParameterValues("etabSelectSearch") != null)
+                {
+                    
+                
+                List<Annonce> listann = annonController.searchAnnonce(action, action, action, action, request.getParameterValues("etabSelectSearch"), null, null, action);
+                request.setAttribute("annonces", listann);
+                forwardTo = "ajax/listAnnonces.jsp";
+                }
+                else System.err.println("request.getParameterValues(\"etabSelectSearch\")NULL");
             }
 
             if (action.equals("opt_categ")) {
@@ -86,23 +104,23 @@ public class AjaxServlet extends HttpServlet {
                 request.setAttribute("opt_categ", categController.getCategories());
                 forwardTo = "ajax/opt_categ.jsp";
             }
-           
-            if(action.equals("listAdsPagination")){
+
+            if (action.equals("listAdsPagination")) {
                 //code pour afficher la pagination des annonces
                 System.out.println("In action " + action);
                 int nbResultPage = 10;
                 int pageCourante = 0;
-                
+
                 try {
-                   nbResultPage = Integer.parseInt(request.getParameter("nbResultPage")); 
-                   pageCourante = Integer.parseInt(request.getParameter("pageCourante")); 
+                    nbResultPage = Integer.parseInt(request.getParameter("nbResultPage"));
+                    pageCourante = Integer.parseInt(request.getParameter("pageCourante"));
                 } catch (Exception e) {
                     System.out.println("nbresultpage or pagecourante : NaN");
                 }
-                AnnonceController.AnnoncePage annoncePage = new AnnonceController.AnnoncePage(nbResultPage,pageCourante); 
-		annonController.getOnePageAds(annoncePage);
-                
-                request.setAttribute("wrapListPage",annoncePage);
+                AnnonceController.AnnoncePage annoncePage = new AnnonceController.AnnoncePage(nbResultPage, pageCourante);
+                annonController.getOnePageAds(annoncePage);
+
+                request.setAttribute("wrapListPage", annoncePage);
                 forwardTo = "ajax/listAdsPagination.jsp";
             }
 
@@ -110,7 +128,7 @@ public class AjaxServlet extends HttpServlet {
                 //Code secuisé ici;
 
                 if (action.equals("sendVente")) {
-                                   //request.getSession(false).setAttribute("danger", "Il y a eu un probleme...");
+                    //request.getSession(false).setAttribute("danger", "Il y a eu un probleme...");
 
                     forwardTo = "ajax/erreurVente.jsp";
 
@@ -132,7 +150,7 @@ public class AjaxServlet extends HttpServlet {
                             // Arrays.asList(request.getPAr)
                             Utilisateur userAnnonce = userController.getOneLogin(request.getSession(false).getAttribute("email").toString());
                             Annonce annonce = annonController.getAnnonceById(request.getParameter("idVenteAnnonce"));
-                            if (annonce==null) {
+                            if (annonce == null) {
                                 annonce = annonController.creerAnnonce(userAnnonce,
                                         request.getParameter("titre"),
                                         request.getParameter("amount-vente"),
@@ -143,9 +161,8 @@ public class AjaxServlet extends HttpServlet {
                                         true,
                                         request.getParameterValues("categSelect-vente"),
                                         request.getParameterValues("regionSelect-vente")
-                                        
                                 );
-                            } else if(request.getSession(false).getAttribute("userID").equals(annonce.getProprietaire().getId())){
+                            } else if (request.getSession(false).getAttribute("userID").equals(annonce.getProprietaire().getId())) {
                                 annonController.majAnnonce(annonce,
                                         request.getParameter("titre"),
                                         request.getParameter("amount-vente"),
@@ -172,7 +189,7 @@ public class AjaxServlet extends HttpServlet {
                 }
 
                 if (action.equals("askVente")) {
-                                   //request.getSession(false).setAttribute("danger", "Il y a eu un probleme...");
+                    //request.getSession(false).setAttribute("danger", "Il y a eu un probleme...");
 
                     forwardTo = "ajax/erreurVente.jsp";
 

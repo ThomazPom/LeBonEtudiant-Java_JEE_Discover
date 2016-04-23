@@ -196,7 +196,8 @@
             if (session.getAttribute("danger") != null) {%><div class="alert alert-danger" role="alert"><%out.println(session.getAttribute("danger")); %><% session.removeAttribute("danger");%></div>
         <% } %>
         <div id="lesswrap">
-            <div id="mainwrap">
+            <form method="post" action="AjaxServlet" id="mainwrap">
+                <input hidden name="action" value="searchAnnonce"/>
                 <div id="maincontainer" class="container">
                     <div  class="input-group">
                         <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-search"></span>&nbsp;Rechercher</span>
@@ -205,7 +206,7 @@
 
                     <div  class="input-group" style="z-index: 300">
                         <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon glyphicon-globe"></span>&nbsp;Lieux</span>
-                        <select id="regionSelect" style="display:none" multiple="multiple">
+                        <select   name="etabSelectSearch"  id="etabSelectSearch" style="display:none" multiple="multiple">
                         </select></div>
                     <div  class="input-group prix">
 
@@ -241,7 +242,7 @@
                     </div>
                 </div>
 
-            </div>
+            </form>
             <div id="search"><div id="mainxjspreceiver" class="container"></div></div>
         </div>
     </div>

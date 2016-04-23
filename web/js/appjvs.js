@@ -49,13 +49,10 @@ var majmainresults = function () {
                 }
             });
 
-            console.log(newpointhashmap);
             for (var k in pointhashmap) {
                 if (newpointhashmap[k]==undefined)
                 {
                     pointhashmap[k].setMap(null);
-
-//                    newpointhashmap[k] = undefined;
                 }
             }
             pointhashmap = newpointhashmap;
@@ -66,7 +63,7 @@ var majmainresults = function () {
 
 function createPointOnMap(map, latitude, longitude, UAI)
 {
-    console.log(latitude + " " + longitude + " " + UAI);
+    //console.log(latitude + " " + longitude + " " + UAI);
     var xsltReceiver = document.createElement("div");
     var infowindow = new google.maps.InfoWindow({
         content: xsltReceiver
@@ -182,8 +179,8 @@ $(document).ready(function () {
         url: "AjaxServlet",
         data: {"action": "opt_etab"},
         success: function (reponse) {
-            $('#regionSelect, #registerRegionSelect, #regionSelect-vente').html(reponse)
-            $('#regionSelect, #registerRegionSelect, #regionSelect-vente').multiselect(
+            $('#etabSelectSearch, #registerRegionSelect, #regionSelect-vente').html(reponse)
+            $('#etabSelectSearch, #registerRegionSelect, #regionSelect-vente').multiselect(
                     {
                         enableCaseInsensitiveFiltering: true,
                         maxHeight: 600,
