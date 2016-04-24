@@ -25,12 +25,12 @@ import util.init;
 public class UserController {
     public static class UserPage{
         private int nbPages;
-        private int nbresSultPage;
+        private int nbresultPage;
         private int pageCourante;
         private Collection<Utilisateur> resultList;
 
         public UserPage( int nbresSultPage, int pageCourante) {
-            this.nbresSultPage = nbresSultPage;
+            this.nbresultPage = nbresSultPage;
             this.pageCourante = pageCourante;
         }
         public int getNbPages() {
@@ -39,10 +39,13 @@ public class UserController {
 
         public void setNbPages(int nbPages) {
             this.nbPages = nbPages;
+            if (nbPages < pageCourante) {
+                pageCourante = nbPages;
+            }
         }
         
-        public int getNbresSultPage() {
-            return nbresSultPage;
+        public int getNbresultPage() {
+            return nbresultPage;
         }
         public int getPageCourante() {
             return pageCourante;
@@ -64,11 +67,11 @@ public class UserController {
     public void getOnePageUser(UserPage userPage)
     {
         Query query = em.createQuery("select u from Utilisateur u");
-        query.setFirstResult(userPage.getPageCourante() * userPage.getNbresSultPage());
-        query.setMaxResults(userPage.getNbresSultPage());
+        query.setFirstResult(userPage.getPageCourante() * userPage.getNbresultPage());
+        query.setMaxResults(userPage.getNbresultPage());
         
         int nbUsers = countAllUsers();                 //on recupere le nombre d'utlisateurs
-        int NbPages = (int) Math.ceil(nbUsers / userPage.getNbresSultPage());
+        int NbPages = (int) Math.ceil(nbUsers / userPage.getNbresultPage());
         
         userPage.setNbPages(NbPages);
         userPage.setResultList(query.getResultList());

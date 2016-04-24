@@ -123,9 +123,28 @@ public class AjaxServlet extends HttpServlet {
                 request.setAttribute("wrapListPage", annoncePage);
                 forwardTo = "ajax/listAdsPagination.jsp";
             }
+            
+            if (action.equals("listUtilisateurs")) {
+                //code pour afficher la pagination des annonces
+                System.out.println("In action " + action);
+                int nbResultPage = 10;
+                int pageCourante = 0;
+
+                try {
+                    nbResultPage = Integer.parseInt(request.getParameter("nbResultPage"));
+                    pageCourante = Integer.parseInt(request.getParameter("pageCourante"));
+                } catch (Exception e) {
+                    System.out.println("nbresultpage or pagecourante : NaN");
+                }
+                UserController.UserPage userPage = new UserController.UserPage(nbResultPage, pageCourante);
+                userController.getOnePageUser(userPage);
+
+                request.setAttribute("wrapListPage", userPage);
+                forwardTo = "ajax/listUtilisateurs.jsp";
+            }
 
             if (request.getSession(true).getAttribute("userlogged") != null) {
-                //Code secuisé ici;
+                //Code securisé ici;
 
                 if (action.equals("sendVente")) {
                     //request.getSession(false).setAttribute("danger", "Il y a eu un probleme...");
