@@ -49,8 +49,8 @@ public class Annonce {
     @Temporal(DATE)
     private Date dateFin;
     private boolean active;
+    private boolean typeVente;
     
-    private boolean typeAnnonce; // true = vente, false = demande
 
     public Annonce() {
     }
@@ -78,7 +78,7 @@ public class Annonce {
         this.dateFin = dateFin;
         this.categories = categories;
         this.etablissements = etablissements;
-        this.typeAnnonce = type;
+        this.typeVente = type;
     }
 
     @ManyToMany
@@ -231,8 +231,11 @@ public class Annonce {
         this.prix = prix;
     }
 
-    public boolean isVente() {
-        return typeAnnonce;
+    /**
+     * @return the typeVente
+     */
+    public boolean isTypeVente() {
+        return typeVente;
     }
     
     

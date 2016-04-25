@@ -11,7 +11,7 @@
 <% model.Annonce annonce = (model.Annonce)request.getAttribute("annonce"); %>
 
 
-<input value="<%=annonce.getId() %>" name="idVenteAnnonce" form="formVente" id="idVenteAnnonce"/>
+<input value="<%=annonce.getId() %>" name="idAnnonce" hidden form="formVente" id="idVenteAnnonce"/>
 <div class="confirmVenteOverlay" style="">
     <%  if (session.getAttribute("success") != null) {%><div class="alert alert-success" role="alert"> <%out.println(session.getAttribute("success"));
         session.removeAttribute("message");

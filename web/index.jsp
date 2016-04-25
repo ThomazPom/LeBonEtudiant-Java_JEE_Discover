@@ -162,7 +162,7 @@
                     </li>
                     <li>  
                         <button class="btnav btn btn-primary"  data-toggle="modal" data-target="#modalVente">Vendre un objet</button>
-                        <button class="btnav btn btn-warning"  data-toggle="modal" data-target="#modalDemander">Poster une demande</button>  
+                        <button class="btnav btn btn-warning"  data-toggle="modal" data-target="#modalDemande">Poster une demande</button>  
                         <button type="button" class="btnav btn btn-info" data-toggle = "dropdown"><span class="glyphicon glyphicon-th-list"></span> Listes<span class="caret"></span></button>
                         <ul class = "dropdown-menu">
                             <li><a href = "suivi.jsp">Annonces</a></li>
@@ -266,16 +266,13 @@
     <div class="modal fade" id="modalVente" tabindex="-1" role="dialog" aria-labelledby="modalVenteLabel">
         <div class="modal-dialog modal-lg" role="document">
             <div id="mcvente" class="modal-content">
-
-
-                <input value="-1" name="idVenteAnnonce" form="formVente" id="idVenteAnnonce"/>
-
-                <form method="post" name="formVente" id="formVente" action="AjaxServlet?action=sendVente">
-
+                <input hidden value="-1" name="idAnnonce" form="formVente" id="idVenteAnnonce"/>
+                <form method="post" name="formVente" id="formVente" action="AjaxServlet">
+                    <input required name="action" value="sendAnnonce" hidden/>
+                    <input required name="typeAnnonce" value="vente" hidden/>
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                         <h4 class="modal-title" id="modalVenteLabel">Vendre un objet :</h4>
-
                     </div>
                     <div class="modal-body">
                         <div class="input-group">
@@ -294,14 +291,7 @@
                             <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-edit"></span>&nbsp;Description</span>
                             <textarea  required  name="description" class="form-control" width="100%" height="300px" placeholder="Dimensions, couleur, état.." aria-describedby="basic-addon1"></textarea>
                         </div>
-                        <!--                        <div class="input-group">
-                                                    <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-edit"></span>&nbsp;Images</span>
-                                                    <form action="./upload-target" class="dropzone dz-clickable" id="dropzone">
-                                                        <div class="dz-default dz-message" id="dropzone">
-                                                                <span>Drop files here to upload</span>
-                                                        </div>
-                                                    </form>
-                                                </div>-->
+               
 
                         <div   class="input-group">
                             <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-time"></span>&nbsp;Date de fin</span>
@@ -309,17 +299,16 @@
                         </div>
                         <div    class="input-group">
                             <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon glyphicon-globe"></span>&nbsp;Lieux</span>
-                            <select  required  name="regionSelect-vente" id="regionSelect-vente"  multiple="multiple">
+                            <select  required  name="etabSelectAnnonce" id="etabSelectVente"  multiple="multiple">
                             </select></div>
                         <div  class="input-group prix">
-
                             <table><tr>
                                     <td style="width: 300px">
                                         <span class="input-group-addon" id="basic-addon1" >
                                             <span class="glyphicon glyphicon glyphicon-euro"></span>
                                             &nbsp;Prix : &nbsp;
-                                            <input type="text" id="amount-vente" readonly>
-                                            <input name="amount-vente" type="text" id="hidden-amount-vente" hidden>
+                                            <input type="text" id="amount-annonce-vente" readonly>
+                                            <input name="amountAnnonce" type="text" id="hidden-amount-annonce-vente" hidden>
                                             <div class="pricebuttons">
                                                 <button type="button" class=".slideminus btn btn-default" aria-label="Left Align">
                                                     <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
@@ -337,7 +326,7 @@
                         </div>
                         <div  class="input-group">
                             <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;Catégorie(s) de l'objet</span>
-                            <select required name="categSelect-vente" id="categSelect-vente"  multiple="multiple">
+                            <select required name="categSelect-annonce" id="categSelect-vente"  multiple="multiple">
                             </select>
                         </div>
                     </div>
@@ -350,17 +339,19 @@
             </div>
         </div>
     </div>
-
-    <div class="modal fade" id="modalDemander" tabindex="-1" role="dialog" aria-labelledby="modalDemandeLabel">
+    
+    
+    <div class="modal fade" id="modalDemande" tabindex="-1" role="dialog" aria-labelledby="modalDemandeLabel">
         <div class="modal-dialog modal-lg" role="document">
             <div id="mcdemande" class="modal-content">
-                <input value="-1" name="idDemanderAnnonce" form="formDemander" id="idDemanderAnnonce"/>
+                <input hidden value="-1" name="idAnnonce" form="formDemande" id="idDemandeAnnonce"/>
 
-                <form method="post" name="formDemander" id="formDemander" action="AjaxServlet?action=askVente">
-
+                <form method="post" name="formDemande" id="formDemande" action="AjaxServlet">
+                    <input required name="action" value="sendAnnonce" hidden/>
+                    <input required name="typeAnnonce" value="demande" hidden/>
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="modalVenteLabel">Demander un objet :</h4>
+                        <h4 class="modal-title" id="modalDemandeLabel">Rechercher un objet, un service</h4>
                     </div>
                     <div class="modal-body">
                         <div class="input-group">
@@ -379,19 +370,44 @@
                             <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-edit"></span>&nbsp;Description</span>
                             <textarea  required  name="description" class="form-control" width="100%" height="300px" placeholder="Dimensions, couleur, état.." aria-describedby="basic-addon1"></textarea>
                         </div>
+               
+
                         <div   class="input-group">
                             <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-time"></span>&nbsp;Date de fin</span>
-                            <input  readonly required name="date-fin" class="datepicker" placeholder="31/12/2005" aria-describedby="basic-addon1">
+                            <input readonly required name="date-fin" class="datepicker" placeholder="31/12/2005" aria-describedby="basic-addon1">
                         </div>
                         <div    class="input-group">
-                            <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon glyphicon-globe"></span>&nbsp;Lieux</span>
-                            <select  required  name="regionSelect-vente" id="regionSelect-vente"  multiple="multiple">
+                            <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon glyphicon-globe"></span>&nbsp;Autour de :</span>
+                            <select  required  name="etabSelectAnnonce" id="etabSelectDemande"  multiple="multiple">
                             </select></div>
+                        <div  class="input-group prix">
+                            <table><tr>
+                                    <td style="width: 300px">
+                                        <span class="input-group-addon" id="basic-addon1" >
+                                            <span class="glyphicon glyphicon glyphicon-euro"></span>
+                                            &nbsp;A moins de : &nbsp;
+                                            <input type="text" id="amount-annonce-demande" readonly>
+                                            <input name="amountAnnonce" type="text" id="hidden-amount-annonce-demande" hidden>
+                                            <div class="pricebuttons">
+                                                <button type="button" class=".slideminus btn btn-default" aria-label="Left Align">
+                                                    <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+                                                </button>
+                                                <button type="button" class=".slideplus btn btn-default" aria-label="Left Align">
+                                                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                                </button>
+                                            </div></span>
+                                    <td style="padding-left: 50px">
+                                        <div id="slider-demande" class="sliderform"></div>
+                                    </td>
+                                </tr>
+                            </table>
 
+                        </div>
                         <div  class="input-group">
                             <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;Catégorie(s) de l'objet</span>
-                            <select required name="categSelect-vente" id="categSelect-vente"  multiple="multiple">
-                            </select></div>
+                            <select required name="categSelect-annonce" id="categSelect-demande"  multiple="multiple">
+                            </select>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-warning effacerForm-Demande"><span class="glyphicon glyphicon-refresh"></span>&nbsp;Tout effacer</button>
@@ -403,8 +419,9 @@
         </div>
     </div>
 
+
     <%}%>
-</body><
+</body>
 <link rel="stylesheet" href="js/jui/jquery-ui.min.css">
 <link rel="stylesheet" href="js/jui/jquery-ui.theme.css">
 <script src="js/jui/jquery-ui.min.js"></script>
