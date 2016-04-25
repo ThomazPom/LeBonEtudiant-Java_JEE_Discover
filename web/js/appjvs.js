@@ -19,15 +19,15 @@ function initMap() {
     });
 }
 /*
-  $("#mainxjspreceiver tr").hover(
-                    function () {
-                        $(this).addClass('active');
-                    },
-                    function () {
-                        $(this).removeClass('active');
-                    }
-            );
-  */        
+ $("#mainxjspreceiver tr").hover(
+ function () {
+ $(this).addClass('active');
+ },
+ function () {
+ $(this).removeClass('active');
+ }
+ );
+ */
 var majmainresults = function () {
     $.ajax({
         type: "POST",
@@ -50,7 +50,7 @@ var majmainresults = function () {
             });
 
             for (var k in pointhashmap) {
-                if (newpointhashmap[k]==undefined)
+                if (newpointhashmap[k] == undefined)
                 {
                     pointhashmap[k].setMap(null);
                 }
@@ -80,7 +80,7 @@ function createPointOnMap(map, latitude, longitude, UAI)
 
 $(document).ready(function () {
     $('input.datepicker').datepicker($.datepicker.regional[ "fr" ]);
-    $( "#radioGroupSelecTypAnn" ).buttonset();
+    $("#radioGroupSelecTypAnn").buttonset();
 //Code à exécuter apres le chargement de la page
 
     $(".dropdown-menu").mouseenter(function () {
@@ -92,6 +92,18 @@ $(document).ready(function () {
     var _0xae19 = ["\x4C\x65\x42\x6F\x6E\x45\x74\x75\x64\x69\x61\x6E\x74", "\x69\x6E\x64\x65\x78\x4F\x66", "\x70\x61\x74\x68\x6E\x61\x6D\x65", "\x6C\x6F\x63\x61\x74\x69\x6F\x6E", "", "\x68\x74\x6D\x6C"];
     document[_0xae19[3]][_0xae19[2]][_0xae19[1]](_0xae19[0]) != -1 || $(_0xae19[5])[_0xae19[5]](_0xae19[4])
 
+    $("#slider-demande").slider({
+        value: 3000,
+        max: 20000,
+        orientation: "horizontal",
+        range: "min",
+        animate: true,
+        slide: sliDemande
+    });
+    
+    $("#amount-annonce-demande").val($("#slider-demande").slider("value") + " €");
+    $("#hidden-amount-annonce-demande").val($("#slider-demande").slider("value"));
+    
     $("#slider-vente").slider({
         value: 3000,
         max: 20000,
@@ -100,8 +112,8 @@ $(document).ready(function () {
         animate: true,
         slide: slidEVente
     });
-    $("#amount-vente").val($("#slider-vente").slider("value") + " €");
-    $("#hidden-amount-vente").val($("#slider-vente").slider("value"));
+    $("#amount-annonce-vente").val($("#slider-vente").slider("value") + " €");
+    $("#hidden-amount-annonce-vente").val($("#slider-vente").slider("value"));
     var slidERange = function (event, ui) {
         $("#amount").val("Entre " + ui.values[ 0 ] + "€ et " + ui.values[ 1 ] + "€");
         majmainresults();
@@ -132,7 +144,7 @@ $(document).ready(function () {
         });
     });
 
-    $("#formDemander").on("submit", function (ev) {
+    $("#formDemande").on("submit", function (ev) {
         ev.preventDefault();
         //Code d'envoi ici
         $.ajax({
@@ -140,24 +152,13 @@ $(document).ready(function () {
             url: $(this).attr('action'),
             data: $(this).serialize(),
             success: function (reponse) {
-                $("#idDemanderAnnonce").remove();
-                $("#formDemander").hide();
+                $("#idDemandeAnnonce").remove();
+                $("#formDemande").hide();
                 $("#mcdemande").prepend(reponse);
             }
         });
     });
 
-    // "myAwesomeDropzone" is the camelized version of the HTML element's ID
-//    Dropzone.options.dropzone = {
-//        paramName: "file", // The name that will be used to transfer the file
-//        maxFilesize: 10, // MB
-//        accept: function(file, done) {
-//            if (file === null) {
-//                done("Naha, you don't.");
-//            }
-//            else { done(); }
-//        }
-//    };
 
     var password = document.getElementById("password")
             , confirm_password = document.getElementById("confirm_password");
@@ -179,8 +180,8 @@ $(document).ready(function () {
         url: "AjaxServlet",
         data: {"action": "opt_etab"},
         success: function (reponse) {
-            $('#etabSelectSearch, #registerRegionSelect, #regionSelect-vente').html(reponse)
-            $('#etabSelectSearch, #registerRegionSelect, #regionSelect-vente').multiselect(
+            $('#etabSelectSearch, #registerRegionSelect, #etabSelectVente,#etabSelectDemande').html(reponse)
+            $('#etabSelectSearch, #registerRegionSelect, #etabSelectVente,#etabSelectDemande').multiselect(
                     {
                         enableCaseInsensitiveFiltering: true,
                         maxHeight: 600,
@@ -192,8 +193,8 @@ $(document).ready(function () {
         url: "AjaxServlet",
         data: {"action": "opt_categ"},
         success: function (reponse) {
-            $('#categSelect, #categSelect-vente').html(reponse)
-            $('#categSelect, #categSelect-vente').multiselect(
+            $('#categSelect, #categSelect-vente, #categSelect-demande').html(reponse)
+            $('#categSelect, #categSelect-vente ,#categSelect-demande').multiselect(
                     {
                         enableCaseInsensitiveFiltering: true,
                         maxHeight: 600,
@@ -211,20 +212,21 @@ function reinitFormVente() {
     $("#formVente [name='email']").val("");
     $("#formVente [name='telephone']").val("");
     $("#formVente textarea").val("");
-
-    $("#formVente #regionSelect-vente").multiselect('deselectAll', false).multiselect('updateButtonText');
+    $("#formVente #etabSelectVente").multiselect('deselectAll', false).multiselect('updateButtonText');
     $("#formVente #categSelect-vente").multiselect('deselectAll', false).multiselect('updateButtonText');
     $("#formVente #slider-vente").slider("option", "value", 3000);
     slidEVente(undefined, {value: 3000});
 }
 
 function reinitFormDemande() {
-    $("#formDemander [name='titre']").val("");
-    $("#formDemander [name='email']").val("");
-    $("#formDemander [name='telephone']").val("");
-    $("#formDemander textarea").val("");
-    $("#formDemander #regionSelect-vente").multiselect('deselectAll', false).multiselect('updateButtonText');
-    $("#formDemander #categSelect-vente").multiselect('deselectAll', false).multiselect('updateButtonText');
+    $("#formDemande [name='titre']").val("");
+    $("#formDemande [name='email']").val("");
+    $("#formDemande [name='telephone']").val("");
+    $("#formDemande textarea").val("");
+    $("#formDemande #etabSelectDemande").multiselect('deselectAll', false).multiselect('updateButtonText');
+    $("#formDemande #categSelect-demande").multiselect('deselectAll', false).multiselect('updateButtonText');
+    $("#formDemande #slider-demande").slider("option", "value", 3000);
+    sliDemande(undefined, {value: 3000});
 }
 
 $("body").on("click", ".btn.btn-primary.postOtherAnnonce", function () {
@@ -238,23 +240,25 @@ $("body").on("click", ".btn.btn-primary.postOtherAnnonce", function () {
 }).on("click", ".btn.btn-warning.effacerForm-Vente", function () {
     reinitFormVente();
 }).on("click", ".btn.btn-primary.postOtherDemande", function () {
-
     $(".confirmDemandeOverlay").remove();
-    $("#idDemanderAnnonce").val("-1");
-    $("#formDemander").show();
+    $("#idDemandeAnnonce").val("-1");
+    $("#formDemande").show();
     reinitFormDemande();
-
 }).on("click", ".btn.btn-warning.editNewAnnonce", function () {
     $(".confirmDemandeOverlay").remove();
-    $("#formDemander").show();
+    $("#idDemandeAnnonce").show();
 }).on("click", ".btn.btn-warning.effacerForm-Demande", function () {
     reinitFormDemande();
 });
 ;
 
 var slidEVente = function (event, ui) {
-    $("#amount-vente").val(ui.value + " €");
-    $("#hidden-amount-vente").val(ui.value);
+    $("#amount-annonce-vente").val(ui.value + " €");
+    $("#hidden-amount-annonce-vente").val(ui.value);
+}
+var sliDemande = function (event, ui) {
+    $("#amount-annonce-demande").val(ui.value + " €");
+    $("#hidden-amount-annonce-demande").val(ui.value);
 }
 //*****pagination*******//
 $("form[name='listAdPagin']").on('click', ".pagination li", function () {

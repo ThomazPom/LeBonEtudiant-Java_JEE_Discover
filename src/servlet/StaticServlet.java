@@ -73,21 +73,10 @@ public class StaticServlet extends HttpServlet {
                     if (userController.getOneLogin(request.getParameter("email")) != null) {
                         request.getSession(false).setAttribute("danger", "Impossible d'enregistrer ce compte, car cet email est déja inscrit");
                     } else if (util.validator.validateEmail(request.getParameter("email"))) {
-                        ArrayList<Etablissement> etabsNewUser = new ArrayList<Etablissement>();
+                        List<Etablissement> etabsNewUser = new ArrayList<Etablissement>();
                         if (request.getParameterValues("registerRegionSelect") != null) {
-                            String[] idEtabs = request.getParameterValues("registerRegionSelect");
-                            for (String idEtab : idEtabs) {
-                                int intIdEtab = -1;
-                                try {
-                                    intIdEtab = Integer.parseInt(idEtab);
-                                } catch (Exception e) {
-                                    System.out.println("[[[[ERREUR, VALEUR INVALIDE POUR L'ENTIER " + idEtab + "]]");
-                                }
-                                Etablissement etabRegister = etabController.getEtablissementByID(intIdEtab);
-                                if (etabRegister != null) {
-                                    etabsNewUser.add(etabRegister);
-                                }
-                            }
+                          etabsNewUser =  etabController.getEtablissementsById(request.getParameterValues("registerRegionSelect"));
+                            
                         }
                         userController.creerUser(
                                 request.getParameter("email"),

@@ -102,13 +102,13 @@ public class AnnonceController {
         annoncePage.setResultList(query.getResultList());
     }
 
-    public Annonce creerAnnonce(Utilisateur Proprietaire, String titre, int prix, String numeroOverride, String emailOverride, String Description, Date dateFin, boolean active, List<Categorie> categories, List<Etablissement> etablissements) {
+    public Annonce creerAnnonce(Utilisateur Proprietaire, String titre, int prix, String numeroOverride, String emailOverride, String Description, Date dateFin, boolean active, List<Categorie> categories, List<Etablissement> etablissements, Boolean typeAnnonce) {
         System.out.println("------>public Annonce creerAnnonce(Utilisateur Proprietaire, String titre, int prix, String numeroOverride, String emailOverride, String Description, Date dateFin ....");
-        Annonce a = new Annonce(Proprietaire, titre, prix, numeroOverride, emailOverride, Description, dateFin, active, categories, etablissements, true);
+        Annonce a = new Annonce(Proprietaire, titre, prix, numeroOverride, emailOverride, Description, dateFin, active, categories, etablissements, typeAnnonce);
         em.persist(a);
         return a;
     }
-    List allowedTypes = Arrays.asList("demande", "tous", "ventes");
+    List allowedTypes = Arrays.asList("vente","tous","demande" );
 
     public List<Annonce> searchAnnonce(String titre, String type, String prixMin, String prixMax, String[] idEtabs, String[] idVilles, String[] idDepts, String idRegions) {
         int prixmin = 0;
@@ -120,14 +120,18 @@ public class AnnonceController {
             System.err.println(prixMin + " or " + prixMax + " is not a valid price");
         }
         System.out.println(idEtabs.toString());
+        
+        em.createQuery("select ann from Annonce ann JOIN :coll as cat where ann.categories = coll");
+        
         List<Etablissement> etabs = ec.getEtablissementsById(idEtabs);
         //    System.out.println(idEtabs.length +"////// "+etabs.size());
         return getAnnonces();
     }
 
-    public Annonce creerAnnonce(Utilisateur Proprietaire, String Titre, String prix, String numeroOverride, String emailOverride, String Description, String strDateFin, boolean active, String[] categories, String[] etablissements) {
+    public Annonce creerAnnonce(Utilisateur Proprietaire, String Titre, String prix, String numeroOverride, String emailOverride, String Description, String strDateFin, boolean active, String[] categories, String[] etablissements,String typeAnnonce) {
+        Boolean typeAnnonceBool = allowedTypes.get(0).equals(typeAnnonce);
         List<Categorie> arcateg = cc.getCategoriesById(categories);
-        List<Etablissement> aretab = ec.getEtablissementsById(categories);
+        List<Etablissement> aretab = ec.getEtablissementsById(etablissements);
         int prixCreate = 999999;
         try {
             prixCreate = Integer.parseInt(prix);
@@ -143,34 +147,7 @@ public class AnnonceController {
             System.out.println(strDateFin + " is not a valid date string");
         }
 
-        return AnnonceController.this.creerAnnonce(Proprietaire, Titre, prixCreate, numeroOverride, emailOverride, Description, dateFin, active, arcateg, aretab);
-    }
-
-    public Annonce creerDemande(Utilisateur Proprietaire, String titre, String numeroOverride, String emailOverride, String Description, Date dateFin, boolean active, List<Categorie> categories, List<Etablissement> etablissements) {
-        Annonce a = new Annonce(Proprietaire, titre, 0, numeroOverride, emailOverride, Description, dateFin, active, categories, etablissements, false);
-        em.persist(a);
-        return a;
-    }
-
-    public Annonce creerDemande(Utilisateur Proprietaire, String Titre, String prix, String numeroOverride, String emailOverride, String Description, String strDateFin, boolean active, String[] categories, String[] etablissements) {
-        List<Categorie> arcateg = cc.getCategoriesById(categories);
-        List<Etablissement> aretab = ec.getEtablissementsById(categories);
-        DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-        Date dateFin = Calendar.getInstance().getTime();
-        try {
-            dateFin = df.parse(strDateFin);
-        } catch (ParseException ex) {
-            System.out.println(strDateFin + " is not a valid date string");
-        }
-
-        if (numeroOverride == null) {
-            numeroOverride = Proprietaire.getNumtel();
-        }
-        if (emailOverride == null) {
-            emailOverride = Proprietaire.getLogin();
-        }
-
-        return creerDemande(Proprietaire, Titre, numeroOverride, emailOverride, Description, dateFin, active, arcateg, aretab);
+        return AnnonceController.this.creerAnnonce(Proprietaire, Titre, prixCreate, numeroOverride, emailOverride, Description, dateFin, active, arcateg, aretab,typeAnnonceBool);
     }
 
     public Annonce majAnnonce(Annonce annonce, String titre, int prix, String numeroOverride, String emailOverride, String Description, Date dateFin, boolean active, List<Categorie> categories, List<Etablissement> etablissements) {
@@ -219,8 +196,9 @@ public class AnnonceController {
     public Annonce majAnnonce(Annonce annonce, String titre, String prix, String numeroOverride, String emailOverride, String Description, String strDateFin, boolean active, String[] categories, String[] etablissements) {
         {
 
-               List<Categorie> arcateg = cc.getCategoriesById(categories);
-         List<Etablissement> aretab = ec.getEtablissementsById(categories);
+            List<Categorie> arcateg = cc.getCategoriesById(categories);
+            List<Etablissement> aretab = ec.getEtablissementsById(categories);
+            
             DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
             Date dateFin = Calendar.getInstance().getTime();
             try {
