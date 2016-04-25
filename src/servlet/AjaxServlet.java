@@ -114,15 +114,17 @@ public class AjaxServlet extends HttpServlet {
             }
             if (action.equals("searchAnnonce")) {
                 System.out.println("In action " + action);
-
-                if (request.getParameterValues("etabSelectSearch") != null) {
-
-                    List<Annonce> listann = annonController.searchAnnonce(action, action, action, action, request.getParameterValues("etabSelectSearch"), null, null, action);
+                    
+                     String[] idEtabs = ((request.getParameter("etabSelectSearch")!=null) ? request.getParameterValues("etabSelectSearch"):new String[0]);
+                     String[] idCategs = ((request.getParameter("categSelect")!=null) ? request.getParameterValues("categSelect"):new String[0]);
+                     String[] idRegions = ((request.getParameter("regionSelectSearch")!=null) ? request.getParameterValues("regionSelectSearch"):new String[0]);
+                     String[] idDepts = ((request.getParameter("deptSelectSearch")!=null) ? request.getParameterValues("deptSelectSearch"):new String[0]);
+                     String[] idVilles = ((request.getParameter("villeSelectSearch")!=null) ? request.getParameterValues("villeSelectSearch"):new String[0]);
+                    List<Annonce> listann = annonController.searchAnnonce(request.getParameter("searchtitre"), action, action, action, idEtabs, idVilles, idDepts, idRegions, idCategs);
                     request.setAttribute("annonces", listann);
+                
+                
                     forwardTo = "ajax/listAnnonces.jsp";
-                } else {
-                    System.err.println("request.getParameterValues(\"etabSelectSearch\")NULL");
-                }
             }
 
             if (action.equals("opt_categ")) {
@@ -195,7 +197,7 @@ public class AjaxServlet extends HttpServlet {
 
                             Utilisateur userAnnonce = userController.getOneLogin(request.getSession(false).getAttribute("email").toString());
                             Annonce annonce = annonController.getAnnonceById(request.getParameter("idAnnonce"));
-                              
+
                             if (annonce == null) {
                                 annonce = annonController.creerAnnonce(userAnnonce,
                                         request.getParameter("titre"),
@@ -209,7 +211,7 @@ public class AjaxServlet extends HttpServlet {
                                         request.getParameterValues("etabSelectAnnonce"),
                                         request.getParameter("typeAnnonce")
                                 );
-                            } else if (userAnnonce.getId()==annonce.getProprietaire().getId()) {
+                            } else if (userAnnonce.getId() == annonce.getProprietaire().getId()) {
                                 annonController.majAnnonce(annonce,
                                         request.getParameter("titre"),
                                         request.getParameter("amountAnnonce"),

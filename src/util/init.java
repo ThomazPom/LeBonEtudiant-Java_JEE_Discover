@@ -101,6 +101,7 @@ public class init {
 
                 if (true || rc.getRegionByName(etabStrings[6], false) == null) {
                     Region region = rc.getRegionByName(etabStrings[6], true);
+                    
                     Departement departement = dc.getDepartementByName(etabStrings[5], true, region);
 
                     Ville ville = vc.getVilleByName(etabStrings[4], true, departement);

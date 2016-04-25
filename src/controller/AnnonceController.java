@@ -24,8 +24,11 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import model.Annonce;
 import model.Categorie;
+import model.Departement;
 import model.Etablissement;
+import model.Region;
 import model.Utilisateur;
+import model.Ville;
 
 /**
  *
@@ -42,6 +45,12 @@ public class AnnonceController {
 
     @EJB
     EtablissementController ec;
+    @EJB
+    VilleController vc;
+    @EJB
+    DepartementController dc;
+    @EJB
+    RegionController rc;
 
     //Classe anonyme pour la pagination des annonces
     public static class AnnoncePage {
@@ -110,7 +119,7 @@ public class AnnonceController {
     }
     List allowedTypes = Arrays.asList("vente","tous","demande" );
 
-    public List<Annonce> searchAnnonce(String titre, String type, String prixMin, String prixMax, String[] idEtabs, String[] idVilles, String[] idDepts, String idRegions) {
+    public List<Annonce> searchAnnonce(String titre, String type, String prixMin, String prixMax, String[] idEtabs, String[] idVilles, String[] idDepts, String[] idRegions,String[] idCategs) {
         int prixmin = 0;
         int prixmax = 20000;
         try {
@@ -119,13 +128,16 @@ public class AnnonceController {
         } catch (Exception e) {
             System.err.println(prixMin + " or " + prixMax + " is not a valid price");
         }
-        System.out.println(idEtabs.toString());
+        Query q = em.createQuery("Select a from Annonce a where lower(a.Titre) like lower(:titre)");
         
-        em.createQuery("select ann from Annonce ann JOIN :coll as cat where ann.categories = coll");
         
-        List<Etablissement> etabs = ec.getEtablissementsById(idEtabs);
-        //    System.out.println(idEtabs.length +"////// "+etabs.size());
-        return getAnnonces();
+        q.setParameter("titre", "%"+titre+"%");
+        List<Etablissement> etabselect = (idEtabs.length>0)?ec.getEtablissementsById(idEtabs):new ArrayList<>();
+        List<Categorie> categselsect = (idCategs.length>0)?cc.getCategoriesById(idCategs):new ArrayList<>();
+        List<Region> regionselect = (idRegions.length>0)?rc.getRegionsById(idRegions):new ArrayList<>();
+        List<Departement> deptselect = (idDepts.length>0)?dc.getDepartementById(idDepts):new ArrayList<>();
+        List<Ville> villeselect = (idVilles.length>0)?vc.getVillesById(idVilles):new ArrayList<>();
+        return q.getResultList();
     }
 
     public Annonce creerAnnonce(Utilisateur Proprietaire, String Titre, String prix, String numeroOverride, String emailOverride, String Description, String strDateFin, boolean active, String[] categories, String[] etablissements,String typeAnnonce) {

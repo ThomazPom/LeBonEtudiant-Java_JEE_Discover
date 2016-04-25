@@ -31,7 +31,8 @@ function initMap() {
 var majmainresults = function () {
     $.ajax({
         type: "POST",
-        url: "AjaxServlet?action=listAllAnnonces",
+        data:$("#mainwrap").serialize(),
+        url: "AjaxServlet",
         success: function (data, textStatus, jqXHR) {
             $('#mainxjspreceiver').html(data);
             var newpointhashmap = {}

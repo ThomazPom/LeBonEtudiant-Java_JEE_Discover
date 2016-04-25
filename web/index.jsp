@@ -201,7 +201,7 @@
                 <div id="maincontainer" class="container">
                     <div  class="input-group">
                         <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-search"></span>&nbsp;Rechercher</span>
-                        <input id="mainsearch" type="text" class="form-control" placeholder="Des écouteurs pas trop cassés, des chaussettes jamais portées.."aria-describedby="basic-addon1">
+                        <input id="mainsearch" name="searchtitre"  type="text" class="form-control" placeholder="Des écouteurs pas trop cassés, des chaussettes jamais portées.."aria-describedby="basic-addon1">
                     </div>
 
                     <div class="input-group"  style="z-index: 300">
