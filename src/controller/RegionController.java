@@ -47,6 +47,9 @@ public class RegionController {
         return q.getResultList();
     }
 
+    public  List<Region> getRegions(){
+        return em.createQuery("select r from Region r").getResultList();
+    }
     public List<Region> getRegionsById(String[] idRegion) {
         List<Long> arIdsList = new ArrayList<Long>() ;
         for(String s : idRegion)

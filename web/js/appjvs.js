@@ -100,10 +100,10 @@ $(document).ready(function () {
         animate: true,
         slide: sliDemande
     });
-    
+
     $("#amount-annonce-demande").val($("#slider-demande").slider("value") + " €");
     $("#hidden-amount-annonce-demande").val($("#slider-demande").slider("value"));
-    
+
     $("#slider-vente").slider({
         value: 3000,
         max: 20000,
@@ -201,7 +201,45 @@ $(document).ready(function () {
                         includeSelectAllOption: true
                     });
         }});
-
+    $.ajax({
+        type: "POST",
+        url: "AjaxServlet",
+        data: {"action": "opt_ville"},
+        success: function (reponse) {
+            $('#villeSelectSearch').html(reponse)
+            $('#villeSelectSearch').multiselect(
+                    {
+                        enableCaseInsensitiveFiltering: true,
+                        maxHeight: 600,
+                        includeSelectAllOption: true
+                    });
+        }});
+    $.ajax({
+        type: "POST",
+        url: "AjaxServlet",
+        data: {"action": "opt_dept"},
+        success: function (reponse) {
+            $('#deptSelectSearch').html(reponse)
+            $('#deptSelectSearch').multiselect(
+                    {
+                        enableCaseInsensitiveFiltering: true,
+                        maxHeight: 600,
+                        includeSelectAllOption: true
+                    });
+        }});
+    $.ajax({
+        type: "POST",
+        url: "AjaxServlet",
+        data: {"action": "opt_region"},
+        success: function (reponse) {
+            $('#regionSelectSearch').html(reponse)
+            $('#regionSelectSearch').multiselect(
+                    {
+                        enableCaseInsensitiveFiltering: true,
+                        maxHeight: 600,
+                        includeSelectAllOption: true
+                    });
+        }});
     initMap();
 });
 

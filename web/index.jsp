@@ -189,7 +189,7 @@
             session.removeAttribute("message");
             session.removeAttribute("success");%></div>
         <%}
-                if (session.getAttribute("info") != null) {%><div class="alert alert-info" role="alert"><%out.println(session.getAttribute("info")); %><% session.removeAttribute("info");%></div>
+            if (session.getAttribute("info") != null) {%><div class="alert alert-info" role="alert"><%out.println(session.getAttribute("info")); %><% session.removeAttribute("info");%></div>
         <%}
             if (session.getAttribute("warning") != null) {%><div class="alert alert-warning" role="alert"><%out.println(session.getAttribute("warning")); %><% session.removeAttribute("warning");%></div>
         <%}
@@ -204,10 +204,14 @@
                         <input id="mainsearch" type="text" class="form-control" placeholder="Des écouteurs pas trop cassés, des chaussettes jamais portées.."aria-describedby="basic-addon1">
                     </div>
 
-                    <div  class="input-group" style="z-index: 300">
-                        <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon glyphicon-globe"></span>&nbsp;Lieux</span>
-                        <select   name="etabSelectSearch"  id="etabSelectSearch" style="display:none" multiple="multiple">
-                        </select></div>
+                    <div class="input-group"  style="z-index: 300">
+                        
+                        <span class="input-group-addon" ><span class="glyphicon glyphicon glyphicon-globe"></span>&nbsp;Lieux</span>
+                        <div  class="searchLieuxContainer"><span class="input-group-addon" >Etablissements</span> <select   name="etabSelectSearch"  id="etabSelectSearch" style="display:none" multiple="multiple"></select>
+                        <span class="input-group-addon" >Villes </span><select   name="villeSelectSearch"  id="villeSelectSearch" style="display:none" multiple="multiple"></select>
+                        </div><div class="searchLieuxContainer"><span class="input-group-addon" >Départements </span><select   name="deptSelectSearch"  id="deptSelectSearch" style="display:none" multiple="multiple"></select>
+                        <span class="input-group-addon" >Régions</span><select   name="regionSelectSearch"  id="regionSelectSearch" style="display:none" multiple="multiple"></select>
+                        </select></div></div>
                     <div  class="input-group prix">
 
                         <table><tr>
@@ -291,7 +295,7 @@
                             <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-edit"></span>&nbsp;Description</span>
                             <textarea  required  name="description" class="form-control" width="100%" height="300px" placeholder="Dimensions, couleur, état.." aria-describedby="basic-addon1"></textarea>
                         </div>
-               
+
 
                         <div   class="input-group">
                             <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-time"></span>&nbsp;Date de fin</span>
@@ -339,8 +343,8 @@
             </div>
         </div>
     </div>
-    
-    
+
+
     <div class="modal fade" id="modalDemande" tabindex="-1" role="dialog" aria-labelledby="modalDemandeLabel">
         <div class="modal-dialog modal-lg" role="document">
             <div id="mcdemande" class="modal-content">
@@ -370,7 +374,7 @@
                             <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-edit"></span>&nbsp;Description</span>
                             <textarea  required  name="description" class="form-control" width="100%" height="300px" placeholder="Dimensions, couleur, état.." aria-describedby="basic-addon1"></textarea>
                         </div>
-               
+
 
                         <div   class="input-group">
                             <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-time"></span>&nbsp;Date de fin</span>

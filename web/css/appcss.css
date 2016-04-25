@@ -146,6 +146,11 @@ html, body
     padding-left: 50px;
 
 }
+.input-group .searchLieuxContainer
+{
+    display: table;
+    width: 100%;
+}
 #etabSelectDemande,#etabSelectVente,#categSelect-demande, #categSelect-vente{
 
     display: block!important;

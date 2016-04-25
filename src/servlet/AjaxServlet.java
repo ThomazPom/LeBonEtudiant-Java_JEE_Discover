@@ -8,8 +8,11 @@ package servlet;
 import com.sun.javafx.scene.control.skin.VirtualFlow;
 import controller.AnnonceController;
 import controller.CategorieController;
+import controller.DepartementController;
 import controller.EtablissementController;
+import controller.RegionController;
 import controller.UserController;
+import controller.VilleController;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -51,6 +54,12 @@ public class AjaxServlet extends HttpServlet {
     private CategorieController categController;
     @EJB
     private AnnonceController annonController;
+    @EJB
+    private RegionController regionController;
+    @EJB
+    private VilleController villeController;
+    @EJB
+    private DepartementController deptController;
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -66,6 +75,24 @@ public class AjaxServlet extends HttpServlet {
                 System.out.println("In action " + action);
                 request.setAttribute("opt_etab", etabController.getEtablissements());
                 forwardTo = "ajax/opt_etab.jsp";
+            }
+            if (action.equals("opt_ville")) {
+
+                System.out.println("In action " + action);
+                request.setAttribute("opt_ville", villeController.getVilles());
+                forwardTo = "ajax/opt_ville.jsp";
+            }
+            if (action.equals("opt_dept")) {
+
+                System.out.println("In action " + action);
+                request.setAttribute("opt_dept", deptController.getDepartements());
+                forwardTo = "ajax/opt_dept.jsp";
+            }
+            if (action.equals("opt_region")) {
+
+                System.out.println("In action " + action);
+                request.setAttribute("opt_region", regionController.getRegions());
+                forwardTo = "ajax/opt_region.jsp";
             }
             if (action.equals("lst_etab")) {
                 System.out.println("In action " + action);

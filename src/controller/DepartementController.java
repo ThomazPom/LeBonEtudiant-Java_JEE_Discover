@@ -29,8 +29,8 @@ EntityManager em;
         
         q.setParameter("libelle", libelle);
         List<Departement> ql = q.getResultList();
-        
-        if (ql.iterator().hasNext()) {
+        System.err.println(libelle+" libelle  QLSIZE "+ql.size());
+        if (!ql.isEmpty()) {
             return ql.iterator().next();
         }
         else if(createIfNotExist)
@@ -47,6 +47,9 @@ EntityManager em;
        return r;
     }
     
+    public  List<Departement> getDepartements(){
+        return em.createQuery("select d from Departement d").getResultList();
+    }
     public List<Departement> getDepartementById(List<Long> idDept) {
         System.out.println("-->>getDepartementById()");
         Query q = em.createQuery("SELECT r from Departement r WHERE r.id IN :idDept");
