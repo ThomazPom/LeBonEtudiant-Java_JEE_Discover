@@ -40,14 +40,14 @@ and open the template in the editor.
 }
 
 
-.confirmVenteOverlay .input-group-addon
+.confirmAnnonceOverlayBody .input-group-addon , .confirmAnnonceOverlayTitle .input-group-addon
 {
     border-top-left-radius: 7px;
     border-bottom-left-radius: 7px;
     border: none;
 }
 
-.confirmVenteOverlay .input-group
+.confirmAnnonceOverlayBody .input-group ,.confirmAnnonceOverlayTitle .input-group
 {
 
     margin: 5px;
@@ -56,29 +56,29 @@ and open the template in the editor.
     background: #f3f3f3;
 
 }
-.confirmVenteOverlay .input-group p
+.confirmAnnonceOverlayBody .input-group p,.confirmAnnonceOverlayTitle .input-group p
 {
     font-size: 1.2em;
     height: 100%;
 }
-.confirmVenteOverlay .confirmVenteOverlayBody, 
-.confirmVenteOverlay .confirmVenteOverlayTitle{
+.confirmAnnonceOverlayBody,
+.confirmAnnonceOverlayTitle{
     text-align: center;
 
     padding: 0px 30px 0px 30px;
 }
 
-.confirmVenteOverlay .confirmVenteOverlayBody textarea{
+.confirmAnnonceOverlayBody textarea{
 
     height: 250px;
     resize: vertical;
 }
-.confirmVenteOverlay .confirmVenteOverlayFooter{
+.confirmAnnonceOverlayFooter{
     text-align: center;
 
 
 }
-.confirmVenteOverlay button{
+.confirmAnnonceOverlayFooter button{
     margin: 10px;
 }
 
@@ -146,7 +146,7 @@ html, body
     padding-left: 50px;
 
 }
-#regionSelect-vente,#categSelect-vente{
+#etabSelectDemande,#etabSelectVente,#categSelect-demande, #categSelect-vente{
 
     display: block!important;
     height: 0px;
@@ -202,10 +202,10 @@ html, body
     z-index: 300;
 }
 
-.confirmVenteOverlay .input-group-addon {
+.confirmAnnonceOverlayBody .input-group-addon {
     min-width: 205px;
 }
-.confirmVenteOverlay  select{
+.confirmAnnonceOverlayBody  select{
     width: 100%;
     
 }

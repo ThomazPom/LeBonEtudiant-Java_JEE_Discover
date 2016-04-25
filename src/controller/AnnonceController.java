@@ -151,7 +151,7 @@ public class AnnonceController {
     }
 
     public Annonce majAnnonce(Annonce annonce, String titre, int prix, String numeroOverride, String emailOverride, String Description, Date dateFin, boolean active, List<Categorie> categories, List<Etablissement> etablissements) {
-
+        System.out.println("------->majAnnonce(Annonce annonce, String titre, int prix, String numeroOverride, String emailOverr...;");
         if (annonce != null) {
 
             if (prix != -1) {

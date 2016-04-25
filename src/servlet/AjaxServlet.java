@@ -87,16 +87,15 @@ public class AjaxServlet extends HttpServlet {
             }
             if (action.equals("searchAnnonce")) {
                 System.out.println("In action " + action);
-                
-                if(request.getParameterValues("etabSelectSearch") != null)
-                {
-                    
-                
-                List<Annonce> listann = annonController.searchAnnonce(action, action, action, action, request.getParameterValues("etabSelectSearch"), null, null, action);
-                request.setAttribute("annonces", listann);
-                forwardTo = "ajax/listAnnonces.jsp";
+
+                if (request.getParameterValues("etabSelectSearch") != null) {
+
+                    List<Annonce> listann = annonController.searchAnnonce(action, action, action, action, request.getParameterValues("etabSelectSearch"), null, null, action);
+                    request.setAttribute("annonces", listann);
+                    forwardTo = "ajax/listAnnonces.jsp";
+                } else {
+                    System.err.println("request.getParameterValues(\"etabSelectSearch\")NULL");
                 }
-                else System.err.println("request.getParameterValues(\"etabSelectSearch\")NULL");
             }
 
             if (action.equals("opt_categ")) {
@@ -123,7 +122,7 @@ public class AjaxServlet extends HttpServlet {
                 request.setAttribute("wrapListPage", annoncePage);
                 forwardTo = "ajax/listAdsPagination.jsp";
             }
-            
+
             if (action.equals("listUtilisateurs")) {
                 //code pour afficher la pagination des annonces
                 System.out.println("In action " + action);
@@ -148,9 +147,8 @@ public class AjaxServlet extends HttpServlet {
 
                 if (action.equals("sendAnnonce")) {
                     //request.getSession(false).setAttribute("danger", "Il y a eu un probleme...");
-
                     forwardTo = "ajax/erreurAnnonce.jsp";
-                    
+
                     if (request.getParameter("idAnnonce") != null
                             && request.getParameter("titre") != null
                             && request.getParameter("description") != null
@@ -167,9 +165,10 @@ public class AjaxServlet extends HttpServlet {
                                 && !request.getParameter("description").isEmpty()
                                 && !request.getParameter("amountAnnonce").isEmpty()
                                 && !request.getParameter("typeAnnonce").isEmpty()) {
-                            
+
                             Utilisateur userAnnonce = userController.getOneLogin(request.getSession(false).getAttribute("email").toString());
-                            Annonce annonce = annonController.getAnnonceById(request.getParameter("idVenteAnnonce"));
+                            Annonce annonce = annonController.getAnnonceById(request.getParameter("idAnnonce"));
+                              
                             if (annonce == null) {
                                 annonce = annonController.creerAnnonce(userAnnonce,
                                         request.getParameter("titre"),
@@ -183,7 +182,7 @@ public class AjaxServlet extends HttpServlet {
                                         request.getParameterValues("etabSelectAnnonce"),
                                         request.getParameter("typeAnnonce")
                                 );
-                            } else if (request.getSession(false).getAttribute("userID").equals(annonce.getProprietaire().getId())) {
+                            } else if (userAnnonce.getId()==annonce.getProprietaire().getId()) {
                                 annonController.majAnnonce(annonce,
                                         request.getParameter("titre"),
                                         request.getParameter("amountAnnonce"),
@@ -198,6 +197,8 @@ public class AjaxServlet extends HttpServlet {
                             }
 
                             if (annonce != null) {
+                                //System.err.println("eq(\"userObject\") " + request.getSession(false).getAttribute("userObject").equals(annonce.getProprietaire()));
+
                                 request.getSession(false).setAttribute("success", "Félicitations ! Ton annonce est en ligne !<br/>Voici à quoi elle ressemble :");
 
                                 forwardTo = "ajax/confirmAnnonce.jsp";

@@ -229,12 +229,12 @@ function reinitFormDemande() {
     sliDemande(undefined, {value: 3000});
 }
 
-$("body").on("click", ".btn.btn-primary.postOtherAnnonce", function () {
+$("body").on("click", ".btn.btn-primary.postOtherVente", function () {
     $(".confirmVenteOverlay").remove();
     $("#idVenteAnnonce").val("-1");
     $("#formVente").show();
     reinitFormVente();
-}).on("click", ".btn.btn-warning.editNewAnnonce", function () {
+}).on("click", ".btn.btn-warning.editVente", function () {
     $(".confirmVenteOverlay").remove();
     $("#formVente").show();
 }).on("click", ".btn.btn-warning.effacerForm-Vente", function () {
@@ -244,9 +244,9 @@ $("body").on("click", ".btn.btn-primary.postOtherAnnonce", function () {
     $("#idDemandeAnnonce").val("-1");
     $("#formDemande").show();
     reinitFormDemande();
-}).on("click", ".btn.btn-warning.editNewAnnonce", function () {
+}).on("click", ".btn.btn-warning.editDemande", function () {
     $(".confirmDemandeOverlay").remove();
-    $("#idDemandeAnnonce").show();
+    $("#formDemande").show();
 }).on("click", ".btn.btn-warning.effacerForm-Demande", function () {
     reinitFormDemande();
 });

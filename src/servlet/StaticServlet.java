@@ -46,8 +46,6 @@ public class StaticServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-
-
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         System.out.println("---->protected void processRequest(HttpServletRequest request, HttpServletResponse response)");
@@ -75,8 +73,8 @@ public class StaticServlet extends HttpServlet {
                     } else if (util.validator.validateEmail(request.getParameter("email"))) {
                         List<Etablissement> etabsNewUser = new ArrayList<Etablissement>();
                         if (request.getParameterValues("registerRegionSelect") != null) {
-                          etabsNewUser =  etabController.getEtablissementsById(request.getParameterValues("registerRegionSelect"));
-                            
+                            etabsNewUser = etabController.getEtablissementsById(request.getParameterValues("registerRegionSelect"));
+
                         }
                         userController.creerUser(
                                 request.getParameter("email"),
@@ -89,8 +87,8 @@ public class StaticServlet extends HttpServlet {
                         );
                         action = "connect";
                     } else {
-                               request.getSession(false).setAttribute("danger", "L'email envoyé à l'inscription ("+request.getParameter("email")+") est invalide");
-                  
+                        request.getSession(false).setAttribute("danger", "L'email envoyé à l'inscription (" + request.getParameter("email") + ") est invalide");
+
                     }
 
                 } else {
@@ -118,6 +116,7 @@ public class StaticServlet extends HttpServlet {
                         session.setAttribute("email", userFound.getLogin());
                         session.setAttribute("success", "Heureux de vous revoir, " + userFound.getPrenom() + " ! <i class=\"fa fa-smile-o\"></i>");
                         session.setAttribute("userID", userFound.getId());
+                        session.setAttribute("userObject", userFound);
 
                     } else {
 
@@ -134,6 +133,7 @@ public class StaticServlet extends HttpServlet {
                 session.setAttribute("nom", null);
                 session.setAttribute("prenom", null);
                 session.setAttribute("email", null);
+                session.setAttribute("userID", null);
                 session.setAttribute("userObject", null);
                 session.invalidate();
             }
