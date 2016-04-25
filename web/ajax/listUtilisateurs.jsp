@@ -14,7 +14,7 @@
 
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-<script src="js/appjvs.js"></script>
+
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <% UserController.UserPage userpage = (UserController.UserPage) request.getAttribute("wrapListPage");%>
@@ -63,6 +63,7 @@
         <thead>
             <tr>
                 <th>#</th>
+                <th>Rôle</th>
                 <th>Nom</th>
                 <th>Prénom</th>
                 <th>Email</th>
@@ -74,6 +75,7 @@
             <c:forEach var="ap" items="${wrapListPage.getResultList()}"> 
                 <tr>
                     <td>${ap.getId()}</td>
+                    <td>${ap.getRole()}</td>
                     <td>${ap.getNom()}</td>
                     <td>${ap.getPrenom()}</td>
                     <td>${ap.getLogin()}</td>

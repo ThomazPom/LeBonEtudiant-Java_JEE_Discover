@@ -23,6 +23,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -174,20 +175,43 @@ public class init {
         System.out.println("-------->public void initUsers()");
         try {
             System.out.println("------->TRY");
+            //On initialise la liste des etudiants
             InputStream is = getClass().getResourceAsStream("etudiantL3.csv");
-            java.util.Scanner s = new java.util.Scanner(is, "UTF-8").useDelimiter("\r\n");
+            Scanner s = new Scanner(is, "UTF-8").useDelimiter("\r\n");
             s.next();                           //On ignore l'entete du CSV
             Random rand = new Random();
             List<Etablissement> allEtab = ec.getEtablissements();
+            Random randEtab = new Random(allEtab.size());
             System.out.println("Taille de la collection Etablissement: " + allEtab.size());
             while (s.hasNext()) {
                 String[] userStrings = s.next().split(";");
                 System.out.println("------->while (s.hasNext())" + userStrings[0]);
                 //0Nom;1Prenom;2Email
                 uc.creerUser(userStrings[2], "pass" + userStrings[1],
-                        userStrings[0], userStrings[1], "USER_ROLE", "0" + rand.nextInt(1000000000), allEtab);
+                        userStrings[0], userStrings[1], "Etudiant", "0" + rand.nextInt(1000000000), Arrays.asList(allEtab.get(randEtab.nextInt(allEtab.size()))));
             }
             s.close();
+            
+            //On initialise la liste des enseignants
+            InputStream isProfs = getClass().getResourceAsStream("Enseignants.csv");
+            Scanner sc = new Scanner(isProfs, "UTF-8").useDelimiter("\r\n");
+            sc.next();                       //On ignore l'entete du CSV
+            
+            List<Etablissement> listEtab = ec.getEtablissements();
+            System.out.println("Taille de la collection Etablissement: " + listEtab.size());
+            while (sc.hasNext()) {
+                String[] enseignantsStrings = sc.next().split(";");
+                System.out.println("------->while (sc.hasNext())" + enseignantsStrings[0]);
+                //les utilisateurs par défaut sont enseignants. A l'exception de deux utilisateurs qui sont secrétaires
+                String role = "Enseigant";
+                if(enseignantsStrings[0].equals("Bloise") || enseignantsStrings[0].equals("Deparis")){
+                    role = "Secrétaire";
+                }
+                //0Nom;1Prenom;2Email;3telephone
+                uc.creerUser(enseignantsStrings[2], "pass" + enseignantsStrings[1],
+                        enseignantsStrings[0], enseignantsStrings[1], role, enseignantsStrings[3], listEtab);
+            }
+            sc.close();
         } catch (Exception e) {
             e.printStackTrace();
         }

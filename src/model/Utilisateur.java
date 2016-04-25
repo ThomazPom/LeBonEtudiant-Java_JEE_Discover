@@ -143,7 +143,7 @@ public String toString()
         this.etabsUser = etabsUser;
     }
     public void addEtabsUser(Etablissement etabUser) {
-        this.etabsUser.add( etabUser);
+        this.etabsUser.add(etabUser);
     }
     public void removeEtabUser(Etablissement etabUser) {
         this.etabsUser.remove(etabUser);
@@ -161,5 +161,19 @@ public String toString()
      */
     public void setNumtel(String numtel) {
         this.numtel = numtel;
+    }
+    
+    /**
+     * @return the role
+     */
+    public String getRole() {
+        return role;
+    }
+
+    /**
+     * @param role the role to set
+     */
+    public void setRole(String role) {
+        this.role = role;
     }
 }
