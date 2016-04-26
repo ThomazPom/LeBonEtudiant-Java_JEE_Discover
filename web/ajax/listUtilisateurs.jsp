@@ -68,7 +68,8 @@
                 <th>Prénom</th>
                 <th>Email</th>
                 <th>Téléphone</th>
-                <th>Université</th>
+                <th>Formation</th>
+                <th>Ville</th>
             </tr>
         </thead>
         <tbody>
@@ -80,7 +81,16 @@
                     <td>${ap.getPrenom()}</td>
                     <td>${ap.getLogin()}</td>
                     <td>${ap.getNumtel()}</td>
-                    <td>${ap.getEtabsUser()}</td>
+                    <td >
+                        <c:forEach var="ae" items="${ap.getEtabsUser()}">
+                            ${ae.getNom()}
+                        </c:forEach>
+                    </td>
+                    <td >
+                        <c:forEach var="ae" items="${ap.getEtabsUser()}">
+                            ${ae.getVille().getLibelle()}
+                        </c:forEach>
+                    </td>
                 </tr>
             </c:forEach>
         </tbody>
