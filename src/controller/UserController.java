@@ -97,7 +97,11 @@ public class UserController {
         return null;
     }
      public List<Utilisateur> getUtilisateursById(List<Long> idUtilisateur) {
+         
         System.out.println("-->>getUtilisateursById()");
+        if (idUtilisateur.size()==0) {
+            return new ArrayList<>();
+        }
         Query q = em.createQuery("SELECT r from Utilisateur r WHERE r.id IN :idUtilisateur");
         q.setParameter("idUtilisateur", idUtilisateur);
         return q.getResultList();

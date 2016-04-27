@@ -49,14 +49,15 @@ public class StaticServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         System.out.println("---->protected void processRequest(HttpServletRequest request, HttpServletResponse response)");
-        String action = request.getParameter("action");
         String forwardTo = "";
         String redirect = "index.jsp";
         String message = "";
 
-        if (action != null) {
+        String action  = (request.getParameter("action")==null)?"":request.getParameter("action");
+        
 
             if (action.equals("registerUser")) {
+
                 if (!"".equals(request.getParameter("email"))
                         && request.getParameter("email") != null
                         && !"".equals(request.getParameter("password"))
@@ -144,8 +145,7 @@ public class StaticServlet extends HttpServlet {
             if (request.getSession(true).getAttribute("userlogged") != null) {
                 //Code secuisé ici;
             }
-        }
-        
+       
         if (!forwardTo.isEmpty()) {
             System.out.println("Forward to " + forwardTo);
             RequestDispatcher dp = request.getRequestDispatcher(forwardTo + "?message=" + message);

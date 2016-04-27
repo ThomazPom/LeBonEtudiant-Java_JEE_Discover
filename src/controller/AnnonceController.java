@@ -132,9 +132,6 @@ public class AnnonceController {
         
         
         q.setParameter("titre", "%"+titre+"%");
-        List<Etablissement> etabselect = (idEtabs.length>0)?ec.getEtablissementsById(idEtabs):new ArrayList<>();
-        List<Categorie> categselsect = (idCategs.length>0)?cc.getCategoriesById(idCategs):new ArrayList<>();
-        List<Region> regionselect = (idRegions.length>0)?rc.getRegionsById(idRegions):new ArrayList<>();
         List<Departement> deptselect = (idDepts.length>0)?dc.getDepartementById(idDepts):new ArrayList<>();
         List<Ville> villeselect = (idVilles.length>0)?vc.getVillesById(idVilles):new ArrayList<>();
         return q.getResultList();

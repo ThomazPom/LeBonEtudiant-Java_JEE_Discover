@@ -51,6 +51,9 @@ EntityManager em;
     }
     public List<Departement> getDepartementById(List<Long> idDept) {
         System.out.println("-->>getDepartementById()");
+        if (idDept.size()==0) {
+            return new ArrayList<>();
+        }
         Query q = em.createQuery("SELECT r from Departement r WHERE r.id IN :idDept");
         q.setParameter("idDept", idDept);
         return q.getResultList();

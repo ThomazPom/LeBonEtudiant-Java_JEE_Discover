@@ -39,6 +39,9 @@ public class EtablissementController {
     }
 
     public List<Etablissement> getEtablissementsById(List<Long> idEtabs) {
+        if (idEtabs.size()==0) {
+            return new ArrayList<>();
+        }
         System.out.println("-->>getEtablissementsById()");
         Query q = em.createQuery("SELECT r from Etablissement r WHERE r.id IN :idEtabs");
         q.setParameter("idEtabs", idEtabs);

@@ -41,7 +41,11 @@ public class CategorieController {
     }
 
     public List<Categorie> getCategoriesById(List<Long> idCateg) {
+       
         System.out.println("-->>getCategoriesById()");
+       if (idCateg.size()==0) {
+            return new ArrayList<>();
+        }
         Query q = em.createQuery("SELECT r from Categorie r WHERE r.id IN :idCateg");
         q.setParameter("idCateg", idCateg);
         return q.getResultList();

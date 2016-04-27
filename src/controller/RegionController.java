@@ -41,8 +41,12 @@ public class RegionController {
         return  null;
     }
  public List<Region> getRegionsById(List<Long> idRegion) {
+   
         System.out.println("-->>getRegionsById()");
-        Query q = em.createQuery("SELECT r from Region r WHERE r.id IN :idRegion");
+     if (idRegion.size()==0) {
+            return new ArrayList<>();
+        }
+     Query q = em.createQuery("SELECT r from Region r WHERE r.id IN :idRegion");
         q.setParameter("idRegion", idRegion);
         return q.getResultList();
     }

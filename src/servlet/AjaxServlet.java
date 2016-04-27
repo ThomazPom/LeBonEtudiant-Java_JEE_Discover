@@ -63,13 +63,12 @@ public class AjaxServlet extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //  UserController.UserPage userPage = new UserController.UserPage(10, 20);
         String forwardTo = "";
         String message = "";
         String redirect = "index.jsp";
         // int i =Integer.parseInt("a500"); //test de l'erreur 500
-        String action = request.getParameter("action");
-        if (action != null) {
+        String action  = (request.getParameter("action")==null)?"":request.getParameter("action");
+        
             if (action.equals("opt_etab")) {
 
                 System.out.println("In action " + action);
@@ -211,7 +210,7 @@ public class AjaxServlet extends HttpServlet {
                                         request.getParameterValues("etabSelectAnnonce"),
                                         request.getParameter("typeAnnonce")
                                 );
-                            } else if (userAnnonce.getId() == annonce.getProprietaire().getId()) {
+                            } else if (userAnnonce.getId().equals(annonce.getProprietaire().getId())) {
                                 annonController.majAnnonce(annonce,
                                         request.getParameter("titre"),
                                         request.getParameter("amountAnnonce"),
@@ -240,7 +239,7 @@ public class AjaxServlet extends HttpServlet {
                 }
 
             }
-        }
+        
 
         if (!forwardTo.isEmpty()) {
             System.out.println("Forward to " + forwardTo);

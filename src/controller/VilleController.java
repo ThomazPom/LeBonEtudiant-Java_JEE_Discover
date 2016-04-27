@@ -45,7 +45,11 @@ EntityManager em;
         return em.createQuery("select v from Ville v").getResultList();
     }
      public List<Ville> getVillesById(List<Long> idVille) {
+         
         System.out.println("-->>getVillesById()");
+        if (idVille.size()==0) {
+            return new ArrayList<>();
+        }
         Query q = em.createQuery("SELECT r from Ville r WHERE r.id IN :idVille");
         q.setParameter("idVille", idVille);
         return q.getResultList();
