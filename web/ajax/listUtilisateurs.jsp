@@ -19,7 +19,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <% UserController.UserPage userpage = (UserController.UserPage) request.getAttribute("wrapListPage");%>
 
-<form name="listAdPagin" method="post" action="AjaxServlet?action=listUtilisateurs">
+<form name="listUserPagin" method="post" action="AjaxServlet?action=listUtilisateurs">
     <div class="input-group" aria-describedby="nbresultaddon"><span class="input-group-addon" id="nbresultaddon">Nombre de résultats à afficher par page :</span>  
         <select class="form-control" name="nbResultPage">
 

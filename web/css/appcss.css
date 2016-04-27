@@ -89,7 +89,7 @@ and open the template in the editor.
     border-bottom: 2px solid black;
     min-height: 280px;
 }
-#mainwrap
+#mainwrap,body
 { background-attachment: fixed;
   background-image: url("../img/whiteploybg.jpg");
 

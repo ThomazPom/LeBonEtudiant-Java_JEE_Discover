@@ -97,7 +97,11 @@ public class StaticServlet extends HttpServlet {
 
             }
             System.out.println(action);
-
+            if(action.equals("listAdsPagination")  || action.equals("listUtilisateurs"))
+            {
+                System.out.println("if(action.equals(\"listAdsPagination\")  || action.....");
+                forwardTo = "suivi.jsp";
+            }
             if (action.equals("connect")) {
                 System.out.println("if (action.equals(\"connect\"))");
 
@@ -141,8 +145,10 @@ public class StaticServlet extends HttpServlet {
                 //Code secuisé ici;
             }
         }
+        
         if (!forwardTo.isEmpty()) {
-            RequestDispatcher dp = request.getRequestDispatcher(forwardTo + "&message=" + message);
+            System.out.println("Forward to " + forwardTo);
+            RequestDispatcher dp = request.getRequestDispatcher(forwardTo + "?message=" + message);
             dp.forward(request, response);
         } else {
             response.sendRedirect(redirect);

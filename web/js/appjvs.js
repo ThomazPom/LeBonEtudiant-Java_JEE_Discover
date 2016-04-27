@@ -1,69 +1,3 @@
-/*var map;
- var pointhashmap = { 
- };
- var o="oldp";
- var n = "newp"
- function initMap() {
- map = new google.maps.Map(document.getElementById('map'), {
- center: {lat: 48.8534100, lng: 2.3488000},
- zoom: 6
- });
- 
- $.ajax({
- type: "POST",
- url: "AjaxServlet?action=lst_etab",
- success: function (data, textStatus, jqXHR) {
- $('<div>').append(jqXHR.responseText).find(".infoEtab").each(function () {
- var idetab = $(this).children(".idEtab").html();
- pointhashmap[idetab] = {};
- pointhashmap[idetab][o]= createPointOnMap(map, $(this).children(".latEtab").html(), $(this).children(".lonEtab").html(), idetab);
- 
- })
- }
- });
- }
- var majmainresults = function () {
- $.ajax({
- type: "POST",
- data:$("#mainwrap").serialize(),
- url: "AjaxServlet",
- success: function (data, textStatus, jqXHR) {
- $('#mainxjspreceiver').html(data);
- var newpointhashmap = {}
- 
- for (var k in pointhashmap) {
- pointhashmap[k][n]=undefined;
- console.log("pointhashmap["+k+"][n]=undefined;")
- }
- $(".infoetab").each(function () {
- 
- var idetab = $(this).children(".idEtab").html();
- console.log('$(".infoetab").each('+ idetab);
- 
- console.log(pointhashmap[idetab] );
- if (pointhashmap[idetab][o])
- {
- console.log('pointhashmap['+idetab+'][o]');
- pointhashmap[idetab][n] = pointhashmap[idetab][o];
- }
- else
- {
- console.log('else pointhashmap['+idetab+'][o]');
- 
- pointhashmap[idetab][n] = createPointOnMap(map, $(this).children(".latEtab").html(), $(this).children(".lonEtab").html(), idetab)
- }
- });
- 
- for (var k in pointhashmap) {
- if (!pointhashmap[k][n] && pointhashmap[k][o])
- {
- pointhashmap[k][o].setMap(null);
- }
- pointhashmap[k][o] = pointhashmap[k][n];
- }
- 
- },
- });*/
 
 var map;
 var pointhashmap = {};
@@ -85,16 +19,6 @@ function initMap() {
         }
     });
 }
-/*
- $("#mainxjspreceiver tr").hover(
- function () {
- $(this).addClass('active');
- },
- function () {
- $(this).removeClass('active');
- }
- );
- */
 
 var majmainresults = function () {
     $.ajax({
@@ -104,12 +28,12 @@ var majmainresults = function () {
         success: function (data, textStatus, jqXHR) {
             $('#mainxjspreceiver').html(data);
             var newpointhashmap = {}
-            
+
             var jqInfoEtabs = $("<div>" + jqXHR.responseText + "</div>").find(".infoetab");
-            
+
             jqInfoEtabs.each(function () {
                 var idetab = $(this).children(".idEtab").html();
-                newpointhashmap[idetab]="point!"
+                newpointhashmap[idetab] = "point!"
             });
 
             for (var k in pointhashmap) {
@@ -119,7 +43,7 @@ var majmainresults = function () {
                 }
                 else
                 {
-                    
+
                     pointhashmap[k].setMap(null);
                 }
             }
@@ -146,7 +70,10 @@ function createPointOnMap(map, latitude, longitude, UAI)
 }
 
 $(document).ready(function () {
-    $('input.datepicker').datepicker($.datepicker.regional[ "fr" ]);
+    if ($("input.datepicker")[0])
+    {
+        $('input.datepicker').datepicker($.datepicker.regional[ "fr" ]);
+    }
     $("#radioGroupSelecTypAnn").buttonset();
 //Code à exécuter apres le chargement de la page
 
@@ -307,7 +234,10 @@ $(document).ready(function () {
                         includeSelectAllOption: true
                     });
         }});
-    initMap();
+    if (document.getElementById('map')) {
+        initMap()
+    }
+    ;
 });
 
 
@@ -366,11 +296,25 @@ var sliDemande = function (event, ui) {
     $("#hidden-amount-annonce-demande").val(ui.value);
 }
 //*****pagination*******//
-$("form[name='listAdPagin']").on('click', ".pagination li", function () {
+$("body").on('click', "form[name='listUserPagin'] .pagination li,form[name='listAdPagin']  .pagination li", function () {
 
     $('input[name="pageCourante"]').val($(this).attr("data"));
-    $("form[name='listAdPagin']").submit();
+    $("form[name='listAdPagin'],form[name='listUserPagin']").submit();
 });
-$("form[name='listAdPagin']").on('change', "select[name='nbResultPage']", function () {
-    $("form[name='listAdPagin']").submit();
+$("body").on('change', "form[name='listUserPagin'] select[name='nbResultPage'],form[name='listAdPagin'] select[name='nbResultPage']", function () {
+    $("form[name='listAdPagin'],form[name='listUserPagin']").submit();
+});
+$("body").on('submit', "form[name='listAdPagin']", function (e) {
+e.preventDefault();    
+ var container = $(this).parent();
+ $.ajax({
+                url: "AjaxServlet",
+                type: 'POST',
+                data: $(this).serialize(),
+                success: function (responseHTML, status, xhr)
+                {
+                  container.html(responseHTML);
+                }
+
+            })
 });
