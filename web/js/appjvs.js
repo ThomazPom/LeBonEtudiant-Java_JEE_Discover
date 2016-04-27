@@ -1,3 +1,70 @@
+/*var map;
+ var pointhashmap = { 
+ };
+ var o="oldp";
+ var n = "newp"
+ function initMap() {
+ map = new google.maps.Map(document.getElementById('map'), {
+ center: {lat: 48.8534100, lng: 2.3488000},
+ zoom: 6
+ });
+ 
+ $.ajax({
+ type: "POST",
+ url: "AjaxServlet?action=lst_etab",
+ success: function (data, textStatus, jqXHR) {
+ $('<div>').append(jqXHR.responseText).find(".infoEtab").each(function () {
+ var idetab = $(this).children(".idEtab").html();
+ pointhashmap[idetab] = {};
+ pointhashmap[idetab][o]= createPointOnMap(map, $(this).children(".latEtab").html(), $(this).children(".lonEtab").html(), idetab);
+ 
+ })
+ }
+ });
+ }
+ var majmainresults = function () {
+ $.ajax({
+ type: "POST",
+ data:$("#mainwrap").serialize(),
+ url: "AjaxServlet",
+ success: function (data, textStatus, jqXHR) {
+ $('#mainxjspreceiver').html(data);
+ var newpointhashmap = {}
+ 
+ for (var k in pointhashmap) {
+ pointhashmap[k][n]=undefined;
+ console.log("pointhashmap["+k+"][n]=undefined;")
+ }
+ $(".infoetab").each(function () {
+ 
+ var idetab = $(this).children(".idEtab").html();
+ console.log('$(".infoetab").each('+ idetab);
+ 
+ console.log(pointhashmap[idetab] );
+ if (pointhashmap[idetab][o])
+ {
+ console.log('pointhashmap['+idetab+'][o]');
+ pointhashmap[idetab][n] = pointhashmap[idetab][o];
+ }
+ else
+ {
+ console.log('else pointhashmap['+idetab+'][o]');
+ 
+ pointhashmap[idetab][n] = createPointOnMap(map, $(this).children(".latEtab").html(), $(this).children(".lonEtab").html(), idetab)
+ }
+ });
+ 
+ for (var k in pointhashmap) {
+ if (!pointhashmap[k][n] && pointhashmap[k][o])
+ {
+ pointhashmap[k][o].setMap(null);
+ }
+ pointhashmap[k][o] = pointhashmap[k][n];
+ }
+ 
+ },
+ });*/
+
 var map;
 var pointhashmap = {};
 function initMap() {
@@ -28,35 +95,34 @@ function initMap() {
  }
  );
  */
+
 var majmainresults = function () {
     $.ajax({
         type: "POST",
-        data:$("#mainwrap").serialize(),
+        data: $("#mainwrap").serialize(),
         url: "AjaxServlet",
         success: function (data, textStatus, jqXHR) {
             $('#mainxjspreceiver').html(data);
             var newpointhashmap = {}
-
-            $(".infoetab").each(function () {
-
+            
+            var jqInfoEtabs = $("<div>" + jqXHR.responseText + "</div>").find(".infoetab");
+            
+            jqInfoEtabs.each(function () {
                 var idetab = $(this).children(".idEtab").html();
-                if (pointhashmap[idetab])
-                {
-                    newpointhashmap[idetab] = pointhashmap[idetab];
-                }
-                else
-                {
-                    newpointhashmap[idetab] = createPointOnMap(map, $(this).children(".latEtab").html(), $(this).children(".lonEtab").html(), idetab)
-                }
+                newpointhashmap[idetab]="point!"
             });
 
             for (var k in pointhashmap) {
-                if (newpointhashmap[k] == undefined)
+                if (newpointhashmap[k])
                 {
+                    pointhashmap[k].setMap(map)
+                }
+                else
+                {
+                    
                     pointhashmap[k].setMap(null);
                 }
             }
-            pointhashmap = newpointhashmap;
 
         },
     });

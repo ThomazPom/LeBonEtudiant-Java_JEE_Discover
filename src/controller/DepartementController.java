@@ -29,7 +29,6 @@ EntityManager em;
         
         q.setParameter("libelle", libelle);
         List<Departement> ql = q.getResultList();
-        System.err.println(libelle+" libelle  QLSIZE "+ql.size());
         if (!ql.isEmpty()) {
             return ql.iterator().next();
         }
