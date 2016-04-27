@@ -80,7 +80,10 @@ public class init {
         uc.creerUser("benoit.silvestro@gmail.com", "passbenoit", "Silvestro", "Benoit", "ADMIN_ROLE", "0678094526", new ArrayList<Etablissement>());
         initEtabRegionDeptVille();
         initCategorie();
-        initUsers();
+        initEtudiantsL3();
+        initProfs();
+        initEtudiantsM1();
+        initEtudiants500();
         initAnnonces();
         System.out.println("init finished");
     }
@@ -172,19 +175,21 @@ public class init {
             e.printStackTrace();
         }
 
-    }
+    } 
 
-    public void initUsers() {
-        System.out.println("-------->public void initUsers()");
+    public void initEtudiantsM1(){
+        System.out.println("-------->public void initEtudiantsM1()");
+        Random rand = new Random();
+        List<Etablissement> allEtab = ec.getEtablissements();
+        Random randEtab = new Random(allEtab.size());
         try {
             System.out.println("------->TRY");
-            //On initialise la liste des etudiants
-            InputStream is = getClass().getResourceAsStream("etudiantL3.csv");
+            
+            //On initialise la liste des etudiants de M1 Miage
+            InputStream is = getClass().getResourceAsStream("etudiantsM1.csv");
             Scanner s = new Scanner(is, "UTF-8").useDelimiter("\r\n");
             s.next();                           //On ignore l'entete du CSV
-            Random rand = new Random();
-            List<Etablissement> allEtab = ec.getEtablissements();
-            Random randEtab = new Random(allEtab.size());
+            
             System.out.println("Taille de la collection Etablissement: " + allEtab.size());
             while (s.hasNext()) {
                 String[] userStrings = s.next().split(";");
@@ -195,12 +200,23 @@ public class init {
             }
             s.close();
             
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public void initProfs(){
+        System.out.println("-------->public void initProfs()");
+        List<Etablissement> listEtab = ec.getEtablissements();
+        Random randEtab = new Random(listEtab.size());
+        
+        try {
+            System.out.println("------->TRY");
+            
             //On initialise la liste des enseignants
             InputStream isProfs = getClass().getResourceAsStream("Enseignants.csv");
             Scanner sc = new Scanner(isProfs, "UTF-8").useDelimiter("\r\n");
             sc.next();                       //On ignore l'entete du CSV
             
-            List<Etablissement> listEtab = ec.getEtablissements();
             System.out.println("Taille de la collection Etablissement: " + listEtab.size());
             while (sc.hasNext()) {
                 String[] enseignantsStrings = sc.next().split(";");
@@ -212,12 +228,68 @@ public class init {
                 }
                 //0Nom;1Prenom;2Email;3telephone
                 uc.creerUser(enseignantsStrings[2], "pass" + enseignantsStrings[1],
-                        enseignantsStrings[0], enseignantsStrings[1], role, enseignantsStrings[3], listEtab);
+                        enseignantsStrings[0], enseignantsStrings[1], role, enseignantsStrings[3], Arrays.asList(listEtab.get(randEtab.nextInt(listEtab.size()))));
             }
             sc.close();
+            
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    public void initEtudiantsL3() {
+        System.out.println("-------->public void initEtudiantsL3()");
+        Random rand = new Random();
+        List<Etablissement> allEtab = ec.getEtablissements();
+        Random randEtab = new Random(allEtab.size());
+        
+        try {
+            System.out.println("------->TRY");
+            //On initialise la liste des etudiants en L3 Miage
+            InputStream is = getClass().getResourceAsStream("etudiantL3.csv");
+            Scanner s = new Scanner(is, "UTF-8").useDelimiter("\r\n");
+            s.next();                           //On ignore l'entete du CSV
+            
+            System.out.println("Taille de la collection Etablissement: " + allEtab.size());
+            while (s.hasNext()) {
+                String[] userStrings = s.next().split(";");
+                System.out.println("------->while (s.hasNext())" + userStrings[0]);
+                //0Nom;1Prenom;2Email
+                uc.creerUser(userStrings[2], "pass" + userStrings[1],
+                        userStrings[0], userStrings[1], "Etudiant", "0" + rand.nextInt(1000000000), Arrays.asList(allEtab.get(randEtab.nextInt(allEtab.size()))));
+            }
+            s.close();
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void initEtudiants500(){
+        System.out.println("-------->public void initEtudiants500()");
+        List<Etablissement> allEtab = ec.getEtablissements();
+        Random randEtab = new Random(allEtab.size());
+        
+        try {
+            System.out.println("-------->TRY");
+            //On initialise la liste de 500 etudiants
+            InputStream is = getClass().getResourceAsStream("data500Etudiants.csv");
+            Scanner s = new Scanner(is, "UTF-8").useDelimiter("\r\n");
+            s.next();                           //On ignore l'entete du CSV
+            
+            System.out.println("Taille de la collection Etablissement: " + allEtab.size());
+            while (s.hasNext()) {
+                String[] userStrings = s.next().split(";");
+                System.out.println("------->while (s.hasNext())" + userStrings[0]);
+                //0Nom;1Prenom;2Email;3telephone
+                uc.creerUser(userStrings[2], "pass" + userStrings[1],
+                        userStrings[0], userStrings[1], "Etudiant", userStrings[3], Arrays.asList(allEtab.get(randEtab.nextInt(allEtab.size()))));
+            }
+            s.close();
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
     }
 
 }
