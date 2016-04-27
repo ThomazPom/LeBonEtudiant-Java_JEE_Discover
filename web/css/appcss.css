@@ -32,7 +32,7 @@ and open the template in the editor.
     width: 33%;
     height: 100%;
 }
-#mainxjspreceiver tr:hover{
+#mainxjspreceiver tr:hover, #paginationcontainer tr:hover{
         background: #ffe6e6;
 }
 .offmenu{
@@ -103,7 +103,7 @@ ul.dropdown-menu>li, #maincontainer .input-group,.modal-body .input-group
     padding: 10px;
 }
 body{
-    padding-top: 50px
+    padding-top: 60px
 }
 html, body
 {

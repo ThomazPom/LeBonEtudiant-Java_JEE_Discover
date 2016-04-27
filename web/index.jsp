@@ -81,7 +81,7 @@
                 </div>
 
             </form>
-            <div id="search"><div id="mainxjspreceiver" class="container"></div></div>
+            <div id="search"><div id="mainxjspreceiver" class="container-fluid"></div></div>
         </div>
     </div>
     <div id="map"></div>
