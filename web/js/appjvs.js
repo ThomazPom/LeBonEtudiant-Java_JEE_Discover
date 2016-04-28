@@ -304,7 +304,7 @@ $("body").on('click', "form[name='listUserPagin'] .pagination li,form[name='list
 $("body").on('change', "form[name='listUserPagin'] select[name='nbResultPage'],form[name='listAdPagin'] select[name='nbResultPage']", function () {
     $("form[name='listAdPagin'],form[name='listUserPagin']").submit();
 });
-$("body").on('submit', "form[name='listAdPagin']", function (e) {
+$("body").on('submit', "form[name='listAdPagin'], form[name='listUserPagin']", function (e) {
 e.preventDefault();    
  var container = $(this).parent();
  $.ajax({

@@ -136,7 +136,7 @@
                         <button type="button" class="btnav btn btn-info" data-toggle = "dropdown"><span class="glyphicon glyphicon-th-list"></span> Listes<span class="caret"></span></button>
                         <ul class = "dropdown-menu">
                             <li><a href = "StaticServlet?action=listAdsPagination">Annonces</a></li>
-                            <li><a href = "suivi.jsp">Membres</a></li>
+                            <li><a href = "StaticServlet?action=listUtilisateurs">Membres</a></li>
 
                         </ul>
                     </li>
