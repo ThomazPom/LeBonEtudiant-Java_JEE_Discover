@@ -59,6 +59,7 @@
                 <th>Date</th>
                 <th>Prix</th>
                 <th>Région</th>
+                <th>Type</th>
             </tr>
         </thead>
         <tbody>
@@ -70,6 +71,7 @@
                     <td>${ap.getDatePublication()}</td>
                     <td>${ap.getPrix()}</td>
                     <td>${ap.getEtablissements().get(0).getVille().getDepartement().getRegion().getLibelle()}</td>
+                    <td>${ap.getType()}</td>
                 </tr>
             </c:forEach>
         </tbody>

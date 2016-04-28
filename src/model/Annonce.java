@@ -238,6 +238,14 @@ public class Annonce {
         return typeVente;
     }
     
+    /**
+     * @return type
+     */
+    public String getType() {
+        if (isTypeVente()) {
+            return "Vente";
+        } else return "Demande";            
+    }
     
 
 }

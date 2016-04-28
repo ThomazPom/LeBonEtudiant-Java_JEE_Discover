@@ -85,6 +85,7 @@ public class init {
         initUsers("etudiantsM1.csv", "Etudiant",Boolean.TRUE,Boolean.FALSE);
         initUsers("Enseignants.csv", "Professeur", Boolean.TRUE, Boolean.TRUE);
         initAnnonces();
+        initDemandes();
         System.out.println("init finished");
     }
 
@@ -176,6 +177,40 @@ public class init {
 
     }
 
+    public void initDemandes() {
+        System.out.println("-------->public void initDemandes()");
+        List<Categorie> listCateg = cc.getCategories();
+        List<Utilisateur> listUser = uc.getUsers();
+        Random randUser = new Random(listUser.size());
+        List<Etablissement> listEtab = ec.getEtablissements();
+        Random rand = new Random(listEtab.size());
+        try {
+            System.out.println("------->TRY");
+            InputStream is = getClass().getResourceAsStream("listeproduits.csv");
+            java.util.Scanner s = new java.util.Scanner(is, "UTF-8").useDelimiter("\r\n");
+            while (s.hasNext()) {
+                String titreAnnonce = s.next();
+                System.out.println("------->while (s.hasNext())" + titreAnnonce);
+
+                ac.creerAnnonce(listUser.get(rand.nextInt(listUser.size())),
+                        titreAnnonce,
+                        rand.nextInt(20000),
+                        "",
+                        "",
+                        "Je cherche  : " + titreAnnonce,
+                        Calendar.getInstance().getTime(),
+                        true,
+                        Arrays.asList(listCateg.get(rand.nextInt(listCateg.size()))),
+                        Arrays.asList(listEtab.get(rand.nextInt(listEtab.size()))),
+                        false
+                );
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+    
     public void initUsers(String filepath, String role, Boolean hasentete,Boolean hasnumber) {
         System.out.println("-------->public void initUsers()" + filepath + " " + role);
 
