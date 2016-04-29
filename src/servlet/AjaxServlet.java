@@ -67,179 +67,182 @@ public class AjaxServlet extends HttpServlet {
         String message = "";
         String redirect = "index.jsp";
         // int i =Integer.parseInt("a500"); //test de l'erreur 500
-        String action  = (request.getParameter("action")==null)?"":request.getParameter("action");
-        
-            if (action.equals("opt_etab")) {
+        String action = (request.getParameter("action") == null) ? "" : request.getParameter("action");
 
-                System.out.println("In action " + action);
-                request.setAttribute("opt_etab", etabController.getEtablissements());
-                forwardTo = "ajax/opt_etab.jsp";
+        if (action.equals("opt_etab")) {
+
+            System.out.println("In action " + action);
+            request.setAttribute("opt_etab", etabController.getEtablissements());
+            forwardTo = "ajax/opt_etab.jsp";
+        }
+        if (action.equals("opt_ville")) {
+
+            System.out.println("In action " + action);
+            request.setAttribute("opt_ville", villeController.getVilles());
+            forwardTo = "ajax/opt_ville.jsp";
+        }
+        if (action.equals("opt_dept")) {
+
+            System.out.println("In action " + action);
+            request.setAttribute("opt_dept", deptController.getDepartements());
+            forwardTo = "ajax/opt_dept.jsp";
+        }
+        if (action.equals("opt_region")) {
+
+            System.out.println("In action " + action);
+            request.setAttribute("opt_region", regionController.getRegions());
+            forwardTo = "ajax/opt_region.jsp";
+        }
+        if (action.equals("lst_etab")) {
+            System.out.println("In action " + action);
+            request.setAttribute("lst_etab", etabController.getEtablissements());
+            forwardTo = "ajax/listEtab.jsp";
+        }
+
+        if (action.equals("listAllAnnonces")) {
+            System.out.println("In action " + action);
+            request.setAttribute("annonces", annonController.getAnnonces());
+            forwardTo = "ajax/listAnnonces.jsp";
+        }
+        if (action.equals("3randAnnonce")) {
+            System.out.println("In action " + action);
+            List<Annonce> listann = annonController.getAnnonces();
+            Random rand = new Random();
+            request.setAttribute("annonces", Arrays.asList(listann.get(rand.nextInt(listann.size())), listann.get(rand.nextInt(listann.size())), listann.get(rand.nextInt(listann.size()))));
+            forwardTo = "ajax/listAnnonces.jsp";
+        }
+        if (action.equals("searchAnnonce")) {
+            System.out.println("In action " + action);
+
+            String[] idEtabs = ((request.getParameter("etabSelectSearch") != null) ? request.getParameterValues("etabSelectSearch") : new String[0]);
+            String[] idCategs = ((request.getParameter("categSelect") != null) ? request.getParameterValues("categSelect") : new String[0]);
+            String[] idRegions = ((request.getParameter("regionSelectSearch") != null) ? request.getParameterValues("regionSelectSearch") : new String[0]);
+            String[] idDepts = ((request.getParameter("deptSelectSearch") != null) ? request.getParameterValues("deptSelectSearch") : new String[0]);
+            String[] idVilles = ((request.getParameter("villeSelectSearch") != null) ? request.getParameterValues("villeSelectSearch") : new String[0]);
+
+           
+
+            List<Annonce> listann = annonController.searchAnnonce(request.getParameter("searchtitre"),
+                    request.getParameter("radioSelecTypAnn")
+                    ,request.getParameter("prixmin-search"), request.getParameter("prixmax-search"), idEtabs, idVilles, idDepts, idRegions, idCategs);
+            request.setAttribute("annonces", listann);
+
+            forwardTo = "ajax/listAnnonces.jsp";
+        }
+
+        if (action.equals("opt_categ")) {
+            System.out.println("In action " + action);
+            request.setAttribute("opt_categ", categController.getCategories());
+            forwardTo = "ajax/opt_categ.jsp";
+        }
+
+        if (action.equals("listAdsPagination")) {
+            //code pour afficher la pagination des annonces
+            System.out.println("In action " + action);
+            int nbResultPage = 10;
+            int pageCourante = 0;
+
+            try {
+                nbResultPage = Integer.parseInt(request.getParameter("nbResultPage"));
+                pageCourante = Integer.parseInt(request.getParameter("pageCourante"));
+            } catch (Exception e) {
+                System.out.println("nbresultpage or pagecourante : NaN");
             }
-            if (action.equals("opt_ville")) {
+            AnnonceController.AnnoncePage annoncePage = new AnnonceController.AnnoncePage(nbResultPage, pageCourante);
+            annonController.getOnePageAds(annoncePage);
 
-                System.out.println("In action " + action);
-                request.setAttribute("opt_ville", villeController.getVilles());
-                forwardTo = "ajax/opt_ville.jsp";
+            request.setAttribute("wrapListPage", annoncePage);
+            forwardTo = "ajax/listAdsPagination.jsp";
+        }
+
+        if (action.equals("listUtilisateurs")) {
+            //code pour afficher la pagination des annonces
+            System.out.println("In action " + action);
+            int nbResultPage = 10;
+            int pageCourante = 0;
+
+            try {
+                nbResultPage = Integer.parseInt(request.getParameter("nbResultPage"));
+                pageCourante = Integer.parseInt(request.getParameter("pageCourante"));
+            } catch (Exception e) {
+                System.out.println("nbresultpage or pagecourante : NaN");
             }
-            if (action.equals("opt_dept")) {
+            UserController.UserPage userPage = new UserController.UserPage(nbResultPage, pageCourante);
+            userController.getOnePageUser(userPage);
 
-                System.out.println("In action " + action);
-                request.setAttribute("opt_dept", deptController.getDepartements());
-                forwardTo = "ajax/opt_dept.jsp";
-            }
-            if (action.equals("opt_region")) {
+            request.setAttribute("wrapListPage", userPage);
+            forwardTo = "ajax/listUtilisateurs.jsp";
+        }
 
-                System.out.println("In action " + action);
-                request.setAttribute("opt_region", regionController.getRegions());
-                forwardTo = "ajax/opt_region.jsp";
-            }
-            if (action.equals("lst_etab")) {
-                System.out.println("In action " + action);
-                request.setAttribute("lst_etab", etabController.getEtablissements());
-                forwardTo = "ajax/listEtab.jsp";
-            }
+        if (request.getSession(true).getAttribute("userlogged") != null) {
+            //Code securisé ici;
 
-            if (action.equals("listAllAnnonces")) {
-                System.out.println("In action " + action);
-                request.setAttribute("annonces", annonController.getAnnonces());
-                forwardTo = "ajax/listAnnonces.jsp";
-            }
-            if (action.equals("3randAnnonce")) {
-                System.out.println("In action " + action);
-                List<Annonce> listann = annonController.getAnnonces();
-                Random rand = new Random();
-                request.setAttribute("annonces", Arrays.asList(listann.get(rand.nextInt(listann.size())), listann.get(rand.nextInt(listann.size())), listann.get(rand.nextInt(listann.size()))));
-                forwardTo = "ajax/listAnnonces.jsp";
-            }
-            if (action.equals("searchAnnonce")) {
-                System.out.println("In action " + action);
-                    
-                     String[] idEtabs = ((request.getParameter("etabSelectSearch")!=null) ? request.getParameterValues("etabSelectSearch"):new String[0]);
-                     String[] idCategs = ((request.getParameter("categSelect")!=null) ? request.getParameterValues("categSelect"):new String[0]);
-                     String[] idRegions = ((request.getParameter("regionSelectSearch")!=null) ? request.getParameterValues("regionSelectSearch"):new String[0]);
-                     String[] idDepts = ((request.getParameter("deptSelectSearch")!=null) ? request.getParameterValues("deptSelectSearch"):new String[0]);
-                     String[] idVilles = ((request.getParameter("villeSelectSearch")!=null) ? request.getParameterValues("villeSelectSearch"):new String[0]);
-                    List<Annonce> listann = annonController.searchAnnonce(request.getParameter("searchtitre"), action, action, action, idEtabs, idVilles, idDepts, idRegions, idCategs);
-                    request.setAttribute("annonces", listann);
-                
-                
-                    forwardTo = "ajax/listAnnonces.jsp";
-            }
+            if (action.equals("sendAnnonce")) {
+                //request.getSession(false).setAttribute("danger", "Il y a eu un probleme...");
+                forwardTo = "ajax/erreurAnnonce.jsp";
 
-            if (action.equals("opt_categ")) {
-                System.out.println("In action " + action);
-                request.setAttribute("opt_categ", categController.getCategories());
-                forwardTo = "ajax/opt_categ.jsp";
-            }
+                if (request.getParameter("idAnnonce") != null
+                        && request.getParameter("titre") != null
+                        && request.getParameter("description") != null
+                        && request.getParameter("telephone") != null
+                        && request.getParameter("email") != null
+                        && request.getParameter("date-fin") != null
+                        && request.getParameterValues("etabSelectAnnonce") != null
+                        && request.getParameter("amountAnnonce") != null
+                        && request.getParameterValues("typeAnnonce") != null) {
 
-            if (action.equals("listAdsPagination")) {
-                //code pour afficher la pagination des annonces
-                System.out.println("In action " + action);
-                int nbResultPage = 10;
-                int pageCourante = 0;
+                    if (request.getParameterValues("etabSelectAnnonce").length > 0
+                            && request.getParameterValues("categSelect-annonce").length > 0
+                            && !request.getParameter("titre").isEmpty()
+                            && !request.getParameter("description").isEmpty()
+                            && !request.getParameter("amountAnnonce").isEmpty()
+                            && !request.getParameter("typeAnnonce").isEmpty()) {
 
-                try {
-                    nbResultPage = Integer.parseInt(request.getParameter("nbResultPage"));
-                    pageCourante = Integer.parseInt(request.getParameter("pageCourante"));
-                } catch (Exception e) {
-                    System.out.println("nbresultpage or pagecourante : NaN");
-                }
-                AnnonceController.AnnoncePage annoncePage = new AnnonceController.AnnoncePage(nbResultPage, pageCourante);
-                annonController.getOnePageAds(annoncePage);
+                        Utilisateur userAnnonce = userController.getOneLogin(request.getSession(false).getAttribute("email").toString());
+                        Annonce annonce = annonController.getAnnonceById(request.getParameter("idAnnonce"));
 
-                request.setAttribute("wrapListPage", annoncePage);
-                forwardTo = "ajax/listAdsPagination.jsp";
-            }
-
-            if (action.equals("listUtilisateurs")) {
-                //code pour afficher la pagination des annonces
-                System.out.println("In action " + action);
-                int nbResultPage = 10;
-                int pageCourante = 0;
-
-                try {
-                    nbResultPage = Integer.parseInt(request.getParameter("nbResultPage"));
-                    pageCourante = Integer.parseInt(request.getParameter("pageCourante"));
-                } catch (Exception e) {
-                    System.out.println("nbresultpage or pagecourante : NaN");
-                }
-                UserController.UserPage userPage = new UserController.UserPage(nbResultPage, pageCourante);
-                userController.getOnePageUser(userPage);
-
-                request.setAttribute("wrapListPage", userPage);
-                forwardTo = "ajax/listUtilisateurs.jsp";
-            }
-
-            if (request.getSession(true).getAttribute("userlogged") != null) {
-                //Code securisé ici;
-
-                if (action.equals("sendAnnonce")) {
-                    //request.getSession(false).setAttribute("danger", "Il y a eu un probleme...");
-                    forwardTo = "ajax/erreurAnnonce.jsp";
-
-                    if (request.getParameter("idAnnonce") != null
-                            && request.getParameter("titre") != null
-                            && request.getParameter("description") != null
-                            && request.getParameter("telephone") != null
-                            && request.getParameter("email") != null
-                            && request.getParameter("date-fin") != null
-                            && request.getParameterValues("etabSelectAnnonce") != null
-                            && request.getParameter("amountAnnonce") != null
-                            && request.getParameterValues("typeAnnonce") != null) {
-
-                        if (request.getParameterValues("etabSelectAnnonce").length > 0
-                                && request.getParameterValues("categSelect-annonce").length > 0
-                                && !request.getParameter("titre").isEmpty()
-                                && !request.getParameter("description").isEmpty()
-                                && !request.getParameter("amountAnnonce").isEmpty()
-                                && !request.getParameter("typeAnnonce").isEmpty()) {
-
-                            Utilisateur userAnnonce = userController.getOneLogin(request.getSession(false).getAttribute("email").toString());
-                            Annonce annonce = annonController.getAnnonceById(request.getParameter("idAnnonce"));
-
-                            if (annonce == null) {
-                                annonce = annonController.creerAnnonce(userAnnonce,
-                                        request.getParameter("titre"),
-                                        request.getParameter("amountAnnonce"),
-                                        request.getParameter("telephone"),
-                                        request.getParameter("email"),
-                                        request.getParameter("description"),
-                                        request.getParameter("date-fin"),
-                                        true,
-                                        request.getParameterValues("categSelect-annonce"),
-                                        request.getParameterValues("etabSelectAnnonce"),
-                                        request.getParameter("typeAnnonce")
-                                );
-                            } else if (userAnnonce.getId().equals(annonce.getProprietaire().getId())) {
-                                annonController.majAnnonce(annonce,
-                                        request.getParameter("titre"),
-                                        request.getParameter("amountAnnonce"),
-                                        request.getParameter("telephone"),
-                                        request.getParameter("email"),
-                                        request.getParameter("description"),
-                                        request.getParameter("date-fin"),
-                                        true,
-                                        request.getParameterValues("categSelect-annonce"),
-                                        request.getParameterValues("etabSelectAnnonce")
-                                );
-                            }
-
-                            if (annonce != null) {
-                                //System.err.println("eq(\"userObject\") " + request.getSession(false).getAttribute("userObject").equals(annonce.getProprietaire()));
-
-                                request.getSession(false).setAttribute("success", "Félicitations ! Ton annonce est en ligne !<br/>Voici à quoi elle ressemble :");
-
-                                forwardTo = "ajax/confirmAnnonce.jsp";
-                                request.setAttribute("annonce", annonce);
-
-                            }
+                        if (annonce == null) {
+                            annonce = annonController.creerAnnonce(userAnnonce,
+                                    request.getParameter("titre"),
+                                    request.getParameter("amountAnnonce"),
+                                    request.getParameter("telephone"),
+                                    request.getParameter("email"),
+                                    request.getParameter("description"),
+                                    request.getParameter("date-fin"),
+                                    true,
+                                    request.getParameterValues("categSelect-annonce"),
+                                    request.getParameterValues("etabSelectAnnonce"),
+                                    request.getParameter("typeAnnonce")
+                            );
+                        } else if (userAnnonce.getId().equals(annonce.getProprietaire().getId())) {
+                            annonController.majAnnonce(annonce,
+                                    request.getParameter("titre"),
+                                    request.getParameter("amountAnnonce"),
+                                    request.getParameter("telephone"),
+                                    request.getParameter("email"),
+                                    request.getParameter("description"),
+                                    request.getParameter("date-fin"),
+                                    true,
+                                    request.getParameterValues("categSelect-annonce"),
+                                    request.getParameterValues("etabSelectAnnonce")
+                            );
                         }
 
-                    }
-                }
+                        if (annonce != null) {
+                            //System.err.println("eq(\"userObject\") " + request.getSession(false).getAttribute("userObject").equals(annonce.getProprietaire()));
 
+                            request.getSession(false).setAttribute("success", "Félicitations ! Ton annonce est en ligne !<br/>Voici à quoi elle ressemble :");
+
+                            forwardTo = "ajax/confirmAnnonce.jsp";
+                            request.setAttribute("annonce", annonce);
+
+                        }
+                    }
+
+                }
             }
-        
+
+        }
 
         if (!forwardTo.isEmpty()) {
             System.out.println("Forward to " + forwardTo);

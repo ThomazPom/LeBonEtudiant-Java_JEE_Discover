@@ -6,7 +6,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
-<h3>Résultats de la recherche :</h3>
+<h3 style="color:#cc0000;text-align: center">${annonces.size()} résultats de la recherche</h3>
 <table class="table">
     <thead>
         <tr>

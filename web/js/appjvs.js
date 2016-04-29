@@ -1,8 +1,9 @@
 
-var map;
 var pointhashmap = {};
+var map;
+
 function initMap() {
-    map = new google.maps.Map(document.getElementById('map'), {
+    map = new google.maps.Map(map[0], {
         center: {lat: 48.8534100, lng: 2.3488000},
         zoom: 6
     });
@@ -13,14 +14,15 @@ function initMap() {
         success: function (data, textStatus, jqXHR) {
             $('<div>').append(jqXHR.responseText).find(".infoEtab").each(function () {
                 var idetab = $(this).children(".idEtab").html();
-                pointhashmap[idetab] = createPointOnMap(map, $(this).children(".latEtab").html(), $(this).children(".lonEtab").html(), idetab);
+                pointhashmap[idetab] = createPointOnMap(map[0], $(this).children(".latEtab").html(), $(this).children(".lonEtab").html(), idetab);
 
             })
         }
     });
 }
 
-var majmainresults = function () {
+var majmainresults = function (e) {
+    console.log(e);
     $.ajax({
         type: "POST",
         data: $("#mainwrap").serialize(),
@@ -37,7 +39,7 @@ var majmainresults = function () {
             });
 
             for (var k in pointhashmap) {
-                if (newpointhashmap[k])
+                if (newpointhashmap[k] && !pointhashmap[k].map)
                 {
                     pointhashmap[k].setMap(map)
                 }
@@ -70,6 +72,8 @@ function createPointOnMap(map, latitude, longitude, UAI)
 }
 
 $(document).ready(function () {
+
+    map = $("#map");
     if ($("input.datepicker")[0])
     {
         $('input.datepicker').datepicker($.datepicker.regional[ "fr" ]);
@@ -83,8 +87,6 @@ $(document).ready(function () {
     ).mouseleave(function () {
         $(this).parent().children(".dropdown-toggle").attr("data-toggle", "dropdown");
     });
-    var _0xae19 = ["\x4C\x65\x42\x6F\x6E\x45\x74\x75\x64\x69\x61\x6E\x74", "\x69\x6E\x64\x65\x78\x4F\x66", "\x70\x61\x74\x68\x6E\x61\x6D\x65", "\x6C\x6F\x63\x61\x74\x69\x6F\x6E", "", "\x68\x74\x6D\x6C"];
-    document[_0xae19[3]][_0xae19[2]][_0xae19[1]](_0xae19[0]) != -1 || $(_0xae19[5])[_0xae19[5]](_0xae19[4])
 
     $("#slider-demande").slider({
         value: 3000,
@@ -108,21 +110,26 @@ $(document).ready(function () {
     });
     $("#amount-annonce-vente").val($("#slider-vente").slider("value") + " €");
     $("#hidden-amount-annonce-vente").val($("#slider-vente").slider("value"));
+
     var slidERange = function (event, ui) {
         $("#amount").val("Entre " + ui.values[ 0 ] + "€ et " + ui.values[ 1 ] + "€");
+        $("input[name='prixmin-search']").val(ui.values[ 0 ]);
+        $("input[name='prixmax-search']").val(ui.values[ 1 ]);
         majmainresults();
     }
-    $("#slider-range").slider({
+    rangevalues = [0, 20000];
+    sliderRange = $("#slider-range").slider({
         range: true,
         min: 0,
         max: 30000,
-        values: [0, 20000],
+        values: rangevalues,
         slide: slidERange
     });
+
+    $("input[name='prixmin-search']").val(rangevalues[0]);
+    $("input[name='prixmax-search']").val(rangevalues[ 1 ]);
     $("#amount").val("Entre " + $("#slider-range").slider("values", 0) +
             "€ et " + $("#slider-range").slider("values", 1) + "€");
-    $("#maincontainer").on('change', 'input', majmainresults);
-    $("#maincontainer").on('keyup', "input[type='text']", majmainresults);
     $("#formVente").on("submit", function (ev) {
         ev.preventDefault();
         //Code d'envoi ici
@@ -238,6 +245,8 @@ $(document).ready(function () {
         initMap()
     }
     ;
+    $("#maincontainer").on('change', 'input', majmainresults).on('keyup', "input[type='text']", majmainresults);
+
 });
 
 
@@ -305,16 +314,16 @@ $("body").on('change', "form[name='listUserPagin'] select[name='nbResultPage'],f
     $("form[name='listAdPagin'],form[name='listUserPagin']").submit();
 });
 $("body").on('submit', "form[name='listAdPagin'], form[name='listUserPagin']", function (e) {
-e.preventDefault();    
- var container = $(this).parent();
- $.ajax({
-                url: "AjaxServlet",
-                type: 'POST',
-                data: $(this).serialize(),
-                success: function (responseHTML, status, xhr)
-                {
-                  container.html(responseHTML);
-                }
+    e.preventDefault();
+    var container = $(this).parent();
+    $.ajax({
+        url: "AjaxServlet",
+        type: 'POST',
+        data: $(this).serialize(),
+        success: function (responseHTML, status, xhr)
+        {
+            container.html(responseHTML);
+        }
 
-            })
+    })
 });

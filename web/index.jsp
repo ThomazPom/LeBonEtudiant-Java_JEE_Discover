@@ -63,6 +63,8 @@
                                         </div></span>
                                 <td style="padding-left: 50px">
                                     <div id="slider-range" class="sliderform"></div>
+                                    <input  readonly type="text" name="prixmin-search"/>
+                                    <input  readonly type="text" name="prixmax-search"/>
                                 </td>
                             </tr>
                         </table>
@@ -74,9 +76,9 @@
                     </div>
                     <div class="input-group" id="radioGroupSelecTypAnn" style="z-index: 100">
                         <span class="input-group-addon" id="basic-addon1" >Afficher :</span>
-                        <input type="radio" id="radioSelecTypAnnVente" name="radioSelecTypAnn"><label for="radioSelecTypAnnVente">Les ventes</label>
-                        <input type="radio" id="radioSelecTypAnnAll" name="radioSelecTypAnn" checked="checked"><label for="radioSelecTypAnnAll">Tous</label>
-                        <input type="radio" id="radioSelecTypAnnDemande" name="radioSelecTypAnn"><label for="radioSelecTypAnnDemande">Les demandes</label>
+                        <input type="radio" id="radioSelecTypAnnVente" value="vente" name="radioSelecTypAnn"><label for="radioSelecTypAnnVente">Les ventes</label>
+                        <input type="radio" id="radioSelecTypAnnAll" value="all" name="radioSelecTypAnn" checked="checked"><label for="radioSelecTypAnnAll">Tous</label>
+                        <input type="radio" id="radioSelecTypAnnDemande" value="demande" name="radioSelecTypAnn"><label for="radioSelecTypAnnDemande">Les demandes</label>
                     </div>
                 </div>
 

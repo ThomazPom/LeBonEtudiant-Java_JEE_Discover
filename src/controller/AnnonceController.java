@@ -117,21 +117,38 @@ public class AnnonceController {
         em.persist(a);
         return a;
     }
-    List allowedTypes = Arrays.asList("vente","tous","demande" );
+    List allowedTypes = Arrays.asList("vente","demande" );
 
     public List<Annonce> searchAnnonce(String titre, String type, String prixMin, String prixMax, String[] idEtabs, String[] idVilles, String[] idDepts, String[] idRegions,String[] idCategs) {
         int prixmin = 0;
         int prixmax = 20000;
+        
         try {
             prixmin = Integer.parseInt(prixMin);
             prixmax = Integer.parseInt(prixMax);
         } catch (Exception e) {
             System.err.println(prixMin + " or " + prixMax + " is not a valid price");
         }
-        Query q = em.createQuery("Select a from Annonce a where lower(a.Titre) like lower(:titre)");
         
+        StringBuilder queryString = new StringBuilder();
+        
+        queryString.append("Select a from Annonce a where lower(a.Titre) like lower(:titre) AND a.prix BETWEEN :prixmin AND :prixmax");
+        
+        
+        if(allowedTypes.contains(type))
+        {
+            queryString.append(" AND a.typeVente = :typeVente");
+        }
+        
+        Query q = em.createQuery(queryString.toString());
         
         q.setParameter("titre", "%"+titre+"%");
+        q.setParameter("prixmin", prixmin);
+        q.setParameter("prixmax", prixmax);
+        if(allowedTypes.contains(type))
+        {
+        q.setParameter("typeVente", allowedTypes.get(0).equals(type));
+        }
         List<Departement> deptselect = (idDepts.length>0)?dc.getDepartementById(idDepts):new ArrayList<>();
         List<Ville> villeselect = (idVilles.length>0)?vc.getVillesById(idVilles):new ArrayList<>();
         return q.getResultList();
