@@ -10,23 +10,23 @@
 <table class="table">
     <thead>
         <tr>
-            <th>#</th>
+            <th class="nosmall">#</th>
             <th>Titre</th>
             <th>Vendeur</th>
-            <th>Date</th>
+            <th class="nosmall">Date</th>
             <th>Prix</th>
-            <th>Région</th>
+            <th class="nosmall">Région</th>
         </tr>
     </thead>
     <tbody>
         <c:forEach var="a" items="${annonces}"> 
             <tr>
-                <td>${a.getId()}</td>
+                <td class="nosmall">${a.getId()}</td>
                 <td>${a.getTitre()}</td>
                 <td>${a.getProprietaire().getPrenom()}&#160;${a.getProprietaire().getNom()}</td>
-                <td>${a.getDatePublication()}</td>
+                <td class="nosmall">${a.getDatePublication()}</td>
                 <td>${a.getPrix()}</td>
-                <td>${a.getEtablissements().get(0).getVille().getDepartement().getRegion().getLibelle()}</td>
+                <td class="nosmall">${a.getEtablissements().get(0).getVille().getDepartement().getRegion().getLibelle()}</td>
                 <td class="hidden infoetabs">
                         <c:forEach var="ae" items="${a.getEtablissements()}"> 
                     <ul class="infoetab">

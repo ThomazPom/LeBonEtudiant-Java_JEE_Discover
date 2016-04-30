@@ -14,8 +14,11 @@ function initMap() {
         success: function (data, textStatus, jqXHR) {
             $('<div>').append(jqXHR.responseText).find(".infoEtab").each(function () {
                 var idetab = $(this).children(".idEtab").html();
-                pointhashmap[idetab] = createPointOnMap(map[0], $(this).children(".latEtab").html(), $(this).children(".lonEtab").html(), idetab);
 
+                if (!pointhashmap[idetab])
+                {
+                    pointhashmap[idetab] = createPointOnMap(map, $(this).children(".latEtab").html(), $(this).children(".lonEtab").html(), idetab, $(this).children(".nomEtab").html());
+                }
             })
         }
     });
@@ -58,25 +61,57 @@ var timer;
 
 var majmainresults = function (e) {
 
-        clearTimeout(timer);
-        timer = setTimeout(refreshAjax, 150);
-    
+    clearTimeout(timer);
+    timer = setTimeout(refreshAjax, 150);
+
 
 }
 
-function createPointOnMap(map, latitude, longitude, UAI)
+$("body").on('submit', "form[name='infowindowsearch']", function (e) {
+    e.preventDefault();
+    var container = $(this).children(".infowindowResult");
+    $.ajax({
+        url: "AjaxServlet",
+        type: 'POST',
+        data: $(this).serialize(),
+        success: function (responseHTML, status, xhr)
+        {
+            container.html(responseHTML);
+        }
+
+    })
+});
+submitMiniSearch = function ()
+{
+    $(this).parent().parent().submit();
+}
+
+var image = 'img/Immeuble_small.png';
+var openWindow = undefined;
+function createPointOnMap(paramap, latitude, longitude, UAI, nom)
 {
     //console.log(latitude + " " + longitude + " " + UAI);
-    var xsltReceiver = document.createElement("div");
+    var xsltReceiver = $("#infoWindOrigin").clone();
+    xsltReceiver.attr('id', "")
+            .prepend("<h4>" + nom + "<h4>")
+            .children("input[name='etabSelectSearch']").val(UAI);
+
+    xsltReceiver.find("input[name='searchtitre']").keyup(submitMiniSearch);
+
     var infowindow = new google.maps.InfoWindow({
-        content: xsltReceiver
+        content: xsltReceiver[0]
     });
     var marker = new google.maps.Marker({
         position: {lat: parseFloat(latitude), lng: parseFloat(longitude)},
-        map: map
+        map: paramap,
+        icon: image,
+        title:nom
     });
     marker.addListener('click', function () {
-        infowindow.open(map, marker);
+        if(openWindow)openWindow.close();
+        openWindow=infowindow;
+        infowindow.open(paramap, marker);
+        xsltReceiver.submit();
     });
     return marker;
 }

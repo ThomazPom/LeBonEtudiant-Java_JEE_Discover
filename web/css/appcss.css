@@ -10,6 +10,18 @@ and open the template in the editor.
 span.ui-slider-handle{
     height: 30px!important;
 }
+
+form.mapInfoWindowContent {
+    height: 280px;
+    width: 470px;
+    overflow-x: hidden;
+    
+}
+div.infowindowResult .nosmall
+{
+    display: none;
+}
+
 .datepicker{
     width: 100%;
     height: 34px;
@@ -201,6 +213,10 @@ html, body
     height:80vh;
     width: 100vw;
     top: 0px;
+}
+#infoWindOrigin
+{
+    display: none;
 }
 #map:hover{
 
