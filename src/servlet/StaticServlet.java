@@ -5,15 +5,15 @@
  */
 package servlet;
 
+import controller.CategorieController;
+import controller.DepartementController;
 import controller.EtablissementController;
+import controller.RegionController;
 import controller.UserController;
+import controller.VilleController;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -36,6 +36,14 @@ public class StaticServlet extends HttpServlet {
     private UserController userController;
     @EJB
     private EtablissementController etabController;
+    @EJB
+    private CategorieController categController;
+    @EJB
+    private VilleController villeController;
+    @EJB
+    private RegionController regionController;
+    @EJB
+    private DepartementController deptController;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -50,103 +58,111 @@ public class StaticServlet extends HttpServlet {
             throws ServletException, IOException {
         System.out.println("---->protected void processRequest(HttpServletRequest request, HttpServletResponse response)");
         String forwardTo = "";
-        String redirect = "index.jsp";
+        String redirect = ".";
         String message = "";
 
-        String action  = (request.getParameter("action")==null)?"":request.getParameter("action");
-        
+        String action = (request.getParameter("action") == null) ? "entry" : request.getParameter("action");
 
-            if (action.equals("registerUser")) {
+        if (action.equals("entry")) {
+            request.setAttribute("opt_etab", etabController.getEtablissements());
+            request.setAttribute("opt_ville", villeController.getVilles());
+            request.setAttribute("opt_dept", deptController.getDepartements());
+            request.setAttribute("opt_region", regionController.getRegions());
+            request.setAttribute("opt_categ", categController.getCategories());
+            forwardTo = "entry.jsp";
+        }
 
-                if (!"".equals(request.getParameter("email"))
-                        && request.getParameter("email") != null
-                        && !"".equals(request.getParameter("password"))
-                        && request.getParameter("password") != null
-                        && !"".equals(request.getParameter("nom"))
-                        && request.getParameter("nom") != null
-                        && !"".equals(request.getParameter("prenom"))
-                        && request.getParameter("prenom") != null
-                        && !"".equals(request.getParameter("telephonne"))
-                        && request.getParameter("telephonne") != null) {
+        if (action.equals("registerUser")) {
 
-                    if (userController.getOneLogin(request.getParameter("email")) != null) {
-                        request.getSession(false).setAttribute("danger", "Impossible d'enregistrer ce compte, car cet email est déja inscrit");
-                    } else if (util.validator.validateEmail(request.getParameter("email"))) {
-                        List<Etablissement> etabsNewUser = new ArrayList<Etablissement>();
-                        if (request.getParameterValues("registerRegionSelect") != null) {
-                            etabsNewUser = etabController.getEtablissementsById(request.getParameterValues("registerRegionSelect"));
+            if (!"".equals(request.getParameter("email"))
+                    && request.getParameter("email") != null
+                    && !"".equals(request.getParameter("password"))
+                    && request.getParameter("password") != null
+                    && !"".equals(request.getParameter("nom"))
+                    && request.getParameter("nom") != null
+                    && !"".equals(request.getParameter("prenom"))
+                    && request.getParameter("prenom") != null
+                    && !"".equals(request.getParameter("telephonne"))
+                    && request.getParameter("telephonne") != null) {
 
-                        }
-                        userController.creerUser(
-                                request.getParameter("email"),
-                                request.getParameter("password"),
-                                request.getParameter("nom"),
-                                request.getParameter("prenom"),
-                                "ROLEUSER",
-                                request.getParameter("telephonne"),
-                                etabsNewUser
-                        );
-                        action = "connect";
-                    } else {
-                        request.getSession(false).setAttribute("danger", "L'email envoyé à l'inscription (" + request.getParameter("email") + ") est invalide");
+                if (userController.getOneLogin(request.getParameter("email")) != null) {
+                    request.getSession(false).setAttribute("danger", "Impossible d'enregistrer ce compte, car cet email est déja inscrit");
+                } else if (util.validator.validateEmail(request.getParameter("email"))) {
+                    List<Etablissement> etabsNewUser = new ArrayList<Etablissement>();
+                    if (request.getParameterValues("registerRegionSelect") != null) {
+                        etabsNewUser = etabController.getEtablissementsById(request.getParameterValues("registerRegionSelect"));
 
                     }
+                    userController.creerUser(
+                            request.getParameter("email"),
+                            request.getParameter("password"),
+                            request.getParameter("nom"),
+                            request.getParameter("prenom"),
+                            "ROLEUSER",
+                            request.getParameter("telephonne"),
+                            etabsNewUser
+                    );
+                    action = "connect";
+                } else {
+                    request.getSession(false).setAttribute("danger", "L'email envoyé à l'inscription (" + request.getParameter("email") + ") est invalide");
+
+                }
+
+            } else {
+                request.getSession(false).setAttribute("warning", "Les champs obligatoires d'inscription n'ont pas été correctement remplis");
+            }
+
+        }
+        System.out.println(action);
+        if (action.equals("listAdsPagination") || action.equals("listUtilisateurs")) {
+            System.out.println("if(action.equals(\"listAdsPagination\")  || action.....");
+            forwardTo = "suivi.jsp";
+        }
+        if (action.equals("connect")) {
+            System.out.println("if (action.equals(\"connect\"))");
+
+            if (!"".equals(request.getParameter("email"))
+                    && request.getParameter("email") != null
+                    && !"".equals(request.getParameter("password"))
+                    && request.getParameter("password") != null) {
+
+                Utilisateur userFound = userController.getOneConnect(request.getParameter("email"), request.getParameter("password"));
+
+                if (userFound != null) {
+                    HttpSession session = request.getSession(true);
+                    session.setAttribute("userlogged", userFound.getPrenom() + " " + userFound.getNom());
+                    session.setAttribute("nom", userFound.getNom());
+                    session.setAttribute("prenom", userFound.getPrenom());
+                    session.setAttribute("email", userFound.getLogin());
+                    session.setAttribute("success", "Heureux de vous revoir, " + userFound.getPrenom() + " ! <i class=\"fa fa-smile-o\"></i>");
+                    session.setAttribute("userID", userFound.getId());
+                    session.setAttribute("userObject", userFound);
 
                 } else {
-                    request.getSession(false).setAttribute("warning", "Les champs obligatoires d'inscription n'ont pas été correctement remplis");
+
+                    HttpSession session = request.getSession(false);
+                    session.setAttribute("danger", "Impossible de se connecter : L'email ou le mot de passe est incorrect");
+
                 }
-
             }
-            System.out.println(action);
-            if(action.equals("listAdsPagination")  || action.equals("listUtilisateurs"))
-            {
-                System.out.println("if(action.equals(\"listAdsPagination\")  || action.....");
-                forwardTo = "suivi.jsp";
-            }
-            if (action.equals("connect")) {
-                System.out.println("if (action.equals(\"connect\"))");
 
-                if (!"".equals(request.getParameter("email"))
-                        && request.getParameter("email") != null
-                        && !"".equals(request.getParameter("password"))
-                        && request.getParameter("password") != null) {
+        } else if (action.equals("disconnect")) {
+            System.out.println("if (action.equals(\"disconnect\"))");
+            HttpSession session = request.getSession(true);
+            session.setAttribute("userlogged", null);
+            session.setAttribute("nom", null);
+            session.setAttribute("prenom", null);
+            session.setAttribute("email", null);
+            session.setAttribute("userID", null);
+            session.setAttribute("userObject", null);
+            session.invalidate();
+        }
+        if (request.getSession(true).getAttribute("userlogged") != null) {
+            //Code secuisé ici;
+        }
 
-                    Utilisateur userFound = userController.getOneConnect(request.getParameter("email"), request.getParameter("password"));
-
-                    if (userFound != null) {
-                        HttpSession session = request.getSession(true);
-                        session.setAttribute("userlogged", userFound.getPrenom() + " " + userFound.getNom());
-                        session.setAttribute("nom", userFound.getNom());
-                        session.setAttribute("prenom", userFound.getPrenom());
-                        session.setAttribute("email", userFound.getLogin());
-                        session.setAttribute("success", "Heureux de vous revoir, " + userFound.getPrenom() + " ! <i class=\"fa fa-smile-o\"></i>");
-                        session.setAttribute("userID", userFound.getId());
-                        session.setAttribute("userObject", userFound);
-
-                    } else {
-
-                        HttpSession session = request.getSession(false);
-                        session.setAttribute("danger", "Impossible de se connecter : L'email ou le mot de passe est incorrect");
-
-                    }
-                }
-
-            } else if (action.equals("disconnect")) {
-                System.out.println("if (action.equals(\"disconnect\"))");
-                HttpSession session = request.getSession(true);
-                session.setAttribute("userlogged", null);
-                session.setAttribute("nom", null);
-                session.setAttribute("prenom", null);
-                session.setAttribute("email", null);
-                session.setAttribute("userID", null);
-                session.setAttribute("userObject", null);
-                session.invalidate();
-            }
-            if (request.getSession(true).getAttribute("userlogged") != null) {
-                //Code secuisé ici;
-            }
-       
         if (!forwardTo.isEmpty()) {
+
             System.out.println("Forward to " + forwardTo);
             RequestDispatcher dp = request.getRequestDispatcher(forwardTo + "?message=" + message);
             dp.forward(request, response);

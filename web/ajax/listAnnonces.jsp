@@ -1,13 +1,8 @@
-<%-- 
-    Document   : tredit
-    Created on : 4 mars 2016, 13:31:07
-    Author     : Myriam
---%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <h3 style="color:#cc0000;text-align: center">${annonces.size()} résultats de la recherche</h3>
-<table class="table">
+<table class="table tableResultAnnonce">
     <thead>
         <tr>
             <th class="nosmall">#</th>
@@ -21,7 +16,7 @@
     <tbody>
         <c:forEach var="a" items="${annonces}"> 
             <tr>
-                <td class="nosmall">${a.getId()}</td>
+                <td class="idAnnonce nosmall">${a.getId()}</td>
                 <td>${a.getTitre()}</td>
                 <td>${a.getProprietaire().getPrenom()}&#160;${a.getProprietaire().getNom()}</td>
                 <td class="nosmall">${a.getDatePublication()}</td>

@@ -105,24 +105,81 @@ function createPointOnMap(paramap, latitude, longitude, UAI, nom)
         position: {lat: parseFloat(latitude), lng: parseFloat(longitude)},
         map: paramap,
         icon: image,
-        title:nom
+        title: nom
     });
     marker.addListener('click', function () {
-        if(openWindow)openWindow.close();
-        openWindow=infowindow;
+        if (openWindow)
+            openWindow.close();
+        openWindow = infowindow;
         infowindow.open(paramap, marker);
         xsltReceiver.submit();
     });
     return marker;
 }
+function ajaxAnonceDemandeVente(idAnnonce, typeAnnonce, typeres, container)
+{
+    $.ajax({
+        url: "AjaxServlet",
+        type: 'POST',
+        data: {
+            idAnnonce: idAnnonce,
+            typeAnnonce: typeAnnonce,
+            typeres: typeres,
+            action: "annonce",
+        },
+        success: function (responseHTML, status, xhr)
+        {
+            container.html(responseHTML);
+            if (container.find('input.datepicker'))
+            {
+                $('input.datepicker').datepicker($.datepicker.regional[ "fr" ]);
+            }
+            var amount = parseFloat(container.find("input[name='amountAnnonce']").val());
+            container.find("#slider-vente").slider({
+                value: amount,
+                max: 20000,
+                orientation: "horizontal",
+                range: "min",
+                animate: true,
+                slide: slidEVente
+            });
+            sliDemande(undefined,{value:amount});
+            container.find("#slider-demande").slider({
+                value: amount,
+                max: 20000,
+                orientation: "horizontal",
+                range: "min",
+                animate: true,
+                slide: sliDemande
+            });
+            slidEVente(undefined,{value:amount});
+            container.find("#etabSelectDemande,#etabSelectVente,#categSelect-vente, #categSelect-demande").multiselect(
+                    {
+                        enableCaseInsensitiveFiltering: true,
+                        maxHeight: 600,
+                        includeSelectAllOption: true
+                    });
+        }
+
+    })
+}
+$("body").on("click", "button[data-target='#modalVente'],.btn.btn-warning.effacerForm-Vente", function () {
+    ajaxAnonceDemandeVente("-1", "vente", "edit", $('#mcvente'));
+}).on("click", ".confirmAnnonceOverlayFooter .btn.btn-warning.editVente", function () {
+    ajaxAnonceDemandeVente($("#mcvente  input[name='idAnnonce']").val(), "vente", "edit", $('#mcvente'));
+}).on("click", "button[data-target='#modalDemande'],.btn.btn-warning.effacerForm-Demande", function () {
+    ajaxAnonceDemandeVente("-1", "demande", "edit", $('#mcdemande'));
+}).on("click", ".confirmAnnonceOverlayFooter .btn.btn-warning.editDemande", function () {
+    ajaxAnonceDemandeVente($("#mcdemande input[name='idAnnonce']").val(), "demande", "edit", $('#mcdemande'));
+}).on("click", "table.tableResultAnnonce tr", function () {
+$('#modalDemande').modal();
+    ajaxAnonceDemandeVente($(this).find(".idAnnonce").html(), "demande", "show", $('#mcdemande'));
+})
 
 $(document).ready(function () {
 
     map = $("#map");
-    if ($("input.datepicker")[0])
-    {
-        $('input.datepicker').datepicker($.datepicker.regional[ "fr" ]);
-    }
+
     $("#radioGroupSelecTypAnn").buttonset();
 //Code à exécuter apres le chargement de la page
 
@@ -132,36 +189,6 @@ $(document).ready(function () {
     ).mouseleave(function () {
         $(this).parent().children(".dropdown-toggle").attr("data-toggle", "dropdown");
     });
-
-    $("#slider-demande").slider({
-        value: 3000,
-        max: 20000,
-        orientation: "horizontal",
-        range: "min",
-        animate: true,
-        slide: sliDemande
-    });
-
-    $("#amount-annonce-demande").val($("#slider-demande").slider("value") + " €");
-    $("#hidden-amount-annonce-demande").val($("#slider-demande").slider("value"));
-
-    $("#slider-vente").slider({
-        value: 3000,
-        max: 20000,
-        orientation: "horizontal",
-        range: "min",
-        animate: true,
-        slide: slidEVente
-    });
-    $("#amount-annonce-vente").val($("#slider-vente").slider("value") + " €");
-    $("#hidden-amount-annonce-vente").val($("#slider-vente").slider("value"));
-
-    var slidERange = function (event, ui) {
-        $("#amount").val("Entre " + ui.values[ 0 ] + "€ et " + ui.values[ 1 ] + "€");
-        $("input[name='prixmin-search']").val(ui.values[ 0 ]);
-        $("input[name='prixmax-search']").val(ui.values[ 1 ]);
-        majmainresults();
-    }
     rangevalues = [0, 20000];
     sliderRange = $("#slider-range").slider({
         range: true,
@@ -170,40 +197,13 @@ $(document).ready(function () {
         values: rangevalues,
         slide: slidERange
     });
-
     $("input[name='prixmin-search']").val(rangevalues[0]);
     $("input[name='prixmax-search']").val(rangevalues[ 1 ]);
+    
     $("#amount").val("Entre " + $("#slider-range").slider("values", 0) +
             "€ et " + $("#slider-range").slider("values", 1) + "€");
-    $("#formVente").on("submit", function (ev) {
-        ev.preventDefault();
-        //Code d'envoi ici
-        $.ajax({
-            type: "POST",
-            url: $(this).attr('action'),
-            data: $(this).serialize(),
-            success: function (reponse) {
-                $("#idVenteAnnonce").remove();
-                $("#formVente").hide();
-                $("#mcvente").prepend(reponse);
-            }
-        });
-    });
 
-    $("#formDemande").on("submit", function (ev) {
-        ev.preventDefault();
-        //Code d'envoi ici
-        $.ajax({
-            type: "POST",
-            url: $(this).attr('action'),
-            data: $(this).serialize(),
-            success: function (reponse) {
-                $("#idDemandeAnnonce").remove();
-                $("#formDemande").hide();
-                $("#mcdemande").prepend(reponse);
-            }
-        });
-    });
+
 
 
     var password = document.getElementById("password")
@@ -221,134 +221,37 @@ $(document).ready(function () {
         password.onchange = validatePassword;
         confirm_password.onkeyup = validatePassword;
     }
-    $.ajax({
-        type: "POST",
-        url: "AjaxServlet",
-        data: {"action": "opt_etab"},
-        success: function (reponse) {
-            $('#etabSelectSearch, #registerRegionSelect, #etabSelectVente,#etabSelectDemande').html(reponse)
-            $('#etabSelectSearch, #registerRegionSelect, #etabSelectVente,#etabSelectDemande').multiselect(
-                    {
-                        enableCaseInsensitiveFiltering: true,
-                        maxHeight: 600,
-                        includeSelectAllOption: true
-                    });
-        }});
-    $.ajax({
-        type: "POST",
-        url: "AjaxServlet",
-        data: {"action": "opt_categ"},
-        success: function (reponse) {
-            $('#categSelect, #categSelect-vente, #categSelect-demande').html(reponse)
-            $('#categSelect, #categSelect-vente ,#categSelect-demande').multiselect(
-                    {
-                        enableCaseInsensitiveFiltering: true,
-                        maxHeight: 600,
-                        includeSelectAllOption: true
-                    });
-        }});
-    $.ajax({
-        type: "POST",
-        url: "AjaxServlet",
-        data: {"action": "opt_ville"},
-        success: function (reponse) {
-            $('#villeSelectSearch').html(reponse)
-            $('#villeSelectSearch').multiselect(
-                    {
-                        enableCaseInsensitiveFiltering: true,
-                        maxHeight: 600,
-                        includeSelectAllOption: true
-                    });
-        }});
-    $.ajax({
-        type: "POST",
-        url: "AjaxServlet",
-        data: {"action": "opt_dept"},
-        success: function (reponse) {
-            $('#deptSelectSearch').html(reponse)
-            $('#deptSelectSearch').multiselect(
-                    {
-                        enableCaseInsensitiveFiltering: true,
-                        maxHeight: 600,
-                        includeSelectAllOption: true
-                    });
-        }});
-    $.ajax({
-        type: "POST",
-        url: "AjaxServlet",
-        data: {"action": "opt_region"},
-        success: function (reponse) {
-            $('#regionSelectSearch').html(reponse)
-            $('#regionSelectSearch').multiselect(
-                    {
-                        enableCaseInsensitiveFiltering: true,
-                        maxHeight: 600,
-                        includeSelectAllOption: true
-                    });
-        }});
+
+
+    $('#regionSelectSearch,#deptSelectSearch,#villeSelectSearch,#categSelect,#etabSelectSearch, #registerRegionSelect').multiselect(
+            {
+                enableCaseInsensitiveFiltering: true,
+                maxHeight: 600,
+                includeSelectAllOption: true
+            });
     if (document.getElementById('map')) {
         initMap()
-    }
-    ;
+    };
     $("#maincontainer").on('change', 'input', majmainresults).on('keyup', "input[type='text']", majmainresults);
 
 });
-
-
-
-function reinitFormVente() {
-    $("#formVente [name='titre']").val("");
-    $("#formVente [name='email']").val("");
-    $("#formVente [name='telephone']").val("");
-    $("#formVente textarea").val("");
-    $("#formVente #etabSelectVente").multiselect('deselectAll', false).multiselect('updateButtonText');
-    $("#formVente #categSelect-vente").multiselect('deselectAll', false).multiselect('updateButtonText');
-    $("#formVente #slider-vente").slider("option", "value", 3000);
-    slidEVente(undefined, {value: 3000});
-}
-
-function reinitFormDemande() {
-    $("#formDemande [name='titre']").val("");
-    $("#formDemande [name='email']").val("");
-    $("#formDemande [name='telephone']").val("");
-    $("#formDemande textarea").val("");
-    $("#formDemande #etabSelectDemande").multiselect('deselectAll', false).multiselect('updateButtonText');
-    $("#formDemande #categSelect-demande").multiselect('deselectAll', false).multiselect('updateButtonText');
-    $("#formDemande #slider-demande").slider("option", "value", 3000);
-    sliDemande(undefined, {value: 3000});
-}
-
-$("body").on("click", ".btn.btn-primary.postOtherVente", function () {
-    $(".confirmVenteOverlay").remove();
-    $("#idVenteAnnonce").val("-1");
-    $("#formVente").show();
-    reinitFormVente();
-}).on("click", ".btn.btn-warning.editVente", function () {
-    $(".confirmVenteOverlay").remove();
-    $("#formVente").show();
-}).on("click", ".btn.btn-warning.effacerForm-Vente", function () {
-    reinitFormVente();
-}).on("click", ".btn.btn-primary.postOtherDemande", function () {
-    $(".confirmDemandeOverlay").remove();
-    $("#idDemandeAnnonce").val("-1");
-    $("#formDemande").show();
-    reinitFormDemande();
-}).on("click", ".btn.btn-warning.editDemande", function () {
-    $(".confirmDemandeOverlay").remove();
-    $("#formDemande").show();
-}).on("click", ".btn.btn-warning.effacerForm-Demande", function () {
-    reinitFormDemande();
-});
-;
 
 var slidEVente = function (event, ui) {
     $("#amount-annonce-vente").val(ui.value + " €");
     $("#hidden-amount-annonce-vente").val(ui.value);
 }
+
 var sliDemande = function (event, ui) {
     $("#amount-annonce-demande").val(ui.value + " €");
     $("#hidden-amount-annonce-demande").val(ui.value);
 }
+    var slidERange = function (event, ui) {
+        $("#amount").val("Entre " + ui.values[ 0 ] + "€ et " + ui.values[ 1 ] + "€");
+        $("input[name='prixmin-search']").val(ui.values[ 0 ]);
+        $("input[name='prixmax-search']").val(ui.values[ 1 ]);
+        majmainresults();
+    }
+
 //*****pagination*******//
 $("body").on('click', "form[name='listUserPagin'] .pagination li,form[name='listAdPagin']  .pagination li", function () {
 
@@ -371,4 +274,17 @@ $("body").on('submit', "form[name='listAdPagin'], form[name='listUserPagin']", f
         }
 
     })
+});
+$("body").on("submit", '#formDemande,#formVente', function (ev) {
+    ev.preventDefault();
+    var container = $(this).parent();
+    //Code d'envoi ici
+    $.ajax({
+        type: "POST",
+        url: $(this).attr('action'),
+        data: $(this).serialize(),
+        success: function (reponse) {
+            container.html(reponse);
+        }
+    });
 });

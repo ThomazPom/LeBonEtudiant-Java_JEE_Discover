@@ -1,12 +1,16 @@
-<%-- 
-    Document   : tredit
-    Created on : 4 mars 2016, 13:31:07
-    Author     : Myriam
---%>
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@page import="model.Categorie"%>
+<%@page import="java.util.List"%>
+<%@page import="model.Annonce"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-
-    <c:forEach var="u" items="${opt_categ}"> 
-            <option value="${u.id}">${u.libelle}</option>
-
-    </c:forEach>
+<% Annonce anc_opt_categ = request.getAttribute("annonce") == null ? null : (Annonce) request.getAttribute("annonce");
+    Boolean checked_anc_opt_categ = anc_opt_categ != null;
+    List<Categorie> lst_categ= (List<Categorie>)request.getAttribute("opt_categ");
+    for(Categorie categ :lst_categ)
+    {
+      boolean selected = checked_anc_opt_categ?util.validator.comparatorCateg.contains(anc_opt_categ.getCategories(),categ, new util.validator.comparatorCateg()):false;
+       out.println("<option "+ (selected?"selected":"") +" value="+categ.getId() +">"  + categ.getLibelle() +"</option>");
+    
+    }
+    
+    
+%>

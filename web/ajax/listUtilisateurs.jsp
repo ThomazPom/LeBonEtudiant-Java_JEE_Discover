@@ -1,8 +1,3 @@
-<%-- 
-    Document   : listUtilisateurs
-    Created on : 24 avr. 2016, 17:49:30
-    Author     : Myriam
---%>
 <%@page import="controller.UserController"%>
 
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>

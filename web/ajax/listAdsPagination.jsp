@@ -1,8 +1,3 @@
-<%-- 
-    Document   : tredit
-    Created on : 16 avr. 2016, 18:00:42
-    Author     : Myriam
---%>
 <%@page import="controller.AnnonceController"%>
 
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
@@ -50,7 +45,7 @@
             </ul>
         </nav>
     </div>
-    <table class="table">
+    <table class="table tableResultAnnonce" >
         <thead>
             <tr>
                 <th>#</th>
@@ -65,7 +60,7 @@
         <tbody>
             <c:forEach var="ap" items="${wrapListPage.getResultList()}"> 
                 <tr>
-                    <td>${ap.getId()}</td>
+                    <td class="idAnnonce">${ap.getId()}</td>
                     <td>${ap.getTitre()}</td>
                     <td>${ap.getProprietaire().getPrenom()}&#160;${ap.getProprietaire().getNom()}</td>
                     <td>${ap.getDatePublication()}</td>

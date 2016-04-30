@@ -65,10 +65,10 @@ public class AjaxServlet extends HttpServlet {
             throws ServletException, IOException {
         String forwardTo = "";
         String message = "";
-        String redirect = "index.jsp";
+        String redirect = ".";
         // int i =Integer.parseInt("a500"); //test de l'erreur 500
         String action = (request.getParameter("action") == null) ? "" : request.getParameter("action");
-
+        
         if (action.equals("opt_etab")) {
 
             System.out.println("In action " + action);
@@ -120,11 +120,8 @@ public class AjaxServlet extends HttpServlet {
             String[] idDepts = ((request.getParameter("deptSelectSearch") != null) ? request.getParameterValues("deptSelectSearch") : new String[0]);
             String[] idVilles = ((request.getParameter("villeSelectSearch") != null) ? request.getParameterValues("villeSelectSearch") : new String[0]);
 
-           
-
             List<Annonce> listann = annonController.searchAnnonce(request.getParameter("searchtitre"),
-                    request.getParameter("radioSelecTypAnn")
-                    ,request.getParameter("prixmin-search"), request.getParameter("prixmax-search"), idEtabs, idVilles, idDepts, idRegions, idCategs);
+                    request.getParameter("radioSelecTypAnn"), request.getParameter("prixmin-search"), request.getParameter("prixmax-search"), idEtabs, idVilles, idDepts, idRegions, idCategs);
             request.setAttribute("annonces", listann);
 
             forwardTo = "ajax/listAnnonces.jsp";
@@ -176,6 +173,27 @@ public class AjaxServlet extends HttpServlet {
 
         if (request.getSession(true).getAttribute("userlogged") != null) {
             //Code securisé ici;
+
+            if (action.equals("annonce")) {
+
+                String idAnnonce = (request.getParameter("idAnnonce") == null) ? "-1" : request.getParameter("idAnnonce");
+                String typeAnnonce = (request.getParameter("typeAnnonce") == null) ? "vente" : request.getParameter("typeAnnonce");
+                String typeres = (request.getParameter("typeres") == null) ? "edit" : request.getParameter("typeres");
+                System.out.println("idAnnonce" + idAnnonce);
+                System.out.println("typeAnnonce" + typeAnnonce);
+                System.out.println("typeres" + typeres);
+                Annonce ann = annonController.getAnnonceById(idAnnonce);
+                request.setAttribute("annonce", ann);
+                request.setAttribute("opt_etab", etabController.getEtablissements());
+                
+                request.setAttribute("opt_categ", categController.getCategories() );
+                forwardTo = typeres.equals("edit")
+                        ? ann == null
+                                ? typeAnnonce.equals("vente") ? "ajax/form_vente.jsp" : "ajax/form_demande.jsp"
+                                : ann.isTypeVente() ? "ajax/form_vente.jsp" : "ajax/form_demande.jsp"
+                        :ann==null?".": "ajax/confirmAnnonce.jsp";
+
+            }
 
             if (action.equals("sendAnnonce")) {
                 //request.getSession(false).setAttribute("danger", "Il y a eu un probleme...");

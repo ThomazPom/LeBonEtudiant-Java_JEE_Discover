@@ -52,6 +52,7 @@ public class AnnonceController {
     @EJB
     RegionController rc;
 
+
     //Classe anonyme pour la pagination des annonces
     public static class AnnoncePage {
 

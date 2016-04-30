@@ -17,7 +17,7 @@
     <body><%@include  file="inc/bodyheader.jspf" %>
     
         <div class="container-fluid" id="paginationcontainer"></div>
- 
+        <%@include file="inc/modalswrapper.jsp" %>
 </body>
 </html>
 
