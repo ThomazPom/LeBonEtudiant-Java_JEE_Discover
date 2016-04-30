@@ -147,9 +147,8 @@ public class init {
         System.out.println("-------->public void initAnnonce()");
         List<Categorie> listCateg = cc.getCategories();
         List<Utilisateur> listUser = uc.getUsers();
-        Random randUser = new Random(listUser.size());
         List<Etablissement> listEtab = ec.getEtablissements();
-        Random rand = new Random(listEtab.size());
+        Random rand = new Random();
         try {
             System.out.println("------->TRY");
             InputStream is = getClass().getResourceAsStream("listeproduits.csv");
@@ -181,9 +180,8 @@ public class init {
         System.out.println("-------->public void initDemandes()");
         List<Categorie> listCateg = cc.getCategories();
         List<Utilisateur> listUser = uc.getUsers();
-        Random randUser = new Random(listUser.size());
         List<Etablissement> listEtab = ec.getEtablissements();
-        Random rand = new Random(listEtab.size());
+        Random rand = new Random();
         try {
             System.out.println("------->TRY");
             InputStream is = getClass().getResourceAsStream("listeproduits.csv");

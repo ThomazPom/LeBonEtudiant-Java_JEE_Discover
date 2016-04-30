@@ -63,15 +63,15 @@
                                         </div></span>
                                 <td style="padding-left: 50px">
                                     <div id="slider-range" class="sliderform"></div>
-                                    <input  readonly type="text" name="prixmin-search"/>
-                                    <input  readonly type="text" name="prixmax-search"/>
+                                    <input hidden  readonly type="text" name="prixmin-search"/>
+                                    <input hidden readonly type="text" name="prixmax-search"/>
                                 </td>
                             </tr>
                         </table>
                     </div>
                     <div  class="input-group">
                         <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;Catégories</span>
-                        <select id="categSelect" style="display:none" multiple="multiple">
+                        <select id="categSelect" name="categSelectSearch" style="display:none" multiple="multiple">
                         </select>
                     </div>
                     <div class="input-group" id="radioGroupSelecTypAnn" style="z-index: 100">

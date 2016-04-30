@@ -20,9 +20,7 @@ function initMap() {
         }
     });
 }
-
-var majmainresults = function (e) {
-    console.log(e);
+var refreshAjax = function () {
     $.ajax({
         type: "POST",
         data: $("#mainwrap").serialize(),
@@ -32,6 +30,7 @@ var majmainresults = function (e) {
             var newpointhashmap = {}
 
             var jqInfoEtabs = $("<div>" + jqXHR.responseText + "</div>").find(".infoetab");
+
 
             jqInfoEtabs.each(function () {
                 var idetab = $(this).children(".idEtab").html();
@@ -43,15 +42,26 @@ var majmainresults = function (e) {
                 {
                     pointhashmap[k].setMap(map)
                 }
-                else
+                else if (!newpointhashmap[k])
                 {
 
                     pointhashmap[k].setMap(null);
                 }
             }
 
+
+
         },
     });
+}
+var timer;
+
+var majmainresults = function (e) {
+
+        clearTimeout(timer);
+        timer = setTimeout(refreshAjax, 150);
+    
+
 }
 
 function createPointOnMap(map, latitude, longitude, UAI)

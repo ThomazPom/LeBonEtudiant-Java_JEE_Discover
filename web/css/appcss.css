@@ -7,6 +7,9 @@ and open the template in the editor.
     Created on : 22 mars 2016, 20:46:21
     Author     : Thomas
 */
+span.ui-slider-handle{
+    height: 30px!important;
+}
 .datepicker{
     width: 100%;
     height: 34px;

@@ -117,44 +117,58 @@ public class AnnonceController {
         em.persist(a);
         return a;
     }
-    List allowedTypes = Arrays.asList("vente","demande" );
+    List allowedTypes = Arrays.asList("vente", "demande");
 
-    public List<Annonce> searchAnnonce(String titre, String type, String prixMin, String prixMax, String[] idEtabs, String[] idVilles, String[] idDepts, String[] idRegions,String[] idCategs) {
+    public List<Annonce> searchAnnonce(String titre, String type, String prixMin, String prixMax, String[] idEtabs, String[] idVilles, String[] idDepts, String[] idRegions, String[] idCategs) {
         int prixmin = 0;
         int prixmax = 20000;
-        
+        List<Categorie> categSelect = cc.getCategoriesById(idCategs);
+        List<Region> regionSelect = rc.getRegionsById(idRegions);
+        List<Ville> villesSelect = vc.getVillesById(idVilles);
+        List<Departement> deptSelect = dc.getDepartementById(idDepts);
+        List<Etablissement> etabSelect = ec.getEtablissementsById(idEtabs);
+        Boolean geolocEmpty = regionSelect.isEmpty()&&villesSelect.isEmpty()&&deptSelect.isEmpty()&&etabSelect.isEmpty();
         try {
             prixmin = Integer.parseInt(prixMin);
             prixmax = Integer.parseInt(prixMax);
         } catch (Exception e) {
             System.err.println(prixMin + " or " + prixMax + " is not a valid price");
         }
-        
         StringBuilder queryString = new StringBuilder();
-        
         queryString.append("Select a from Annonce a where lower(a.Titre) like lower(:titre) AND a.prix BETWEEN :prixmin AND :prixmax");
-        
-        
-        if(allowedTypes.contains(type))
-        {
+        if (allowedTypes.contains(type)) {
             queryString.append(" AND a.typeVente = :typeVente");
         }
-        
         Query q = em.createQuery(queryString.toString());
-        
-        q.setParameter("titre", "%"+titre+"%");
+        q.setParameter("titre", "%" + titre + "%");
         q.setParameter("prixmin", prixmin);
         q.setParameter("prixmax", prixmax);
-        if(allowedTypes.contains(type))
-        {
-        q.setParameter("typeVente", allowedTypes.get(0).equals(type));
+        if (allowedTypes.contains(type)) {
+            q.setParameter("typeVente", allowedTypes.get(0).equals(type));
         }
-        List<Departement> deptselect = (idDepts.length>0)?dc.getDepartementById(idDepts):new ArrayList<>();
-        List<Ville> villeselect = (idVilles.length>0)?vc.getVillesById(idVilles):new ArrayList<>();
-        return q.getResultList();
+        List<Annonce> resultBrut = q.getResultList();
+        List<Annonce> resultList = new ArrayList<>(resultBrut);
+        for (Annonce ann : resultBrut) {
+            boolean keep = true;
+            boolean keepGeoloc = geolocEmpty;
+            for (int i = 0; i < categSelect.size() && keep; i++) {
+                keep = ann.getCategories().contains(categSelect.get(i));
+            }
+            for (int i = 0; i < ann.getEtablissements().size() && keep && !keepGeoloc; i++) {
+                Etablissement etab = ann.getEtablissements().get(i);
+                keepGeoloc = etabSelect.contains(etab);
+                keepGeoloc = keepGeoloc ? true : villesSelect.contains(etab.getVille());
+                keepGeoloc = keepGeoloc ? true : deptSelect.contains(etab.getVille().getDepartement());
+                keepGeoloc = keepGeoloc ? true : regionSelect.contains(etab.getVille().getDepartement().getRegion());
+            }
+            if (!keep || !keepGeoloc) {
+                resultList.remove(ann);
+            }
+        }
+        return resultList;
     }
 
-    public Annonce creerAnnonce(Utilisateur Proprietaire, String Titre, String prix, String numeroOverride, String emailOverride, String Description, String strDateFin, boolean active, String[] categories, String[] etablissements,String typeAnnonce) {
+    public Annonce creerAnnonce(Utilisateur Proprietaire, String Titre, String prix, String numeroOverride, String emailOverride, String Description, String strDateFin, boolean active, String[] categories, String[] etablissements, String typeAnnonce) {
         Boolean typeAnnonceBool = allowedTypes.get(0).equals(typeAnnonce);
         List<Categorie> arcateg = cc.getCategoriesById(categories);
         List<Etablissement> aretab = ec.getEtablissementsById(etablissements);
@@ -173,7 +187,7 @@ public class AnnonceController {
             System.out.println(strDateFin + " is not a valid date string");
         }
 
-        return AnnonceController.this.creerAnnonce(Proprietaire, Titre, prixCreate, numeroOverride, emailOverride, Description, dateFin, active, arcateg, aretab,typeAnnonceBool);
+        return AnnonceController.this.creerAnnonce(Proprietaire, Titre, prixCreate, numeroOverride, emailOverride, Description, dateFin, active, arcateg, aretab, typeAnnonceBool);
     }
 
     public Annonce majAnnonce(Annonce annonce, String titre, int prix, String numeroOverride, String emailOverride, String Description, Date dateFin, boolean active, List<Categorie> categories, List<Etablissement> etablissements) {
@@ -224,7 +238,7 @@ public class AnnonceController {
 
             List<Categorie> arcateg = cc.getCategoriesById(categories);
             List<Etablissement> aretab = ec.getEtablissementsById(categories);
-            
+
             DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
             Date dateFin = Calendar.getInstance().getTime();
             try {

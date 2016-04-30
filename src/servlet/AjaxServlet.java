@@ -115,7 +115,7 @@ public class AjaxServlet extends HttpServlet {
             System.out.println("In action " + action);
 
             String[] idEtabs = ((request.getParameter("etabSelectSearch") != null) ? request.getParameterValues("etabSelectSearch") : new String[0]);
-            String[] idCategs = ((request.getParameter("categSelect") != null) ? request.getParameterValues("categSelect") : new String[0]);
+            String[] idCategs = ((request.getParameter("categSelectSearch") != null) ? request.getParameterValues("categSelectSearch") : new String[0]);
             String[] idRegions = ((request.getParameter("regionSelectSearch") != null) ? request.getParameterValues("regionSelectSearch") : new String[0]);
             String[] idDepts = ((request.getParameter("deptSelectSearch") != null) ? request.getParameterValues("deptSelectSearch") : new String[0]);
             String[] idVilles = ((request.getParameter("villeSelectSearch") != null) ? request.getParameterValues("villeSelectSearch") : new String[0]);
