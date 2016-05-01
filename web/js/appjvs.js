@@ -178,12 +178,9 @@ $("body").on("click", "button[data-target='#modalVente'],.btn.btn-warning.efface
 })
 
 $(document).ready(function () {
-
-    map = $("#map");
-
-    $("#radioGroupSelecTypAnn").buttonset();
 //Code à exécuter apres le chargement de la page
-
+    map = $("#map");
+    $("#radioGroupSelecTypAnn").buttonset();
     $(".dropdown-menu").mouseenter(function () {
         $(this).parent().children(".dropdown-toggle").attr("data-toggle", "");
     }
@@ -200,33 +197,22 @@ $(document).ready(function () {
     });
     $("input[name='prixmin-search']").val(rangevalues[0]);
     $("input[name='prixmax-search']").val(rangevalues[ 1 ]);
-
     $("#amount").val("Entre " + $("#slider-range").slider("values", 0) +
             "€ et " + $("#slider-range").slider("values", 1) + "€");
-
-
     validatePasswordEventSet($("form[name='registerDropdown']"));
-
-
     $('#regionSelectSearch,#deptSelectSearch,#villeSelectSearch,#categSelect,#etabSelectSearch, #registerRegionSelect').multiselect(
             {
                 enableCaseInsensitiveFiltering: true,
                 maxHeight: 600,
                 includeSelectAllOption: true
             });
-    if (document.getElementById('map')) {
-        initMap()
-    }
-    ;
+    if (document.getElementById('map')) {initMap();}
     $("#maincontainer").on('change', 'input', majmainresults).on('keyup', "input[type='text']", majmainresults);
-
 });
-
 var slidEVente = function (event, ui) {
     $("#amount-annonce-vente").val(ui.value + " €");
     $("#hidden-amount-annonce-vente").val(ui.value);
 }
-
 var sliDemande = function (event, ui) {
     $("#amount-annonce-demande").val(ui.value + " €");
     $("#hidden-amount-annonce-demande").val(ui.value);
@@ -237,10 +223,8 @@ var slidERange = function (event, ui) {
     $("input[name='prixmax-search']").val(ui.values[ 1 ]);
     majmainresults();
 }
-
 //*****pagination*******//
 $("body").on('click', "form[name='listUserPagin'] .pagination li,form[name='listAdPagin']  .pagination li", function () {
-
     $('input[name="pageCourante"]').val($(this).attr("data"));
     $("form[name='listAdPagin'],form[name='listUserPagin']").submit();
 });
@@ -261,6 +245,7 @@ $("body").on('submit', "form[name='listAdPagin'], form[name='listUserPagin']", f
 
     })
 });
+/*******/
 $("body").on("submit", '#formDemande,#formVente', function (ev) {
     ev.preventDefault();
     var container = $(this).parent();
@@ -274,15 +259,17 @@ $("body").on("submit", '#formDemande,#formVente', function (ev) {
         }
     });
 });
-
 function  validatePasswordEventSet(container)
 {
-    confirm_password, password;
+    var confirm_password, password;
     function validatePassword() {
-        if (password.value != confirm_password.value) {
-            confirm_password.setCustomValidity("Le mot de passe ne correspond pas");
-        } else {
-            confirm_password.setCustomValidity('');
+        if (password && confirm_password)
+        {
+            if (password.value != confirm_password.value) {
+                confirm_password.setCustomValidity("Le mot de passe ne correspond pas");
+            } else {
+                confirm_password.setCustomValidity('');
+            }
         }
     }
     password = container.find("input[name='password']").change(validatePassword)[0];
