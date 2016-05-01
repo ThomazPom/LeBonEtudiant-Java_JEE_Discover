@@ -26,7 +26,8 @@
             <%if (session.getAttribute("userlogged") == null) {%>
             <form name="registerDropdown" method="post" action="StaticServlet?action=registerUser" >
 
-                <ul class="nav navbar-nav navbar-right"> <button type="button" class="btnav btn btn-info" data-toggle = "dropdown"><span class="glyphicon glyphicon-th-list"></span> Listes<span class="caret"></span></button>
+                <ul class="nav navbar-nav navbar-right"> 
+                    <button type="button" class="btnav btn btn-info" data-toggle = "dropdown"><span class="glyphicon glyphicon-th-list"></span> Listes<span class="caret"></span></button>
                     <ul class = "dropdown-menu">
                         <li><a href = "StaticServlet?action=listAdsPagination">Annonces</a></li>
                         <li><a href = "StaticServlet?action=listUtilisateurs">Membres</a></li>
@@ -141,11 +142,20 @@
                     <button class="btnav btn btn-warning"  data-toggle="modal" data-target="#modalDemande">Poster une demande</button>  
 
                 </li>
+                <li>
+                    <button type="button" class="btnav btn btn-info" data-toggle = "dropdown"><span class="glyphicon glyphicon-th-list"></span> Listes<span class="caret"></span></button>
+                    <ul class = "dropdown-menu">
+                        <li><a href = "StaticServlet?action=listAdsPagination">Annonces</a></li>
+                        <li><a href = "StaticServlet?action=listUtilisateurs">Membres</a></li>
+
+                    </ul>
+                </li>
                 <li>  
                     <form method=post action="StaticServlet?action=disconnect">
                         <input type="submit" class="btnav btn btn-danger" value="Se déconnecter"/>
                     </form>
                 </li>
+
             </ul>
             <!-- Button trigger modal -->
 
