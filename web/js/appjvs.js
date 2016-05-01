@@ -169,12 +169,13 @@ $("body").on("click", "button[data-target='#modalVente'],.btn.btn-warning.efface
 }).on("click", ".confirmAnnonceOverlayFooter .btn.btn-warning.editVente", function () {
     ajaxAnonceDemandeVente($("#mcvente  input[name='idAnnonce']").val(), "vente", "edit", $('#mcvente'));
 }).on("click", "button[data-target='#modalDemande'],.btn.btn-warning.effacerForm-Demande", function () {
-    ajaxAnonceDemandeVente("-1", "demande", "edit", $('#mcdemande'));
+    $('#modalVente').modal();
+    ajaxAnonceDemandeVente("-1", "demande", "edit", $('#mcvente'));
 }).on("click", ".confirmAnnonceOverlayFooter .btn.btn-warning.editDemande", function () {
-    ajaxAnonceDemandeVente($("#mcdemande input[name='idAnnonce']").val(), "demande", "edit", $('#mcdemande'));
+    ajaxAnonceDemandeVente($("#mcvente input[name='idAnnonce']").val(), "demande", "edit", $('#mcvente'));
 }).on("click", "table.tableResultAnnonce tr", function () {
-    $('#modalDemande').modal();
-    ajaxAnonceDemandeVente($(this).find(".idAnnonce").html(), "demande", "show", $('#mcdemande'));
+    $('#modalVente').modal();
+    ajaxAnonceDemandeVente($(this).find(".idAnnonce").html(), "", "show", $('#mcvente'));
 })
 
 $(document).ready(function () {
@@ -206,7 +207,9 @@ $(document).ready(function () {
                 maxHeight: 600,
                 includeSelectAllOption: true
             });
-    if (document.getElementById('map')) {initMap();}
+    if (document.getElementById('map')) {
+        initMap();
+    }
     $("#maincontainer").on('change', 'input', majmainresults).on('keyup', "input[type='text']", majmainresults);
 });
 var slidEVente = function (event, ui) {

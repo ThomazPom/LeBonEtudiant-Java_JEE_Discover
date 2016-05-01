@@ -99,7 +99,7 @@
             </div>
             <div class="container-fluid infowindowResult"></div>
         </form>
-        <%@include file="inc/modalswrapper.jsp" %>
+        <%@include file="inc/modalswrapper.jspf" %>
     </body>
 </html>
 <%@include file="inc/footerscripts.jspf" %>

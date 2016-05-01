@@ -25,7 +25,7 @@
             <%@include file="ajax/listUtilisateurs.jsp" %>
             <%}%>
         </div>
-        <%@include file="inc/modalswrapper.jsp" %>
+        <%@include file="inc/modalswrapper.jspf" %>
     </body>
 </html>
 

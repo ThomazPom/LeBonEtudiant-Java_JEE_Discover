@@ -12,9 +12,3 @@
                 </div>
             </div>
         </div>
-        <div class="modal fade" id="modalDemande" tabindex="-1" role="dialog" aria-labelledby="modalDemandeLabel">
-            <div class="modal-dialog modal-lg" role="document">
-                <div id="mcdemande" class="modal-content">   
-                </div>
-            </div>
-        </div>
