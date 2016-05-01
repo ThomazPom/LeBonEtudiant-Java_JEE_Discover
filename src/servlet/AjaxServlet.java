@@ -68,7 +68,7 @@ public class AjaxServlet extends HttpServlet {
         String redirect = ".";
         // int i =Integer.parseInt("a500"); //test de l'erreur 500
         String action = (request.getParameter("action") == null) ? "" : request.getParameter("action");
-        
+
         if (action.equals("opt_etab")) {
 
             System.out.println("In action " + action);
@@ -170,8 +170,12 @@ public class AjaxServlet extends HttpServlet {
             request.setAttribute("wrapListPage", userPage);
             forwardTo = "ajax/listUtilisateurs.jsp";
         }
-
-        if (request.getSession(true).getAttribute("userlogged") != null) {
+        if (request.getSession(true).getAttribute("userlogged") == null) {
+            if (action.equals("annonce")) {
+                request.setAttribute("opt_etab", etabController.getEtablissements());
+                forwardTo = "ajax/needToConnect.jsp";
+            }
+        } else if (request.getSession(true).getAttribute("userlogged") != null) {
             //Code securisé ici;
 
             if (action.equals("annonce")) {
@@ -185,13 +189,13 @@ public class AjaxServlet extends HttpServlet {
                 Annonce ann = annonController.getAnnonceById(idAnnonce);
                 request.setAttribute("annonce", ann);
                 request.setAttribute("opt_etab", etabController.getEtablissements());
-                
-                request.setAttribute("opt_categ", categController.getCategories() );
+
+                request.setAttribute("opt_categ", categController.getCategories());
                 forwardTo = typeres.equals("edit")
                         ? ann == null
                                 ? typeAnnonce.equals("vente") ? "ajax/form_vente.jsp" : "ajax/form_demande.jsp"
                                 : ann.isTypeVente() ? "ajax/form_vente.jsp" : "ajax/form_demande.jsp"
-                        :ann==null?".": "ajax/confirmAnnonce.jsp";
+                        : ann == null ? "." : "ajax/confirmAnnonce.jsp";
 
             }
 

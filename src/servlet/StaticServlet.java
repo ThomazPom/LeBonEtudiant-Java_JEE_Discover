@@ -5,6 +5,7 @@
  */
 package servlet;
 
+import controller.AnnonceController;
 import controller.CategorieController;
 import controller.DepartementController;
 import controller.EtablissementController;
@@ -44,6 +45,8 @@ public class StaticServlet extends HttpServlet {
     private RegionController regionController;
     @EJB
     private DepartementController deptController;
+    @EJB
+    private AnnonceController annonController;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -116,7 +119,20 @@ public class StaticServlet extends HttpServlet {
         System.out.println(action);
         if (action.equals("listAdsPagination") || action.equals("listUtilisateurs")) {
             System.out.println("if(action.equals(\"listAdsPagination\")  || action.....");
+            if (request.getSession(true).getAttribute("userlogged") == null) {
+                request.setAttribute("opt_etab", etabController.getEtablissements());
+            }
+            if (action.equals("listAdsPagination")) {
+                AnnonceController.AnnoncePage wrapListPage = new AnnonceController.AnnoncePage(15, 0);
+                annonController.getOnePageAds(wrapListPage);
+                request.setAttribute("wrapListPage", wrapListPage);
+            } else {
+                UserController.UserPage wrapListPage = new UserController.UserPage(15, 0);
+                userController.getOnePageUser(wrapListPage);
+                request.setAttribute("wrapListPage", wrapListPage);
+            }
             forwardTo = "suivi.jsp";
+
         }
         if (action.equals("connect")) {
             System.out.println("if (action.equals(\"connect\"))");

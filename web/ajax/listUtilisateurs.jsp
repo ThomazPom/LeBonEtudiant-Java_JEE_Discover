@@ -1,11 +1,10 @@
 <%@page import="controller.UserController"%>
 
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <% UserController.UserPage userpage = (UserController.UserPage) request.getAttribute("wrapListPage");%>
 <form name="listUserPagin" method="post" action="AjaxServlet">
     <input hidden name="action" value="listUtilisateurs">
-    <div class="input-group" aria-describedby="nbresultaddon"><span class="input-group-addon" id="nbresultaddon">Nombre de rÃ©sultats Ã  afficher par page :</span>  
+    <div class="input-group" aria-describedby="nbresultaddon"><span class="input-group-addon" id="nbresultaddon">Nombre de résultats à afficher par page :</span>  
         <select class="form-control" name="nbResultPage">
 
             <% for (int a = 5; a < userpage.getNbresultPage(); a += 5) {
@@ -48,11 +47,11 @@
         <thead>
             <tr>
                 <th>#</th>
-                <th>RÃ´le</th>
+                <th>Rôle</th>
                 <th>Nom</th>
-                <th>PrÃ©nom</th>
+                <th>Prénom</th>
                 <th>Email</th>
-                <th>TÃ©lÃ©phone</th>
+                <th>Téléphone</th>
                 <th>Formation</th>
                 <th>Ville</th>
             </tr>

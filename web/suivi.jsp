@@ -14,25 +14,19 @@
     <head>
         <%@include file="inc/headerscripts.jspf" %>
     </head>
-    <body><%@include  file="inc/bodyheader.jspf" %>
-    
-        <div class="container-fluid" id="paginationcontainer"></div>
+    <body>
+        <%@include  file="inc/bodyheader.jspf" %>
+
+        <div class="container-fluid" id="paginationcontainer">
+            <% if ("listAdsPagination".equals(request.getParameter("action"))) {
+                   %>
+            <%@include file="ajax/listAdsPagination.jsp" %>
+            <% } else if ("listUtilisateurs".equals(request.getParameter("action"))) {%>
+            <%@include file="ajax/listUtilisateurs.jsp" %>
+            <%}%>
+        </div>
         <%@include file="inc/modalswrapper.jsp" %>
-</body>
+    </body>
 </html>
 
 <%@include file="inc/footerscripts.jspf" %>
-   <script>
-            $.ajax({
-                url: "AjaxServlet",
-                method: 'POST',
-                data: {
-                    action: <%="'" + (request.getParameter("action") != null ? (request.getParameter("action").isEmpty() ? "listAdsPagination" : request.getParameter("action").replace("'", "\\'")) : "listAdsPagination") + "'"%>,
-                },
-                success: function (responseHTML, status, xhr)
-                {
-                    $("#paginationcontainer").html(responseHTML);
-                }
-
-            })
-    </script>

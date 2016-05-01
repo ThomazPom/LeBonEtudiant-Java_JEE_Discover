@@ -1,12 +1,10 @@
 <%@page import="controller.AnnonceController"%>
-
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <% AnnonceController.AnnoncePage annnoncepage = (AnnonceController.AnnoncePage) request.getAttribute("wrapListPage");%>
 <form name="listAdPagin" method="post" action="AjaxServlet">
     <input hidden name="action" value="listAdsPagination">
         
-    <div class="input-group" aria-describedby="nbresultaddon"><span class="input-group-addon" id="nbresultaddon">Nombre de rÃ©sultats Ã  afficher par page :</span>  
+    <div class="input-group" aria-describedby="nbresultaddon"><span class="input-group-addon" id="nbresultaddon">Nombre de résultats à afficher par page :</span>  
         <select class="form-control" name="nbResultPage">
 
             <% for (int a = 5; a < annnoncepage.getNbresultPage(); a += 5) {
@@ -53,7 +51,7 @@
                 <th>Vendeur</th>
                 <th>Date</th>
                 <th>Prix</th>
-                <th>RÃ©gion</th>
+                <th>Région</th>
                 <th>Type</th>
             </tr>
         </thead>

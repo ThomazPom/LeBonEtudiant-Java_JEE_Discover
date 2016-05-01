@@ -143,7 +143,7 @@ function ajaxAnonceDemandeVente(idAnnonce, typeAnnonce, typeres, container)
                 animate: true,
                 slide: slidEVente
             });
-            sliDemande(undefined,{value:amount});
+            sliDemande(undefined, {value: amount});
             container.find("#slider-demande").slider({
                 value: amount,
                 max: 20000,
@@ -152,8 +152,9 @@ function ajaxAnonceDemandeVente(idAnnonce, typeAnnonce, typeres, container)
                 animate: true,
                 slide: sliDemande
             });
-            slidEVente(undefined,{value:amount});
-            container.find("#etabSelectDemande,#etabSelectVente,#categSelect-vente, #categSelect-demande").multiselect(
+            validatePasswordEventSet(container);
+            slidEVente(undefined, {value: amount});
+            container.find("#registerRegionSelect,#etabSelectDemande,#etabSelectVente,#categSelect-vente, #categSelect-demande").multiselect(
                     {
                         enableCaseInsensitiveFiltering: true,
                         maxHeight: 600,
@@ -172,7 +173,7 @@ $("body").on("click", "button[data-target='#modalVente'],.btn.btn-warning.efface
 }).on("click", ".confirmAnnonceOverlayFooter .btn.btn-warning.editDemande", function () {
     ajaxAnonceDemandeVente($("#mcdemande input[name='idAnnonce']").val(), "demande", "edit", $('#mcdemande'));
 }).on("click", "table.tableResultAnnonce tr", function () {
-$('#modalDemande').modal();
+    $('#modalDemande').modal();
     ajaxAnonceDemandeVente($(this).find(".idAnnonce").html(), "demande", "show", $('#mcdemande'));
 })
 
@@ -199,28 +200,12 @@ $(document).ready(function () {
     });
     $("input[name='prixmin-search']").val(rangevalues[0]);
     $("input[name='prixmax-search']").val(rangevalues[ 1 ]);
-    
+
     $("#amount").val("Entre " + $("#slider-range").slider("values", 0) +
             "€ et " + $("#slider-range").slider("values", 1) + "€");
 
 
-
-
-    var password = document.getElementById("password")
-            , confirm_password = document.getElementById("confirm_password");
-    function validatePassword() {
-        if (password.value != confirm_password.value) {
-            confirm_password.setCustomValidity("Le mot de passe ne correspond pas");
-        } else {
-            confirm_password.setCustomValidity('');
-        }
-    }
-
-    if (password && confirm_password)
-    {
-        password.onchange = validatePassword;
-        confirm_password.onkeyup = validatePassword;
-    }
+    validatePasswordEventSet($("form[name='registerDropdown']"));
 
 
     $('#regionSelectSearch,#deptSelectSearch,#villeSelectSearch,#categSelect,#etabSelectSearch, #registerRegionSelect').multiselect(
@@ -231,7 +216,8 @@ $(document).ready(function () {
             });
     if (document.getElementById('map')) {
         initMap()
-    };
+    }
+    ;
     $("#maincontainer").on('change', 'input', majmainresults).on('keyup', "input[type='text']", majmainresults);
 
 });
@@ -245,12 +231,12 @@ var sliDemande = function (event, ui) {
     $("#amount-annonce-demande").val(ui.value + " €");
     $("#hidden-amount-annonce-demande").val(ui.value);
 }
-    var slidERange = function (event, ui) {
-        $("#amount").val("Entre " + ui.values[ 0 ] + "€ et " + ui.values[ 1 ] + "€");
-        $("input[name='prixmin-search']").val(ui.values[ 0 ]);
-        $("input[name='prixmax-search']").val(ui.values[ 1 ]);
-        majmainresults();
-    }
+var slidERange = function (event, ui) {
+    $("#amount").val("Entre " + ui.values[ 0 ] + "€ et " + ui.values[ 1 ] + "€");
+    $("input[name='prixmin-search']").val(ui.values[ 0 ]);
+    $("input[name='prixmax-search']").val(ui.values[ 1 ]);
+    majmainresults();
+}
 
 //*****pagination*******//
 $("body").on('click', "form[name='listUserPagin'] .pagination li,form[name='listAdPagin']  .pagination li", function () {
@@ -288,3 +274,17 @@ $("body").on("submit", '#formDemande,#formVente', function (ev) {
         }
     });
 });
+
+function  validatePasswordEventSet(container)
+{
+    confirm_password, password;
+    function validatePassword() {
+        if (password.value != confirm_password.value) {
+            confirm_password.setCustomValidity("Le mot de passe ne correspond pas");
+        } else {
+            confirm_password.setCustomValidity('');
+        }
+    }
+    password = container.find("input[name='password']").change(validatePassword)[0];
+    confirm_password = container.find("input[name='confirm_password']").keyup(validatePassword)[0]
+}
