@@ -26,9 +26,7 @@
         <div class="confirmAnnonceOverlayTitle">
             <div class="input-group">
                 <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-edit"></span>&#160;Titre</span>
-                <p>
-                    <%=annonce.getTitre()%>
-                </p>
+                <p><b><%=annonce.getTitre()%></b></p>
             </div>
 
         </div>
@@ -76,9 +74,7 @@
             </div>
             <div   class="input-group">
                 <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-edit"></span>&#160;Description</span>
-                <textarea readonly="" class="form-control">
-                    <%=annonce.getDescription()%>
-                </textarea>
+                <textarea readonly="" class="form-control"><%=annonce.getDescription()%></textarea>
             </div>
             <div class="input-group">
                 <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon glyphicon-globe"></span>&#160;Lieux</span>

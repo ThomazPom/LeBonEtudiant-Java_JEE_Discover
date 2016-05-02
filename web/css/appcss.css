@@ -124,7 +124,7 @@ ul.dropdown-menu>li, #maincontainer .input-group,.modal-body .input-group
     padding: 10px;
 }
 body{
-    padding-top: 60px
+    padding-top: 50px
 }
 html, body
 {
@@ -232,7 +232,7 @@ html, body
     z-index: 300;
 }
 
-.confirmAnnonceOverlayBody .input-group-addon {
+.confirmAnnonceOverlayBody .input-group-addon,.confirmAnnonceOverlayTitle .input-group-addon {
     min-width: 205px;
 }
 .confirmAnnonceOverlayBody  select{

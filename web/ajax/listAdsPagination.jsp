@@ -4,7 +4,7 @@
 <form name="listAdPagin" method="post" action="AjaxServlet">
     <input hidden name="action" value="listAdsPagination">
 
-    <div class="input-group" aria-describedby="nbresultaddon"><span class="input-group-addon" id="nbresultaddon">Nombre de résultats à afficher par page :</span>  
+    <div class="input-group container" aria-describedby="nbresultaddon"><span class="input-group-addon" id="nbresultaddon">Nombre de résultats à afficher par page :</span>  
         <select class="form-control" name="nbResultPage">
 
             <% for (int a = 5; a < annnoncepage.getNbresultPage(); a += 5) {
