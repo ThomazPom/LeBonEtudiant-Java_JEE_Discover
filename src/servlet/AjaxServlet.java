@@ -28,6 +28,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.Annonce;
+import model.Etablissement;
 import model.Utilisateur;
 
 /**
@@ -195,7 +196,17 @@ public class AjaxServlet extends HttpServlet {
                                 ? typeAnnonce.equals("vente") ? "ajax/form_vente.jsp" : "ajax/form_demande.jsp"
                                 : ann.isTypeVente() ? "ajax/form_vente.jsp" : "ajax/form_demande.jsp"
                         : ann == null ? "." : "ajax/confirmAnnonce.jsp";
-                request.setAttribute("isUserProprietaire", ann == null ? false :  ann.getProprietaire().getId().equals(userLogged.getId()) || userLogged.getRole().equals("Administrateur"));
+                boolean isUserProprietaire = ann == null ? false : ann.getProprietaire().getId().equals(userLogged.getId());
+                if(isUserProprietaire){
+                    request.getSession(false).setAttribute("info", "Vous êtes le propriétaire de cette annonce, " +userLogged.getPrenom() +" <i class=\"fa fa-smile-o\"></i>");
+                }
+                else if(ann!=null){
+                    Etablissement et =ann.getEtablissements().get(0);
+                       request.getSession(false).setAttribute("info",  "<b>"+ ann.getType()+" en région "+et.getVille().getDepartement().getRegion().getLibelle()
+                               +" ( "+et.getVille().getLibelle() +", "+ et.getVille().getDepartement().getLibelle()+" ): "+ann.getTitre()+"</b>" );
+                
+                }
+                    request.setAttribute("isUserProprietaire",  isUserProprietaire || userLogged.getRole().equals("Administrateur"));
             }
 
             if (action.equals("sendAnnonce")) {
@@ -255,7 +266,7 @@ public class AjaxServlet extends HttpServlet {
                             request.getSession(false).setAttribute("success", "Félicitations ! Ton annonce est en ligne !<br/>Voici à quoi elle ressemble :");
 
                             forwardTo = "ajax/confirmAnnonce.jsp";
-                            request.setAttribute("isUserProprietaire", userAnnonce.getId().equals(annonce.getProprietaire().getId()) || userAnnonce.getRole().equals("Administrateur") );
+                            request.setAttribute("isUserProprietaire", userAnnonce.getId().equals(annonce.getProprietaire().getId()) || userAnnonce.getRole().equals("Administrateur"));
                             request.setAttribute("annonce", annonce);
 
                         }

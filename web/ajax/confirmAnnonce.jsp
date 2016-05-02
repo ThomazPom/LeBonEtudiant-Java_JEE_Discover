@@ -80,7 +80,7 @@
                 <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon glyphicon-globe"></span>&#160;Lieux</span>
                 <select multiple="multiple">
                     <c:forEach var="u" items="${annonce.getEtablissements()}"> 
-                        <option value="${u.id}">${u.nom}</option>
+                        <option value="${u.id}">${u.nom} (${u.getVille().getLibelle()},${u.getVille().getDepartement().getLibelle()})</option>
                     </c:forEach>
                 </select>
             </div>
