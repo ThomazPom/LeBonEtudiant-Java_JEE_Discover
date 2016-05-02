@@ -177,8 +177,8 @@ public class AjaxServlet extends HttpServlet {
             }
         } else if (request.getSession(true).getAttribute("userlogged") != null) {
             //Code securisé ici;
-
             if (action.equals("annonce")) {
+                Utilisateur userLogged = userController.getOneLogin(request.getSession(false).getAttribute("email").toString());
 
                 String idAnnonce = (request.getParameter("idAnnonce") == null) ? "-1" : request.getParameter("idAnnonce");
                 String typeAnnonce = (request.getParameter("typeAnnonce") == null) ? "vente" : request.getParameter("typeAnnonce");
@@ -189,14 +189,13 @@ public class AjaxServlet extends HttpServlet {
                 Annonce ann = annonController.getAnnonceById(idAnnonce);
                 request.setAttribute("annonce", ann);
                 request.setAttribute("opt_etab", etabController.getEtablissements());
-
                 request.setAttribute("opt_categ", categController.getCategories());
                 forwardTo = typeres.equals("edit")
                         ? ann == null
                                 ? typeAnnonce.equals("vente") ? "ajax/form_vente.jsp" : "ajax/form_demande.jsp"
                                 : ann.isTypeVente() ? "ajax/form_vente.jsp" : "ajax/form_demande.jsp"
                         : ann == null ? "." : "ajax/confirmAnnonce.jsp";
-
+                request.setAttribute("isUserProprietaire", ann == null ? false :  ann.getProprietaire().getId().equals(userLogged.getId()) || userLogged.getRole().equals("Administrateur"));
             }
 
             if (action.equals("sendAnnonce")) {
@@ -236,7 +235,7 @@ public class AjaxServlet extends HttpServlet {
                                     request.getParameterValues("etabSelectAnnonce"),
                                     request.getParameter("typeAnnonce")
                             );
-                        } else if (userAnnonce.getId().equals(annonce.getProprietaire().getId())) {
+                        } else if (userAnnonce.getId().equals(annonce.getProprietaire().getId()) || userAnnonce.getRole().equals("Administrateur")) {
                             annonController.majAnnonce(annonce,
                                     request.getParameter("titre"),
                                     request.getParameter("amountAnnonce"),
@@ -256,6 +255,7 @@ public class AjaxServlet extends HttpServlet {
                             request.getSession(false).setAttribute("success", "Félicitations ! Ton annonce est en ligne !<br/>Voici à quoi elle ressemble :");
 
                             forwardTo = "ajax/confirmAnnonce.jsp";
+                            request.setAttribute("isUserProprietaire", userAnnonce.getId().equals(annonce.getProprietaire().getId()) || userAnnonce.getRole().equals("Administrateur") );
                             request.setAttribute("annonce", annonce);
 
                         }

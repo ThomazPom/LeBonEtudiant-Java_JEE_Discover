@@ -47,8 +47,14 @@ div.infowindowResult .nosmall
     width: 33%;
     height: 100%;
 }
-#mainxjspreceiver tr:hover, #paginationcontainer tr:hover{
+button.noBig{
+    display: none;
+}
+.tableResultAnnonce tr:hover{
         background: #ffe6e6;
+}
+.tableResultAnnonce tr:hover button.noBig{
+    display: block;
 }
 .offmenu{
     width: 400px;

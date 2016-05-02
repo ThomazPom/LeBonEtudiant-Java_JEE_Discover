@@ -75,9 +75,9 @@ public class init {
 
     @PostConstruct
     public void initbd() {
-        uc.creerUser("Thomas.benhamou@hotmail.fr", "passtom", "Benhamou", "Thomas", "ADMIN_ROLE", "0674597826", new ArrayList<Etablissement>());
-        uc.creerUser("myriamrouis@gmail.com", "passmyriam", "Rouis", "Myriam", "ADMIN_ROLE", "0678097898", new ArrayList<Etablissement>());
-        uc.creerUser("benoit.silvestro@gmail.com", "passbenoit", "Silvestro", "Benoit", "ADMIN_ROLE", "0678094526", new ArrayList<Etablissement>());
+        uc.creerUser("Thomas.benhamou@hotmail.fr", "passtom", "Benhamou", "Thomas", "Administrateur", "0674597826", new ArrayList<Etablissement>());
+        uc.creerUser("myriamrouis@gmail.com", "passmyriam", "Rouis", "Myriam", "Administrateur", "0678097898", new ArrayList<Etablissement>());
+        uc.creerUser("benoit.silvestro@gmail.com", "passbenoit", "Silvestro", "Benoit", "Administrateur", "0678094526", new ArrayList<Etablissement>());
         initEtabRegionDeptVille();
         initCategorie();
         initUsers("data500Etudiants.csv", "Etudiant",Boolean.TRUE,Boolean.FALSE);

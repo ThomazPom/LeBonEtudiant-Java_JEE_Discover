@@ -17,7 +17,7 @@
             session.removeAttribute("message");
             session.removeAttribute("success");%></div>
         <%}
-            if (session.getAttribute("info") != null) {%><div class="alert alert-info" role="alert"><%out.println(session.getAttribute("info")); %><% session.removeAttribute("info");%></div>
+                if (session.getAttribute("info") != null) {%><div class="alert alert-info" role="alert"><%out.println(session.getAttribute("info")); %><% session.removeAttribute("info");%></div>
         <%}
             if (session.getAttribute("warning") != null) {%><div class="alert alert-warning" role="alert"><%out.println(session.getAttribute("warning")); %><% session.removeAttribute("warning");%></div>
         <%}
@@ -103,15 +103,21 @@
 
         <div class="confirmAnnonceOverlayFooter">
             <% if (annonce.isTypeVente()) {%>
-            <button class="btn btn-warning editVente">Modifier ma vente</button>
-            <button class="btn btn-primary postOtherVente">Poster une autre offre</button>
-            <button class="btn btn-danger delVente">Supprimer cette annonce</button>
-            <button class="btn btn-success closeModalVente">Fermer cete page</button>
+            <button class="btn btn-primary postOtherVente">Poster une nouvelle offre</button>
+            
+            <c:if test="${isUserProprietaire}">
+                <button class="btn btn-warning editVente">Modifier ma vente</button>
+                <button class="btn btn-danger delVente">Supprimer cette annonce</button>
+            </c:if>
+            <button data-dismiss="modal" class="btn btn-success">Fermer cete page</button>
             <% } else {%>
-            <button class="btn btn-warning editDemande">Modifier ma recherche</button>
-            <button class="btn btn-primary postOtherDemande">Poster une autre demande</button>
-            <button class="btn btn-danger delDemande">Supprimer cette annonce</button>
-            <button class="btn btn-success closeModalDemande">Fermer cete page</button>
+
+            <button class="btn btn-primary postOtherDemande">Poster une nouvelle demande</button>
+            <c:if test="${isUserProprietaire}">
+                <button class="btn btn-warning editDemande">Modifier ma recherche</button>
+                <button class="btn btn-danger delDemande">Supprimer cette annonce</button>
+            </c:if>
+            <button data-dismiss="modal" class="btn btn-success">Fermer cete page</button>
             <%}%>
         </div>
     </div>

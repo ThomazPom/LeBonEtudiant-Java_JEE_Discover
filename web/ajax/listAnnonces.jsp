@@ -7,6 +7,7 @@
             <th class="nosmall">#</th>
             <th>Titre</th>
             <th>Vendeur</th>
+            <th></th>
             <th class="nosmall">Date</th>
             <th>Prix</th>
             <th class="nosmall">Région</th>
@@ -18,6 +19,7 @@
                 <td class="idAnnonce nosmall">${a.getId()}</td>
                 <td>${a.getTitre()}</td>
                 <td>${a.getProprietaire().getPrenom()}&#160;${a.getProprietaire().getNom()}</td>
+                <td><button class="btn  btn-sm btn-default noBig"><span class="glyphicon glyphicon-eye-open"></span></button></td>
                 <td class="nosmall">${a.getDatePublication()}</td>
                 <td>${a.getPrix()}</td>
                 <td class="nosmall">${a.getEtablissements().get(0).getVille().getDepartement().getRegion().getLibelle()}</td>

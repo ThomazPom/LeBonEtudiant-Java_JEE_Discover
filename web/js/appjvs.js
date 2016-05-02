@@ -164,11 +164,11 @@ function ajaxAnonceDemandeVente(idAnnonce, typeAnnonce, typeres, container)
 
     })
 }
-$("body").on("click", "button[data-target='#modalVente'],.btn.btn-warning.effacerForm-Vente", function () {
+$("body").on("click", "button[data-target='#modalVente'],.btn.btn-warning.effacerForm-Vente,.btn.btn-primary.postOtherVente", function () {
     ajaxAnonceDemandeVente("-1", "vente", "edit", $('#mcvente'));
 }).on("click", ".confirmAnnonceOverlayFooter .btn.btn-warning.editVente", function () {
     ajaxAnonceDemandeVente($("#mcvente  input[name='idAnnonce']").val(), "vente", "edit", $('#mcvente'));
-}).on("click", "button[data-target='#modalDemande'],.btn.btn-warning.effacerForm-Demande", function () {
+}).on("click", "button[data-target='#modalDemande'],.btn.btn-warning.effacerForm-Demande,.btn.btn-primary.postOtherDemande", function () {
     $('#modalVente').modal();
     ajaxAnonceDemandeVente("-1", "demande", "edit", $('#mcvente'));
 }).on("click", ".confirmAnnonceOverlayFooter .btn.btn-warning.editDemande", function () {

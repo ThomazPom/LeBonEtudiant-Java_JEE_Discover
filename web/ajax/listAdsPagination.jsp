@@ -3,7 +3,7 @@
 <% AnnonceController.AnnoncePage annnoncepage = (AnnonceController.AnnoncePage) request.getAttribute("wrapListPage");%>
 <form name="listAdPagin" method="post" action="AjaxServlet">
     <input hidden name="action" value="listAdsPagination">
-        
+
     <div class="input-group" aria-describedby="nbresultaddon"><span class="input-group-addon" id="nbresultaddon">Nombre de résultats à afficher par page :</span>  
         <select class="form-control" name="nbResultPage">
 
@@ -49,6 +49,7 @@
                 <th>#</th>
                 <th>Titre</th>
                 <th>Vendeur</th>
+                <th></th>
                 <th>Date</th>
                 <th>Prix</th>
                 <th>Région</th>
@@ -61,6 +62,8 @@
                     <td class="idAnnonce">${ap.getId()}</td>
                     <td>${ap.getTitre()}</td>
                     <td>${ap.getProprietaire().getPrenom()}&#160;${ap.getProprietaire().getNom()}</td>
+                    <td><button class="btn  btn-sm btn-default noBig"><span class="glyphicon glyphicon-eye-open"></span></button></td>
+
                     <td>${ap.getDatePublication()}</td>
                     <td>${ap.getPrix()}</td>
                     <td>${ap.getEtablissements().get(0).getVille().getDepartement().getRegion().getLibelle()}</td>
