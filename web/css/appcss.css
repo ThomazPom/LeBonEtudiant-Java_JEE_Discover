@@ -21,7 +21,9 @@ div.infowindowResult .nosmall
 {
     display: none;
 }
-
+#modalVente{
+    z-index: 20000;
+}
 .datepicker{
     width: 100%;
     height: 34px;

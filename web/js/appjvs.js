@@ -67,7 +67,7 @@ var majmainresults = function (e) {
 
 }
 
-$("body").on('submit', "form[name='infowindowsearch']", function (e) {
+$("body").on('submit', "[name='infowindowsearch'], [name='listAds1User']", function (e) {
     e.preventDefault();
     var container = $(this).children(".infowindowResult");
     $.ajax({
@@ -247,7 +247,7 @@ $("body").on('click', "form[name='listUserPagin'] .pagination li,form[name='list
 $("body").on('change', "form[name='listUserPagin'] select[name='nbResultPage'],form[name='listAdPagin'] select[name='nbResultPage']", function () {
     $("form[name='listAdPagin'],form[name='listUserPagin']").submit();
 });
-$("body").on('submit', "form[name='listAdPagin'], form[name='listUserPagin']", function (e) {
+$("body").on('submit', "[name='listAdPagin'], [name='listUserPagin'],[name='formDemande'],[name='formVente']", function (e) {
     e.preventDefault();
     var container = $(this).parent();
     $.ajax({
@@ -262,24 +262,14 @@ $("body").on('submit', "form[name='listAdPagin'], form[name='listUserPagin']", f
     })
 });
 /*******/
-$("body").on("submit", 'form[name="formDemande"],[name="formVente"]', function (ev) {
-    ev.preventDefault();
-    var container = $(this).parent();
-    //Code d'envoi ici
-    $.ajax({
-        type: "POST",
-        url: $(this).attr('action'),
-        data: $(this).serialize(),
-        success: function (reponse) {
-            container.html(reponse);
-        }
-    });
-});
 $('body').on("click", ".delAnnonce", function (e) {
     if (!confirm("Voulez vous vraiment supprimer cette annonce? ")) {
         e.preventDefault();
     }
-})
+}).on("click", '[data-target="#modalAnnonces1user"]', function () {
+    $('[name="listAds1User"]').submit();
+});
+
 function  validatePasswordEventSet(container)
 {
     var confirm_password, password;

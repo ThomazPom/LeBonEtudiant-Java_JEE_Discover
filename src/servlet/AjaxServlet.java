@@ -100,11 +100,6 @@ public class AjaxServlet extends HttpServlet {
             forwardTo = "ajax/listEtab.jsp";
         }
 
-        if (action.equals("listAllAnnonces")) {
-            System.out.println("In action " + action);
-            request.setAttribute("annonces", annonController.getAnnonces());
-            forwardTo = "ajax/listAnnonces.jsp";
-        }
         if (action.equals("3randAnnonce")) {
             System.out.println("In action " + action);
             List<Annonce> listann = annonController.getAnnonces();
@@ -147,6 +142,7 @@ public class AjaxServlet extends HttpServlet {
                 System.out.println("nbresultpage or pagecourante : NaN");
             }
             AnnonceController.AnnoncePage annoncePage = new AnnonceController.AnnoncePage(nbResultPage, pageCourante);
+
             annonController.getOnePageAds(annoncePage);
 
             request.setAttribute("wrapListPage", annoncePage);
@@ -178,8 +174,16 @@ public class AjaxServlet extends HttpServlet {
             }
         } else if (request.getSession(true).getAttribute("userlogged") != null) {
             //Code securisé ici;
+            Utilisateur userLogged = userController.getOneLogin(request.getSession(false).getAttribute("email").toString());
+
+            if (action.equals("listAllAnnonces")) {
+                System.out.println("In action " + action);
+
+                request.setAttribute("annonces", request.getParameter("forUser") == null ? annonController.getAnnonces() : userLogged.getAnnonces());
+                System.out.println("[[[[[[[[[[[[[[[[[[[[["+userLogged.getAnnonces().size());
+                forwardTo = "ajax/listAnnonces.jsp";
+            }
             if (action.equals("annonce")) {
-                Utilisateur userLogged = userController.getOneLogin(request.getSession(false).getAttribute("email").toString());
 
                 String idAnnonce = (request.getParameter("idAnnonce") == null) ? "-1" : request.getParameter("idAnnonce");
                 String typeAnnonce = (request.getParameter("typeAnnonce") == null) ? "vente" : request.getParameter("typeAnnonce");
@@ -199,7 +203,7 @@ public class AjaxServlet extends HttpServlet {
                 boolean isUserProprietaire = ann == null ? false : ann.getProprietaire().getId().equals(userLogged.getId());
 
                 if (isUserProprietaire) {
-                    request.getSession(false).setAttribute("info", "Vous êtes le propriétaire de cette annonce, " + userLogged.getPrenom() + " <i class=\"fa fa-smile-o\"></i>");
+                    request.getSession(false).setAttribute("success", "Vous êtes le propriétaire de cette annonce, " + userLogged.getPrenom() + " <i class=\"fa fa-smile-o\"></i>");
                 }
                 if (ann != null) {
                     Etablissement et = ann.getEtablissements().get(0);
@@ -222,11 +226,10 @@ public class AjaxServlet extends HttpServlet {
             }
             if (action.equals("disableAnnonce")) {
                 forwardTo = "ajax/generalAnnonce.jsp";
-                Utilisateur userAnnonce = userController.getOneLogin(request.getSession(false).getAttribute("email").toString());
-                if (request.getParameter("idAnnonce") != null && userAnnonce != null) {
+                if (request.getParameter("idAnnonce") != null && userLogged != null) {
                     Annonce annonce = annonController.getAnnonceById(request.getParameter("idAnnonce"));
 
-                    if (annonce != null && userAnnonce.getId().equals(annonce.getProprietaire().getId()) || userAnnonce.getRole().equals("Administrateur")) {
+                    if (annonce != null && userLogged.getId().equals(annonce.getProprietaire().getId()) || userLogged.getRole().equals("Administrateur")) {
                         Boolean active = !"false".equals(request.getParameter("activeAnnonce"));
                         String formReactive = "<form style='display: inline;' class='alert alert-success' role='alert' method='post' name='formVente' action='AjaxServlet'>\n"
                                 + (active ? "L'annonce est à présent re-activée " : "L'annonce a bien été supprimée !")
@@ -256,10 +259,9 @@ public class AjaxServlet extends HttpServlet {
                         && request.getParameterValues("etabSelectAnnonce") != null
                         && request.getParameter("amountAnnonce") != null
                         && request.getParameterValues("typeAnnonce") != null) {
-                    Utilisateur userAnnonce = userController.getOneLogin(request.getSession(false).getAttribute("email").toString());
 
                     if (request.getParameterValues("etabSelectAnnonce").length > 0
-                            && userAnnonce != null
+                            && userLogged != null
                             && request.getParameterValues("categSelect-annonce").length > 0
                             && !request.getParameter("titre").isEmpty()
                             && !request.getParameter("description").isEmpty()
@@ -269,7 +271,7 @@ public class AjaxServlet extends HttpServlet {
                         Annonce annonce = annonController.getAnnonceById(request.getParameter("idAnnonce"));
 
                         if (annonce == null) {
-                            annonce = annonController.creerAnnonce(userAnnonce,
+                            annonce = annonController.creerAnnonce(userLogged,
                                     request.getParameter("titre"),
                                     request.getParameter("amountAnnonce"),
                                     request.getParameter("telephone"),
@@ -281,7 +283,7 @@ public class AjaxServlet extends HttpServlet {
                                     request.getParameterValues("etabSelectAnnonce"),
                                     request.getParameter("typeAnnonce")
                             );
-                        } else if (userAnnonce.getId().equals(annonce.getProprietaire().getId()) || userAnnonce.getRole().equals("Administrateur")) {
+                        } else if (userLogged.getId().equals(annonce.getProprietaire().getId()) || userLogged.getRole().equals("Administrateur")) {
                             annonController.majAnnonce(annonce,
                                     request.getParameter("titre"),
                                     request.getParameter("amountAnnonce"),
@@ -301,7 +303,7 @@ public class AjaxServlet extends HttpServlet {
                             request.getSession(false).setAttribute("success", "Félicitations ! Ton annonce est en ligne !<br/>Voici à quoi elle ressemble :");
 
                             forwardTo = "ajax/confirmAnnonce.jsp";
-                            request.setAttribute("isUserProprietaire", userAnnonce.getId().equals(annonce.getProprietaire().getId()) || userAnnonce.getRole().equals("Administrateur"));
+                            request.setAttribute("isUserProprietaire", userLogged.getId().equals(annonce.getProprietaire().getId()) || userLogged.getRole().equals("Administrateur"));
                             request.setAttribute("annonce", annonce);
 
                         }

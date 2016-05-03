@@ -100,9 +100,7 @@
             <button class="btn btn-primary postOtherDemande">Poster une nouvelle demande</button>
             <c:if test="${isUserProprietaire}">
                 <button class="btn btn-warning editDemande">Modifier ma recherche</button>
-            </c:if>
-            <%}%>
-            <div style="display: inline;">
+                <div style="display: inline;">
                 <form style="display: inline;" method="post" name="formVente" action="AjaxServlet">
                     <input required="" value="${annonce.getId()}" name="idAnnonce" hidden/>
                     <input required name="activeAnnonce" value="${!annonce.isActive()}" hidden/>
@@ -117,6 +115,9 @@
                     </c:choose>
                 </form>
             </div>
+            </c:if>
+            <%}%>
+            
             <button data-dismiss="modal" class="btn btn-success">Fermer cette page</button>
         </div>
     </div>

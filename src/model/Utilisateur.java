@@ -178,4 +178,11 @@ public String toString()
     public void setRole(String role) {
         this.role = role;
     }
+
+    /**
+     * @return the annonces
+     */
+    public List<Annonce> getAnnonces() {
+        return annonces;
+    }
 }
