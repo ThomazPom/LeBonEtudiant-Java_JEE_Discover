@@ -185,4 +185,11 @@ public String toString()
     public List<Annonce> getAnnonces() {
         return annonces;
     }
+
+    /**
+     * @param annonces the annonces to set
+     */
+    public void setAnnonces(List<Annonce> annonces) {
+        this.annonces = annonces;
+    }
 }

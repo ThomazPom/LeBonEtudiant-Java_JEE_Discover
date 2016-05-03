@@ -61,6 +61,7 @@ public class Annonce {
     public Annonce(Utilisateur Proprietaire, String Titre, int prix, String numeroOverride, String emailOverride, String Description, Date dateFin, boolean active, List<Categorie> categories, List<Etablissement> etablissements, boolean type) {
 
         this.Proprietaire = Proprietaire;
+        
         this.Titre = Titre;
         if (!numeroOverride.isEmpty()) {
             if (!numeroOverride.equals(Proprietaire.getNumtel())) {
