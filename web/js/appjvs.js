@@ -262,7 +262,7 @@ $("body").on('submit', "form[name='listAdPagin'], form[name='listUserPagin']", f
     })
 });
 /*******/
-$("body").on("submit", '#formDemande,#formVente', function (ev) {
+$("body").on("submit", 'form[name="formDemande"],[name="formVente"]', function (ev) {
     ev.preventDefault();
     var container = $(this).parent();
     //Code d'envoi ici
@@ -275,6 +275,11 @@ $("body").on("submit", '#formDemande,#formVente', function (ev) {
         }
     });
 });
+$('body').on("click", ".delAnnonce", function (e) {
+    if (!confirm("Voulez vous vraiment supprimer cette annonce? ")) {
+        e.preventDefault();
+    }
+})
 function  validatePasswordEventSet(container)
 {
     var confirm_password, password;

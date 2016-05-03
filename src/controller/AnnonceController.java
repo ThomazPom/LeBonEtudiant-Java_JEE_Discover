@@ -52,7 +52,6 @@ public class AnnonceController {
     @EJB
     RegionController rc;
 
-
     //Classe anonyme pour la pagination des annonces
     public static class AnnoncePage {
 
@@ -105,7 +104,9 @@ public class AnnonceController {
         int nbPages = (int) Math.ceil(nbAds / annoncePage.getNbresultPage());
         annoncePage.setNbPages(nbPages);
 
-        Query query = em.createQuery("select a from Annonce a");
+        Query query = em.createQuery("select a from Annonce a where a.active =:active");
+        
+        query.setParameter("active", true);
         query.setFirstResult(annoncePage.getPageCourante() * annoncePage.getNbresultPage());
         query.setMaxResults(annoncePage.getNbresultPage());
 
@@ -128,7 +129,7 @@ public class AnnonceController {
         List<Ville> villesSelect = vc.getVillesById(idVilles);
         List<Departement> deptSelect = dc.getDepartementById(idDepts);
         List<Etablissement> etabSelect = ec.getEtablissementsById(idEtabs);
-        Boolean geolocEmpty = regionSelect.isEmpty()&&villesSelect.isEmpty()&&deptSelect.isEmpty()&&etabSelect.isEmpty();
+        Boolean geolocEmpty = regionSelect.isEmpty() && villesSelect.isEmpty() && deptSelect.isEmpty() && etabSelect.isEmpty();
         try {
             prixmin = Integer.parseInt(prixMin);
             prixmax = Integer.parseInt(prixMax);
@@ -136,12 +137,14 @@ public class AnnonceController {
             System.err.println(prixMin + " or " + prixMax + " is not a valid price");
         }
         StringBuilder queryString = new StringBuilder();
-        queryString.append("Select a from Annonce a where lower(a.Titre) like lower(:titre) AND a.prix BETWEEN :prixmin AND :prixmax");
+        queryString.append("Select a from Annonce a where lower(a.Titre) like lower(:titre) AND a.active =:active AND a.prix BETWEEN :prixmin AND :prixmax");
+        
         if (allowedTypes.contains(type)) {
             queryString.append(" AND a.typeVente = :typeVente");
         }
         Query q = em.createQuery(queryString.toString());
         q.setParameter("titre", "%" + titre + "%");
+        q.setParameter("active", true);
         q.setParameter("prixmin", prixmin);
         q.setParameter("prixmax", prixmax);
         if (allowedTypes.contains(type)) {
@@ -214,7 +217,8 @@ public class AnnonceController {
             if (dateFin != null) {
                 annonce.setDateFin(dateFin);
             }
-            if (!active) {
+            System.out.println(active+"|"+annonce.isActive());
+            if (active != annonce.isActive()) {
                 annonce.setActive(active);                              //si l'annonce est desactivee on l'active.
             }
             if (!categories.isEmpty()) {
@@ -244,15 +248,15 @@ public class AnnonceController {
             Date dateFin = Calendar.getInstance().getTime();
             try {
                 dateFin = df.parse(strDateFin);
-            } catch (ParseException ex) {
+            } catch (Exception e) {
                 System.out.println(strDateFin + " is not a valid date string");
             }
-            int prixAnnonce = 999999;
+            int prixAnnonce = -1;
             try {
                 prixAnnonce = Integer.parseInt(prix);
             } catch (Exception e) {
                 System.err.println(prix + "is not a number (majAnnonce)");
-                return null;
+                
             }
             return majAnnonce(annonce, titre, prixAnnonce, numeroOverride, emailOverride, Description, dateFin, active, arcateg, aretab);
         }
@@ -289,6 +293,8 @@ public class AnnonceController {
 
     public List<Annonce> getAnnonces() {
         System.out.println("-->>getAnnonces()");
-        return em.createQuery("SELECT a from Annonce a").getResultList();
+        Query q = em.createQuery("SELECT a from Annonce a where a.active =:active");
+        q.setParameter("active", true);
+        return q.getResultList();
     }
 }

@@ -197,21 +197,45 @@ public class AjaxServlet extends HttpServlet {
                                 : ann.isTypeVente() ? "ajax/form_vente.jsp" : "ajax/form_demande.jsp"
                         : ann == null ? "." : "ajax/confirmAnnonce.jsp";
                 boolean isUserProprietaire = ann == null ? false : ann.getProprietaire().getId().equals(userLogged.getId());
-                if(isUserProprietaire){
-                    request.getSession(false).setAttribute("info", "Vous êtes le propriétaire de cette annonce, " +userLogged.getPrenom() +" <i class=\"fa fa-smile-o\"></i>");
-                }
-                else if(ann!=null){
-                    Etablissement et =ann.getEtablissements().get(0);
-                       request.getSession(false).setAttribute("info",  "<b>"+ ann.getType()+" en région "+et.getVille().getDepartement().getRegion().getLibelle()
-                               +" ( "+et.getVille().getLibelle() +", "+ et.getVille().getDepartement().getLibelle()+" ): "+ann.getTitre()+"</b>" );
-                
-                }
-                    request.setAttribute("isUserProprietaire",  isUserProprietaire || userLogged.getRole().equals("Administrateur"));
-            }
+                if (isUserProprietaire) {
+                    request.getSession(false).setAttribute("info", "Vous êtes le propriétaire de cette annonce, " + userLogged.getPrenom() + " <i class=\"fa fa-smile-o\"></i>");
+                } else if (ann != null) {
+                    Etablissement et = ann.getEtablissements().get(0);
+                    request.getSession(false).setAttribute("info", "<b>" + ann.getType() + " en région " + et.getVille().getDepartement().getRegion().getLibelle()
+                            + " ( " + et.getVille().getLibelle() + ", " + et.getVille().getDepartement().getLibelle() + " ): " + ann.getTitre() + "</b>");
 
+                }
+                request.setAttribute("isUserProprietaire", isUserProprietaire || userLogged.getRole().equals("Administrateur"));
+            }
+            if (action.equals("disableAnnonce")) {
+                forwardTo = "ajax/generalAnnonce.jsp";
+                request.getSession(false).setAttribute("html2", "<div style='text-align-right'>"
+                        + "            <button data-dismiss=\"modal\" class=\"btn btn-success\">Fermer cecte page</button>"
+                        + "</div>");
+                Utilisateur userAnnonce = userController.getOneLogin(request.getSession(false).getAttribute("email").toString());
+                if (request.getParameter("idAnnonce") != null && userAnnonce != null) {
+                    Annonce annonce = annonController.getAnnonceById(request.getParameter("idAnnonce"));
+
+                    if (annonce != null && userAnnonce.getId().equals(annonce.getProprietaire().getId()) || userAnnonce.getRole().equals("Administrateur")) {
+                        Boolean active = !"false".equals(request.getParameter("activeAnnonce"));
+                        String formReactive = "<form  class='alert alert-success' role='alert' method='post' name='formVente' action='AjaxServlet'>\n"
+                                + (active? "L'annonce est à présent re-activée ":"L'annonce a bien été supprimée !")
+                                + "    <input required='' value='"+annonce.getId()+"' name='idAnnonce' hidden/>\n"
+                                + "    <input required name='activeAnnonce' value='"+ !active +"' hidden/>\n"
+                                + "    <input required name='action' value='disableAnnonce' hidden/>\n"
+                                + "    <input type='submit' class='btn btn-primary' value='"+(active?"Désactiver":"Annuler")+"?'>\n"
+                                + "</form>";
+                        
+                        request.getSession(false).setAttribute("html", formReactive);
+                        annonController.majAnnonce(annonce, null, null, null, null, null, null,
+                                !"false".equals(request.getParameter("activeAnnonce")), new String[0], new String[0]);
+
+                    }
+                }
+            }
             if (action.equals("sendAnnonce")) {
                 //request.getSession(false).setAttribute("danger", "Il y a eu un probleme...");
-                forwardTo = "ajax/erreurAnnonce.jsp";
+                forwardTo = "ajax/generalAnnonce.jsp";
 
                 if (request.getParameter("idAnnonce") != null
                         && request.getParameter("titre") != null
@@ -222,15 +246,16 @@ public class AjaxServlet extends HttpServlet {
                         && request.getParameterValues("etabSelectAnnonce") != null
                         && request.getParameter("amountAnnonce") != null
                         && request.getParameterValues("typeAnnonce") != null) {
+                    Utilisateur userAnnonce = userController.getOneLogin(request.getSession(false).getAttribute("email").toString());
 
                     if (request.getParameterValues("etabSelectAnnonce").length > 0
+                            && userAnnonce != null
                             && request.getParameterValues("categSelect-annonce").length > 0
                             && !request.getParameter("titre").isEmpty()
                             && !request.getParameter("description").isEmpty()
                             && !request.getParameter("amountAnnonce").isEmpty()
                             && !request.getParameter("typeAnnonce").isEmpty()) {
 
-                        Utilisateur userAnnonce = userController.getOneLogin(request.getSession(false).getAttribute("email").toString());
                         Annonce annonce = annonController.getAnnonceById(request.getParameter("idAnnonce"));
 
                         if (annonce == null) {
@@ -254,7 +279,7 @@ public class AjaxServlet extends HttpServlet {
                                     request.getParameter("email"),
                                     request.getParameter("description"),
                                     request.getParameter("date-fin"),
-                                    true,
+                                    !"false".equals(request.getParameter("activeAnnonce")),
                                     request.getParameterValues("categSelect-annonce"),
                                     request.getParameterValues("etabSelectAnnonce")
                             );
