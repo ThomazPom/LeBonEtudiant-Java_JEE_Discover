@@ -197,21 +197,32 @@ public class AjaxServlet extends HttpServlet {
                                 : ann.isTypeVente() ? "ajax/form_vente.jsp" : "ajax/form_demande.jsp"
                         : ann == null ? "." : "ajax/confirmAnnonce.jsp";
                 boolean isUserProprietaire = ann == null ? false : ann.getProprietaire().getId().equals(userLogged.getId());
+
                 if (isUserProprietaire) {
                     request.getSession(false).setAttribute("info", "Vous êtes le propriétaire de cette annonce, " + userLogged.getPrenom() + " <i class=\"fa fa-smile-o\"></i>");
-                } else if (ann != null) {
+                }
+                if (ann != null) {
                     Etablissement et = ann.getEtablissements().get(0);
-                    request.getSession(false).setAttribute("info", "<b>" + ann.getType() + " en région " + et.getVille().getDepartement().getRegion().getLibelle()
-                            + " ( " + et.getVille().getLibelle() + ", " + et.getVille().getDepartement().getLibelle() + " ): " + ann.getTitre() + "</b>");
+                    Boolean canEdit = isUserProprietaire || userLogged.getRole().equals("Administrateur");
+                    request.setAttribute("isUserProprietaire", canEdit);
+                    if (!ann.isActive()) {
+                        if (!canEdit) {
+                            forwardTo = "ajax/generalAnnonce.jsp";
+                            request.getSession(false).setAttribute("html2", "<div style='padding:20px;'><button data-dismiss=\"modal\" class=\"btn btn-success\">Fermer cette page</button></div>");
+                        }
+                        request.getSession(false).setAttribute("warning", "Cette annonce a été désactivée.");
+
+                    } else if (ann.isActive()) {
+                        request.getSession(false).setAttribute("info", "<b>" + ann.getType() + " en région " + et.getVille().getDepartement().getRegion().getLibelle()
+                                + " ( " + et.getVille().getLibelle() + ", " + et.getVille().getDepartement().getLibelle() + " ): " + ann.getTitre() + "</b>");
+                    }
 
                 }
-                request.setAttribute("isUserProprietaire", isUserProprietaire || userLogged.getRole().equals("Administrateur"));
+
             }
             if (action.equals("disableAnnonce")) {
                 forwardTo = "ajax/generalAnnonce.jsp";
-                request.getSession(false).setAttribute("html2", "<div style='text-align-right'>"
-                        + "            <button data-dismiss=\"modal\" class=\"btn btn-success\">Fermer cecte page</button>"
-                        + "</div>");
+                request.getSession(false).setAttribute("html2", "<div style='text-align-right'><button data-dismiss=\"modal\" class=\"btn btn-success\">Fermer cette page</button></div>");
                 Utilisateur userAnnonce = userController.getOneLogin(request.getSession(false).getAttribute("email").toString());
                 if (request.getParameter("idAnnonce") != null && userAnnonce != null) {
                     Annonce annonce = annonController.getAnnonceById(request.getParameter("idAnnonce"));
@@ -219,13 +230,13 @@ public class AjaxServlet extends HttpServlet {
                     if (annonce != null && userAnnonce.getId().equals(annonce.getProprietaire().getId()) || userAnnonce.getRole().equals("Administrateur")) {
                         Boolean active = !"false".equals(request.getParameter("activeAnnonce"));
                         String formReactive = "<form  class='alert alert-success' role='alert' method='post' name='formVente' action='AjaxServlet'>\n"
-                                + (active? "L'annonce est à présent re-activée ":"L'annonce a bien été supprimée !")
-                                + "    <input required='' value='"+annonce.getId()+"' name='idAnnonce' hidden/>\n"
-                                + "    <input required name='activeAnnonce' value='"+ !active +"' hidden/>\n"
+                                + (active ? "L'annonce est à présent re-activée " : "L'annonce a bien été supprimée !")
+                                + "    <input required='' value='" + annonce.getId() + "' name='idAnnonce' hidden/>\n"
+                                + "    <input required name='activeAnnonce' value='" + !active + "' hidden/>\n"
                                 + "    <input required name='action' value='disableAnnonce' hidden/>\n"
-                                + "    <input type='submit' class='btn btn-primary' value='"+(active?"Désactiver":"Annuler")+"?'>\n"
+                                + "    <input type='submit' class='btn btn-primary' value='" + (active ? "Désactiver" : "Annuler") + "?'>\n"
                                 + "</form>";
-                        
+
                         request.getSession(false).setAttribute("html", formReactive);
                         annonController.majAnnonce(annonce, null, null, null, null, null, null,
                                 !"false".equals(request.getParameter("activeAnnonce")), new String[0], new String[0]);
