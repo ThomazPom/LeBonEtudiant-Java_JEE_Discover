@@ -1,6 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
-<h3 style="color:#cc0000;text-align: center">${annonces.size()} résultats de la recherche</h3>
+<h3 style="color:#cc0000;text-align: center">${annonces.size()} résultats de la recherche <span class="caret"></span> </h3>
 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
     <div  class="panel-primary">
 
