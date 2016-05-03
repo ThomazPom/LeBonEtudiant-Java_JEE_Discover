@@ -102,12 +102,21 @@
                 <button class="btn btn-warning editDemande">Modifier ma recherche</button>
             </c:if>
             <%}%>
-            <form style="display: inline;" method="post" name="formVente" action="AjaxServlet">
-                <input required="" value="${annonce.getId()}" name="idAnnonce" hidden/>
-                <input required name="activeAnnonce" value="false" hidden/>
-                <input required name="action" value="disableAnnonce" hidden/>
-                <input type="submit" class="btn btn-danger delAnnonce" value="Supprimer cette annonce">
-            </form>
+            <div style="display: inline;">
+                <form style="display: inline;" method="post" name="formVente" action="AjaxServlet">
+                    <input required="" value="${annonce.getId()}" name="idAnnonce" hidden/>
+                    <input required name="activeAnnonce" value="${!annonce.isActive()}" hidden/>
+                    <input required name="action" value="disableAnnonce" hidden/>
+                    <c:choose>
+                    <c:when test="${annonce.isActive()}">
+                        <input type="submit" class="btn btn-danger delAnnonce" value="Supprimer cette annonce">
+                    </c:when>
+                    <c:otherwise>
+                         <input type="submit" class="btn btn-warning" value="Activer l'annonce">
+                    </c:otherwise>
+                    </c:choose>
+                </form>
+            </div>
             <button data-dismiss="modal" class="btn btn-success">Fermer cette page</button>
         </div>
     </div>

@@ -222,14 +222,13 @@ public class AjaxServlet extends HttpServlet {
             }
             if (action.equals("disableAnnonce")) {
                 forwardTo = "ajax/generalAnnonce.jsp";
-                request.getSession(false).setAttribute("html2", "<div style='text-align-right'><button data-dismiss=\"modal\" class=\"btn btn-success\">Fermer cette page</button></div>");
                 Utilisateur userAnnonce = userController.getOneLogin(request.getSession(false).getAttribute("email").toString());
                 if (request.getParameter("idAnnonce") != null && userAnnonce != null) {
                     Annonce annonce = annonController.getAnnonceById(request.getParameter("idAnnonce"));
 
                     if (annonce != null && userAnnonce.getId().equals(annonce.getProprietaire().getId()) || userAnnonce.getRole().equals("Administrateur")) {
                         Boolean active = !"false".equals(request.getParameter("activeAnnonce"));
-                        String formReactive = "<form  class='alert alert-success' role='alert' method='post' name='formVente' action='AjaxServlet'>\n"
+                        String formReactive = "<form style='display: inline;' class='alert alert-success' role='alert' method='post' name='formVente' action='AjaxServlet'>\n"
                                 + (active ? "L'annonce est à présent re-activée " : "L'annonce a bien été supprimée !")
                                 + "    <input required='' value='" + annonce.getId() + "' name='idAnnonce' hidden/>\n"
                                 + "    <input required name='activeAnnonce' value='" + !active + "' hidden/>\n"
