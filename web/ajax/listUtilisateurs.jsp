@@ -43,40 +43,43 @@
             </ul>
         </nav>
     </div>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>Rôle</th>
-                <th>Nom</th>
-                <th>Prénom</th>
-                <th>Email</th>
-                <th>Téléphone</th>
-                <th>Formation</th>
-                <th>Ville</th>
-            </tr>
-        </thead>
-        <tbody>
-            <c:forEach var="ap" items="${wrapListPage.getResultList()}"> 
+
+    <div class="resultPagination">
+        <table class="table">
+            <thead>
                 <tr>
-                    <td>${ap.getId()}</td>
-                    <td>${ap.getRole()}</td>
-                    <td>${ap.getNom()}</td>
-                    <td>${ap.getPrenom()}</td>
-                    <td>${ap.getLogin()}</td>
-                    <td>${ap.getNumtel()}</td>
-                    <td >
-                        <c:forEach var="ae" items="${ap.getEtabsUser()}">
-                            ${ae.getNom()}
-                        </c:forEach>
-                    </td>
-                    <td >
-                        <c:forEach var="ae" items="${ap.getEtabsUser()}">
-                            ${ae.getVille().getLibelle()}
-                        </c:forEach>
-                    </td>
+                    <th>#</th>
+                    <th>Rôle</th>
+                    <th>Nom</th>
+                    <th>Prénom</th>
+                    <th>Email</th>
+                    <th>Téléphone</th>
+                    <th>Formation</th>
+                    <th>Ville</th>
                 </tr>
-            </c:forEach>
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                <c:forEach var="ap" items="${wrapListPage.getResultList()}"> 
+                    <tr>
+                        <td>${ap.getId()}</td>
+                        <td>${ap.getRole()}</td>
+                        <td>${ap.getNom()}</td>
+                        <td>${ap.getPrenom()}</td>
+                        <td>${ap.getLogin()}</td>
+                        <td>${ap.getNumtel()}</td>
+                        <td >
+                            <c:forEach var="ae" items="${ap.getEtabsUser()}">
+                                ${ae.getNom()}
+                            </c:forEach>
+                        </td>
+                        <td >
+                            <c:forEach var="ae" items="${ap.getEtabsUser()}">
+                                ${ae.getVille().getLibelle()}
+                            </c:forEach>
+                        </td>
+                    </tr>
+                </c:forEach>
+            </tbody>
+        </table>
+    </div>
 </form>

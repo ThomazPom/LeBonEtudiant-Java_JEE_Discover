@@ -4,7 +4,7 @@ var map;
 
 function initMap() {
     map = new google.maps.Map(map[0], {
-        center: {lat: 48.8534100, lng: 2.3488000},
+        center: {lat: 44.5, lng: 3.0870},
         zoom: 6
     });
 
@@ -176,7 +176,20 @@ $("body").on("click", "button[data-target='#modalVente'],.btn.btn-warning.efface
 }).on("click", "table.tableResultAnnonce tr", function () {
     $('#modalVente').modal();
     ajaxAnonceDemandeVente($(this).find(".idAnnonce").html(), "", "show", $('#mcvente'));
+});
+$('body').on("mouseenter", "#map", function () {
+    $('#collapseSearch').collapse('hide')
+    $("#search .collapseResult").collapse('hide');
+});
+$('body').on("mouseenter", "#lesswrap", function () {
+    $("#search .collapseResult").collapse('hide');
+    $('#collapseSearch').collapse('show');
 })
+$('body').on("mouseenter", "#search", function () {
+    $('#collapseSearch').collapse('hide');
+    $("#search .collapseResult").collapse('show');
+})
+
 
 $(document).ready(function () {
 //Code à exécuter apres le chargement de la page

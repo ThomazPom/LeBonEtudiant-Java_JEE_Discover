@@ -43,6 +43,7 @@
             </ul>
         </nav>
     </div>
+                    <div class="resultPagination">
     <table class="table tableResultAnnonce" >
         <thead>
             <tr>
@@ -72,4 +73,5 @@
             </c:forEach>
         </tbody>
     </table>
+                        </div>
 </form>

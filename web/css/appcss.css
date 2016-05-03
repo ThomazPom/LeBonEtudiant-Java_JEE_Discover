@@ -15,7 +15,7 @@ form.mapInfoWindowContent {
     height: 280px;
     width: 470px;
     overflow-x: hidden;
-    
+
 }
 div.infowindowResult .nosmall
 {
@@ -48,13 +48,13 @@ div.infowindowResult .nosmall
     height: 100%;
 }
 button.noBig{
-    display: none;
+    visibility: hidden;
 }
 .tableResultAnnonce tr:hover{
-        background: #ffe6e6;
+    background: #ffe6e6;
 }
 .tableResultAnnonce tr:hover button.noBig{
-    display: block;
+    visibility: visible;
 }
 .offmenu{
     width: 400px;
@@ -88,7 +88,13 @@ button.noBig{
 
     padding: 0px 30px 0px 30px;
 }
-
+#paginationcontainer{
+    margin-top: 20px;
+}
+.resultPagination{
+    max-height: 70vh;
+    overflow-y: scroll;
+}
 .confirmAnnonceOverlayBody textarea{
 
     height: 250px;
@@ -103,13 +109,6 @@ button.noBig{
     margin: 10px;
 }
 
-#wrapper{
-    background-image: url("../img/whiteploybg.jpg");
-    background-attachment: fixed;
-    background-size: cover;
-    border-bottom: 2px solid black;
-    min-height: 280px;
-}
 #mainwrap,body
 { background-attachment: fixed;
   background-image: url("../img/whiteploybg.jpg");
@@ -197,39 +196,26 @@ html, body
     width:100px
 }
 #search {
-
-    min-height: 100px;
-    height: 100px;
     width: 100vw;
-    -webkit-transition: height 1s; /* For Safari 3.1 to 6.0 */
-    transition:  height 1s;
-
-    max-height:60vh;
-
-    overflow-x: hidden;
-    overflow-y: hidden;
+    max-height: 65vh;
+    overflow-y: scroll;
+}
+#wrapper{
+    background-image: url("../img/whiteploybg.jpg");
+    background-attachment: fixed;
+    background-size: cover;
+    max-height: 90vh;
 }
 
-#wrapper:hover #search {
-    overflow-y: scroll!important;
-
-    height: auto!important;
-}
 #map{
-    height:80vh;
+    height:100vh;
     width: 100vw;
-    top: 0px;
+
+    border-top: 3px solid #cf0000;
 }
 #infoWindOrigin
 {
     display: none;
-}
-#map:hover{
-
-    top:20vh;
-    border-top: 3px solid black;
-    position: absolute!important;
-    z-index: 300;
 }
 
 .confirmAnnonceOverlayBody .input-group-addon,.confirmAnnonceOverlayTitle .input-group-addon {
@@ -237,5 +223,5 @@ html, body
 }
 .confirmAnnonceOverlayBody  select{
     width: 100%;
-    
+
 }
