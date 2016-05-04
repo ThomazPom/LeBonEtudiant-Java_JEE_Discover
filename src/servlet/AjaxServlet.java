@@ -69,7 +69,7 @@ public class AjaxServlet extends HttpServlet {
         String redirect = ".";
         // int i =Integer.parseInt("a500"); //test de l'erreur 500
         String action = (request.getParameter("action") == null) ? "" : request.getParameter("action");
-
+        System.out.println("Action : " + action);
         if (action.equals("opt_etab")) {
 
             System.out.println("In action " + action);
@@ -168,22 +168,103 @@ public class AjaxServlet extends HttpServlet {
             forwardTo = "ajax/listUtilisateurs.jsp";
         }
         if (request.getSession(true).getAttribute("userlogged") == null) {
-            if (action.equals("annonce")) {
+            if (action.equals("annonce" ) || action.equals("utilisateur")) {
                 request.setAttribute("opt_etab", etabController.getEtablissements());
                 forwardTo = "ajax/needToConnect.jsp";
             }
         } else if (request.getSession(true).getAttribute("userlogged") != null) {
             //Code securisé ici;
+            System.out.println("###################");
+            System.out.println(request.getSession(false).getAttribute("email").toString());
+            System.out.println("##########");
             Utilisateur userLogged = userController.getOneLogin(request.getSession(false).getAttribute("email").toString());
 
             if (action.equals("listAllAnnonces")) {
                 System.out.println("In action " + action);
 
                 request.setAttribute("annonces", request.getParameter("forUser") == null ? annonController.getAnnonces() : userLogged.getAnnonces());
-                System.out.println("[[[[[[[[[[[[[[[[[[[[[" + userLogged.getAnnonces().size());
                 forwardTo = "ajax/listAnnonces.jsp";
             }
+            if (action.equals("majUtilisateur"))// majUtilisateur
+            {
+                forwardTo = "ajax/generalAnnonce.jsp";
+                if (!"".equals(request.getParameter("email"))
+                        && request.getParameter("email") != null
+                        && !"".equals(request.getParameter("nom"))
+                        && request.getParameter("nom") != null
+                        && !"".equals(request.getParameter("prenom"))
+                        && request.getParameter("prenom") != null
+                        && !"".equals(request.getParameter("telephonne"))
+                        && request.getParameter("telephonne") != null) {
+
+                    Utilisateur utilToEdit = userLogged;
+                    Boolean userIsAdmin = userLogged.getRole().equals("Administrateur");
+                    Boolean isThatUser = true;
+                    Boolean hasRights = true;
+
+                    if (request.getParameter("idUtilisateur") != null) {
+                        Utilisateur utilAskedForUpdate = userController.getUtilisateurById(request.getParameter("idUtilisateur"));
+                        if (utilAskedForUpdate != null) {
+                            isThatUser = userLogged.getId().equals(utilAskedForUpdate.getId());
+                            hasRights = isThatUser || userIsAdmin;
+                            if (hasRights) {
+                                utilToEdit = utilAskedForUpdate;
+                            }
+                        }
+                    }
+                    if (hasRights) {
+
+                        if (!"".equals(request.getParameter("password"))
+                                && request.getParameter("password") != null) {
+                            if (request.getParameter("password").equals(request.getParameter("confirm_password"))) {
+                                utilToEdit.setPass(request.getParameter("password"));
+                            } else {
+                                request.getSession(false).setAttribute("danger", "Le mot de passe n'a pas été mis à jour : la confirmation ne correspondait pas");
+                            }
+                        }
+
+                    }
+                    utilToEdit = userController.majUtilisateur(utilToEdit,
+                            request.getParameter("email"),
+                            request.getParameter("nom"),
+                            request.getParameter("prenom"),
+                            request.getParameter("telephonne"),
+                            userIsAdmin ? null : request.getParameter("role"),
+                            request.getParameterValues("registerRegionSelect"));
+                    request.getSession(false).setAttribute("success", "Les modifications on été prises en compte");
+                    if (!isThatUser) {
+                        forwardTo = "ajax/confirmUtilisateur.jsp";
+                    } else {
+                        request.getSession(false).setAttribute("userlogged", utilToEdit.getPrenom() + " " + utilToEdit.getNom());
+                        request.getSession(false).setAttribute("nom", utilToEdit.getNom());
+                        request.getSession(false).setAttribute("prenom", utilToEdit.getPrenom());
+                        request.getSession(false).setAttribute("email", utilToEdit.getLogin());
+                        request.getSession(false).setAttribute("telephone", utilToEdit.getNumtel());
+
+                        request.getSession(false).setAttribute("info", "Rafraichissement dans 5 secondes ... <meta http-equiv='refresh' content='5'>");
+                        forwardTo = "ajax/generalAnnonce.jsp";
+                    }
+
+                }
+
+            }
+
+            if (action.equals("utilisateur")) {
+                Utilisateur userToView = null;
+
+                userToView = request.getParameter("loginToView") == null ? userLogged : userController.getOneLogin(request.getParameter("loginToView"));
+                userToView = userToView == null ? userLogged : userToView;
+                String typeres = (request.getParameter("typeres") == null) ? "edit" : request.getParameter("typeres");
+                Boolean canEdit = userLogged.getRole().equals("Administrateur") || userLogged.getId().equals(userToView.getId());
+                request.setAttribute("opt_etab", etabController.getEtablissements());
+                forwardTo = typeres.equals("edit")
+                        ? "ajax/form_edit_user.jsp" : "ajax/confirmUser.jsp";
+
+                request.setAttribute("userToView", userToView);
+                request.setAttribute("isUserTheLoggedOne", canEdit);
+            }
             if (action.equals("annonce")) {
+                System.out.println("#######ANNONCE##################");
 
                 String idAnnonce = (request.getParameter("idAnnonce") == null) ? "-1" : request.getParameter("idAnnonce");
                 String typeAnnonce = (request.getParameter("typeAnnonce") == null) ? "vente" : request.getParameter("typeAnnonce");
@@ -195,19 +276,19 @@ public class AjaxServlet extends HttpServlet {
                 request.setAttribute("annonce", ann);
                 request.setAttribute("opt_etab", etabController.getEtablissements());
                 request.setAttribute("opt_categ", categController.getCategories());
+                boolean isUserProprietaire = ann == null ? false : userLogged.getId().equals(ann.getProprietaire().getId());
+                Boolean canEdit = isUserProprietaire || userLogged.getRole().equals("Administrateur");
+
                 forwardTo = typeres.equals("edit")
                         ? ann == null
                                 ? typeAnnonce.equals("vente") ? "ajax/form_vente.jsp" : "ajax/form_demande.jsp"
                                 : ann.isTypeVente() ? "ajax/form_vente.jsp" : "ajax/form_demande.jsp"
                         : ann == null ? "." : "ajax/confirmAnnonce.jsp";
-                boolean isUserProprietaire = ann == null ? false : userLogged.getId().equals(ann.getProprietaire().getId());
-                ;
                 if (isUserProprietaire) {
                     request.getSession(false).setAttribute("success", "Vous êtes le propriétaire de cette annonce, " + userLogged.getPrenom() + " <i class=\"fa fa-smile-o\"></i>");
                 }
                 if (ann != null) {
                     Etablissement et = ann.getEtablissements().get(0);
-                    Boolean canEdit = isUserProprietaire || userLogged.getRole().equals("Administrateur");
                     request.setAttribute("isUserProprietaire", canEdit);
                     System.out.println(userLogged.toString() + userLogged.getRole() + isUserProprietaire + " " + canEdit);
                     if (!ann.isActive()) {

@@ -30,7 +30,7 @@
                             <input id="mainsearch" name="searchtitre"  type="text" class="form-control" placeholder="Des écouteurs pas trop cassés, des chaussettes jamais portées.."aria-describedby="basic-addon1">
                         </div>
 
-                        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                        <div class="panel-group"  role="tablist" aria-multiselectable="true">
                             <div  class="panel-primary">
 
                                 <div id="collapseSearch" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="collapseSearch">

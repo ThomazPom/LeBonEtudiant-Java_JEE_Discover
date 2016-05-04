@@ -50,6 +50,10 @@ public class EtablissementController {
 
     public List<Etablissement> getEtablissementsById(String[] idEtabs) {
         List<Long> arIdsList = new ArrayList<Long>() ;
+if(idEtabs == null)
+{
+    return getEtablissementsById(arIdsList);
+}
         for(String s : idEtabs)
         {
             try {

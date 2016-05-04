@@ -45,7 +45,7 @@
     </div>
 
     <div class="resultPagination">
-        <table class="table">
+        <table class="table tableResultUtilisateur">
             <thead>
                 <tr>
                     <th>#</th>
@@ -53,6 +53,7 @@
                     <th>Nom</th>
                     <th>Prénom</th>
                     <th>Email</th>
+                    <th></th>
                     <th>Téléphone</th>
                     <th>Formation</th>
                     <th>Ville</th>
@@ -65,7 +66,10 @@
                         <td>${ap.getRole()}</td>
                         <td>${ap.getNom()}</td>
                         <td>${ap.getPrenom()}</td>
-                        <td>${ap.getLogin()}</td>
+                        
+                        <td class="emailCol">${ap.getLogin()}</td>
+                        
+                        <td><button class="btn  btn-sm btn-default noBig"><span class="glyphicon glyphicon-eye-open"></span></button></td>
                         <td>${ap.getNumtel()}</td>
                         <td >
                             <c:forEach var="ae" items="${ap.getEtabsUser()}">

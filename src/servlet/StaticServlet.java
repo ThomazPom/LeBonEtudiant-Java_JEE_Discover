@@ -101,7 +101,7 @@ public class StaticServlet extends HttpServlet {
                             request.getParameter("password"),
                             request.getParameter("nom"),
                             request.getParameter("prenom"),
-                            "ROLEUSER",
+                            "Utilisateur",
                             request.getParameter("telephonne"),
                             etabsNewUser
                     );
@@ -151,8 +151,7 @@ public class StaticServlet extends HttpServlet {
                     session.setAttribute("prenom", userFound.getPrenom());
                     session.setAttribute("email", userFound.getLogin());
                     session.setAttribute("success", "Heureux de vous revoir, " + userFound.getPrenom() + " ! <i class=\"fa fa-smile-o\"></i>");
-                    session.setAttribute("userID", userFound.getId());
-                    session.setAttribute("userObject", userFound);
+                    session.setAttribute("telephone", userFound.getNumtel());
 
                 } else {
 
@@ -165,12 +164,13 @@ public class StaticServlet extends HttpServlet {
         } else if (action.equals("disconnect")) {
             System.out.println("if (action.equals(\"disconnect\"))");
             HttpSession session = request.getSession(true);
+
             session.setAttribute("userlogged", null);
             session.setAttribute("nom", null);
             session.setAttribute("prenom", null);
             session.setAttribute("email", null);
-            session.setAttribute("userID", null);
-            session.setAttribute("userObject", null);
+            session.setAttribute("telephone", null);
+
             session.invalidate();
         }
         if (request.getSession(true).getAttribute("userlogged") != null) {

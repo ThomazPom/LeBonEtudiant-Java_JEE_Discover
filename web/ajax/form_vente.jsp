@@ -71,7 +71,7 @@
             </div>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-warning effacerForm-Vente"><span class="glyphicon glyphicon-refresh"></span>&nbsp;Tout effacer</button>
+            <button type="button" class="btn btn-warning effacerForm-Vente"><span class="glyphicon glyphicon-refresh"></span>&nbsp;Réinitialiser</button>
             <button type="button" class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span>&nbsp;Fermer</button>
             <input type="submit" class="btn btn-primary" id="sendAnnonce" value="Envoyer">
         </div>

@@ -12,6 +12,13 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="modalMajUtilistateur" tabindex="-1" role="dialog" aria-labelledby="modalMajUtilistateurLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div id="mcutilisateur" class="modal-content">
+            ...
+        </div>
+    </div>
+</div>
 <div class="modal fade" id="modalAnnonces1user" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">

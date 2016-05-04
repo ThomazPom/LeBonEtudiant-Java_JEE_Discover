@@ -17,7 +17,7 @@ function initMap() {
 
                 if (!pointhashmap[idetab])
                 {
-                    pointhashmap[idetab] = createPointOnMap(map, $(this).children(".latEtab").html(), $(this).children(".lonEtab").html(), idetab, $(this).children(".nomEtab").html());
+                    pointhashmap[idetab] = createPointOnMap( map, $(this).children(".latEtab").html(), $(this).children(".lonEtab").html(), idetab, $(this).children(".nomEtab").html());
                 }
             })
         }
@@ -116,16 +116,17 @@ function createPointOnMap(paramap, latitude, longitude, UAI, nom)
     });
     return marker;
 }
-function ajaxAnonceDemandeVente(idAnnonce, typeAnnonce, typeres, container)
+function ajaxAnonceDemandeVente(idAnnonce, typeAnnonce, typeres, container,action,loginToView)
 {
     $.ajax({
         url: "AjaxServlet",
         type: 'POST',
         data: {
-            idAnnonce: idAnnonce,
-            typeAnnonce: typeAnnonce,
-            typeres: typeres,
-            action: "annonce",
+            idAnnonce: idAnnonce||"-1",
+            typeAnnonce: typeAnnonce||"vente",
+            typeres: typeres||edit,
+            action: action||"annonce",
+            loginToView:loginToView
         },
         success: function (responseHTML, status, xhr)
         {
@@ -163,19 +164,27 @@ function ajaxAnonceDemandeVente(idAnnonce, typeAnnonce, typeres, container)
         }
 
     })
-}
-$("body").on("click", "button[data-target='#modalVente'],.btn.btn-warning.effacerForm-Vente,.btn.btn-primary.postOtherVente", function () {
+}//
+$("body").on("click", "button[data-target='#modalVente'],.btn.btn-primary.postOtherVente", function () {
     ajaxAnonceDemandeVente("-1", "vente", "edit", $('#mcvente'));
-}).on("click", ".confirmAnnonceOverlayFooter .btn.btn-warning.editVente", function () {
+}).on("click", ".confirmAnnonceOverlayFooter .btn.btn-warning.editVente,.btn.btn-warning.effacerForm-Vente", function () {
     ajaxAnonceDemandeVente($("#mcvente  input[name='idAnnonce']").val(), "vente", "edit", $('#mcvente'));
-}).on("click", "button[data-target='#modalDemande'],.btn.btn-warning.effacerForm-Demande,.btn.btn-primary.postOtherDemande", function () {
-    $('#modalVente').modal();
+}).on("click", "button[data-target='#modalDemande'],.btn.btn-primary.postOtherDemande", function () {
+    $('#modalVente').modal();////btn btn-warning editUser
+  
     ajaxAnonceDemandeVente("-1", "demande", "edit", $('#mcvente'));
-}).on("click", ".confirmAnnonceOverlayFooter .btn.btn-warning.editDemande", function () {
+}).on("click", "button[data-target='#modalMajUtilistateur'],.btn.btn-warning.effacerForm-Utilisateur", function () {
+    ajaxAnonceDemandeVente("-1", "", "edit", $('#mcutilisateur'),"utilisateur");
+}).on("click", ".btn.btn-warning.editUser", function () {
+    ajaxAnonceDemandeVente("-1", "", "edit", $('#mcutilisateur'),"utilisateur",$('#mcutilisateur').find("[name='idUtilisateur']").val());
+}).on("click", ".confirmAnnonceOverlayFooter .btn.btn-warning.editDemande,.btn.btn-warning.effacerForm-Demande", function () {
     ajaxAnonceDemandeVente($("#mcvente input[name='idAnnonce']").val(), "demande", "edit", $('#mcvente'));
-}).on("click", "table.tableResultAnnonce tr", function () {
+}).on("click", "table.tableResultAnnonce tr>td", function () {
     $('#modalVente').modal();
-    ajaxAnonceDemandeVente($(this).find(".idAnnonce").html(), "", "show", $('#mcvente'));
+    ajaxAnonceDemandeVente($(this).parent().find(".idAnnonce").html(), "", "show", $('#mcvente'));
+}).on("click", "table.tableResultUtilisateur tr>td", function () {
+    $('#modalMajUtilistateur').modal();
+      ajaxAnonceDemandeVente("-1", "", "show", $('#mcutilisateur'),"utilisateur",$(this).parent().find(".emailCol").html());
 });
 $('body').on("mouseenter", "#map", function () {
     $('#collapseSearch').collapse('hide')
@@ -196,10 +205,10 @@ $(document).ready(function () {
     map = $("#map");
     $("#radioGroupSelecTypAnn").buttonset();
     $(".dropdown-menu").mouseenter(function () {
-        $(this).parent().children(".dropdown-toggle").attr("data-toggle", "");
+        $(this).parent().children('[role="button"]').attr("data-toggle", "");
     }
     ).mouseleave(function () {
-        $(this).parent().children(".dropdown-toggle").attr("data-toggle", "dropdown");
+        $(this).parent().children('[role="button"]').attr("data-toggle", "dropdown");
     });
     rangevalues = [0, 20000];
     sliderRange = $("#slider-range").slider({
@@ -247,7 +256,7 @@ $("body").on('click', "form[name='listUserPagin'] .pagination li,form[name='list
 $("body").on('change', "form[name='listUserPagin'] select[name='nbResultPage'],form[name='listAdPagin'] select[name='nbResultPage']", function () {
     $("form[name='listAdPagin'],form[name='listUserPagin']").submit();
 });
-$("body").on('submit', "[name='listAdPagin'], [name='listUserPagin'],[name='formDemande'],[name='formVente']", function (e) {
+$("body").on('submit', "[name='listAdPagin'],[name='formMajUtilisateur'],[name='listAdPagin'], [name='listUserPagin'],[name='formDemande'],[name='formVente']", function (e) {
     e.preventDefault();
     var container = $(this).parent();
     $.ajax({

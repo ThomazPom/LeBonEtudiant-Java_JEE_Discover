@@ -32,7 +32,7 @@ public class Utilisateur {
     public Utilisateur(){}
     public Utilisateur(String login, String nom, String prenom,String numtel, String role,List<Etablissement> etabsUser) {
         this.userSalt = new BigInteger(130, random).toString(32);
-        this.login = login.toLowerCase();
+        this.login = login.toLowerCase().trim();
         this.nom = nom;
         this.prenom=prenom;
         this.role = role;
@@ -94,7 +94,7 @@ public class Utilisateur {
      * @param login the login to set
      */
     public void setLogin(String login) {
-        this.login = login;
+        this.login = login.toLowerCase().trim();
     }
 
     /**

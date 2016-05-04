@@ -144,8 +144,8 @@ public class AnnonceController {
         queryString.append("Select a from Annonce a where a.active =:active AND a.prix BETWEEN :prixmin AND :prixmax");
         queryString.append(titreSplit.length > 0 ? " AND (" : "");
         for (int i = titreSplit.length -1; i >-1 ; i--) {
-            String s = titreSplit[i];
-            queryString.append("lower(a.Titre) LIKE lower(:"+s+")" + (i!=0? " OR " :"")  );
+            String s = titreSplit[i].trim();
+            queryString.append("lower(a.Titre) LIKE lower(:q"+i+")" + (i!=0? " OR " :"")  );
         }
         
         queryString.append(titreSplit.length > 0 ? ")" : "");
@@ -159,8 +159,9 @@ public class AnnonceController {
         if (allowedTypes.contains(type)) {
             q.setParameter("typeVente", allowedTypes.get(0).equals(type));
         }
-        for(String s : titreSplit) {
-            q.setParameter(s, "%"+s+"%");
+         for (int i = titreSplit.length -1; i >-1 ; i--) {
+            String s = titreSplit[i].trim();
+            q.setParameter("q"+i, "%"+s+"%");
         }
         List<Annonce> resultBrut = q.getResultList();
         List<Annonce> resultList = new ArrayList<>(resultBrut);
