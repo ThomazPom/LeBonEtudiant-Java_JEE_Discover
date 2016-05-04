@@ -192,4 +192,11 @@ public String toString()
     public void setAnnonces(List<Annonce> annonces) {
         this.annonces = annonces;
     }
+    
+    /**
+     * @param annonce to add annonce in list annonce users
+     */
+    public void addAnnonce(Annonce a) {
+        annonces.add(a);
+    }
 }

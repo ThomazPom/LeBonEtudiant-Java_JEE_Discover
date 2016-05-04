@@ -116,7 +116,9 @@ public class AnnonceController {
     public Annonce creerAnnonce(Utilisateur Proprietaire, String titre, int prix, String numeroOverride, String emailOverride, String Description, Date dateFin, boolean active, List<Categorie> categories, List<Etablissement> etablissements, Boolean typeAnnonce) {
         System.out.println("------>public Annonce creerAnnonce(Utilisateur Proprietaire, String titre, int prix, String numeroOverride, String emailOverride, String Description, Date dateFin ....");
         Annonce a = new Annonce(Proprietaire, titre, prix, numeroOverride, emailOverride, Description, dateFin, active, categories, etablissements, typeAnnonce);
+        Proprietaire.addAnnonce(a);
         em.persist(a);
+        em.merge(Proprietaire);
         return a;
     }
     List allowedTypes = Arrays.asList("vente", "demande");
