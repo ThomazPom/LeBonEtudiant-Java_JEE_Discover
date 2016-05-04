@@ -5,7 +5,6 @@
  */
 package servlet;
 
-import com.sun.javafx.scene.control.skin.VirtualFlow;
 import controller.AnnonceController;
 import controller.CategorieController;
 import controller.DepartementController;
@@ -14,10 +13,7 @@ import controller.RegionController;
 import controller.UserController;
 import controller.VilleController;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 import javax.ejb.EJB;

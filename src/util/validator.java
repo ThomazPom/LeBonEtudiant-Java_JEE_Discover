@@ -7,8 +7,6 @@ package util;
 
 import java.util.Comparator;
 import java.util.List;
-import java.util.function.BiPredicate;
-import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import model.Categorie;
 import model.Etablissement;
