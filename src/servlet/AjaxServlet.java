@@ -164,7 +164,7 @@ public class AjaxServlet extends HttpServlet {
             forwardTo = "ajax/listUtilisateurs.jsp";
         }
         if (request.getSession(true).getAttribute("userlogged") == null) {
-            if (action.equals("annonce" ) || action.equals("utilisateur")) {
+            if (action.equals("annonce") || action.equals("utilisateur")) {
                 request.setAttribute("opt_etab", etabController.getEtablissements());
                 forwardTo = "ajax/needToConnect.jsp";
             }
@@ -229,7 +229,9 @@ public class AjaxServlet extends HttpServlet {
                             request.getParameterValues("registerRegionSelect"));
                     request.getSession(false).setAttribute("success", "Les modifications on été prises en compte");
                     if (!isThatUser) {
-                        forwardTo = "ajax/confirmUtilisateur.jsp";
+                        request.setAttribute("userToView", utilToEdit);
+
+                        forwardTo = "ajax/confirmUser.jsp";
                     } else {
                         request.getSession(false).setAttribute("userlogged", utilToEdit.getPrenom() + " " + utilToEdit.getNom());
                         request.getSession(false).setAttribute("nom", utilToEdit.getNom());
