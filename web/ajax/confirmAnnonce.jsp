@@ -106,8 +106,11 @@
                         <input required="" value="${annonce.getId()}" name="idAnnonce" hidden/>
                         <input required name="activeAnnonce" value="${!annonce.isActive()}" hidden/>
                         <input required name="action" value="disableAnnonce" hidden/>
+
+
+
                         <c:choose>
-                            <c:when test="${annonce.isActive()}">
+                            <c:when test="${annonce.active}">
                                 <input type="submit" class="btn btn-danger delAnnonce" value="Supprimer cette annonce">
                             </c:when>
                             <c:otherwise>
