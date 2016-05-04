@@ -180,7 +180,7 @@ public class AjaxServlet extends HttpServlet {
                 System.out.println("In action " + action);
 
                 request.setAttribute("annonces", request.getParameter("forUser") == null ? annonController.getAnnonces() : userLogged.getAnnonces());
-                System.out.println("[[[[[[[[[[[[[[[[[[[[["+userLogged.getAnnonces().size());
+                System.out.println("[[[[[[[[[[[[[[[[[[[[[" + userLogged.getAnnonces().size());
                 forwardTo = "ajax/listAnnonces.jsp";
             }
             if (action.equals("annonce")) {
@@ -200,8 +200,8 @@ public class AjaxServlet extends HttpServlet {
                                 ? typeAnnonce.equals("vente") ? "ajax/form_vente.jsp" : "ajax/form_demande.jsp"
                                 : ann.isTypeVente() ? "ajax/form_vente.jsp" : "ajax/form_demande.jsp"
                         : ann == null ? "." : "ajax/confirmAnnonce.jsp";
-                boolean isUserProprietaire = ann == null ? false : ann.getProprietaire().getId().equals(userLogged.getId());
-
+                boolean isUserProprietaire = ann == null ? false : userLogged.getId().equals(ann.getProprietaire().getId());
+                ;
                 if (isUserProprietaire) {
                     request.getSession(false).setAttribute("success", "Vous êtes le propriétaire de cette annonce, " + userLogged.getPrenom() + " <i class=\"fa fa-smile-o\"></i>");
                 }
@@ -209,6 +209,7 @@ public class AjaxServlet extends HttpServlet {
                     Etablissement et = ann.getEtablissements().get(0);
                     Boolean canEdit = isUserProprietaire || userLogged.getRole().equals("Administrateur");
                     request.setAttribute("isUserProprietaire", canEdit);
+                    System.out.println(userLogged.toString() + userLogged.getRole() + isUserProprietaire + " " + canEdit);
                     if (!ann.isActive()) {
                         if (!canEdit) {
                             forwardTo = "ajax/generalAnnonce.jsp";
@@ -230,6 +231,7 @@ public class AjaxServlet extends HttpServlet {
                     Annonce annonce = annonController.getAnnonceById(request.getParameter("idAnnonce"));
 
                     if (annonce != null && userLogged.getId().equals(annonce.getProprietaire().getId()) || userLogged.getRole().equals("Administrateur")) {
+
                         Boolean active = !"false".equals(request.getParameter("activeAnnonce"));
                         String formReactive = "<form style='display: inline;' class='alert alert-success' role='alert' method='post' name='formVente' action='AjaxServlet'>\n"
                                 + (active ? "L'annonce est à présent re-activée " : "L'annonce a bien été supprimée !")
@@ -303,6 +305,7 @@ public class AjaxServlet extends HttpServlet {
                             request.getSession(false).setAttribute("success", "Félicitations ! Ton annonce est en ligne !<br/>Voici à quoi elle ressemble :");
 
                             forwardTo = "ajax/confirmAnnonce.jsp";
+                            System.out.println("###CONFIRM ANNONCE APRES MAJ/CREA");
                             request.setAttribute("isUserProprietaire", userLogged.getId().equals(annonce.getProprietaire().getId()) || userLogged.getRole().equals("Administrateur"));
                             request.setAttribute("annonce", annonce);
 
@@ -315,7 +318,7 @@ public class AjaxServlet extends HttpServlet {
         }
 
         if (!forwardTo.isEmpty()) {
-            System.out.println("Forward to " + forwardTo);
+            System.out.println("Forward to " + forwardTo + request.getParameterMap());
             RequestDispatcher dp = request.getRequestDispatcher(forwardTo + "?message=" + message);
             dp.forward(request, response);
         } else {
