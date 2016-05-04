@@ -124,6 +124,8 @@ public class AnnonceController {
     List allowedTypes = Arrays.asList("vente", "demande");
 
     public List<Annonce> searchAnnonce(String titre, String type, String prixMin, String prixMax, String[] idEtabs, String[] idVilles, String[] idDepts, String[] idRegions, String[] idCategs) {
+        String[] titreSplit = titre.split(" ");
+        
         int prixmin = 0;
         int prixmax = 20000;
         List<Categorie> categSelect = cc.getCategoriesById(idCategs);
@@ -139,18 +141,26 @@ public class AnnonceController {
             System.err.println(prixMin + " or " + prixMax + " is not a valid price");
         }
         StringBuilder queryString = new StringBuilder();
-        queryString.append("Select a from Annonce a where lower(a.Titre) like lower(:titre) AND a.active =:active AND a.prix BETWEEN :prixmin AND :prixmax");
+        queryString.append("Select a from Annonce a where a.active =:active AND a.prix BETWEEN :prixmin AND :prixmax");
+        queryString.append(titreSplit.length > 0 ? " AND (" : "");
+        for (int i = titreSplit.length -1; i >-1 ; i--) {
+            String s = titreSplit[i];
+            queryString.append("lower(a.Titre) LIKE lower(:"+s+")" + (i!=0? " OR " :"")  );
+        }
         
+        queryString.append(titreSplit.length > 0 ? ")" : "");
         if (allowedTypes.contains(type)) {
             queryString.append(" AND a.typeVente = :typeVente");
         }
         Query q = em.createQuery(queryString.toString());
-        q.setParameter("titre", "%" + titre + "%");
         q.setParameter("active", true);
         q.setParameter("prixmin", prixmin);
         q.setParameter("prixmax", prixmax);
         if (allowedTypes.contains(type)) {
             q.setParameter("typeVente", allowedTypes.get(0).equals(type));
+        }
+        for(String s : titreSplit) {
+            q.setParameter(s, "%"+s+"%");
         }
         List<Annonce> resultBrut = q.getResultList();
         List<Annonce> resultList = new ArrayList<>(resultBrut);

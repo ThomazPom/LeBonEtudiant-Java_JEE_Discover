@@ -162,7 +162,7 @@ public class init {
                         rand.nextInt(20000),
                         "",
                         "",
-                        "Je me sépares de  : " + titreAnnonce + " mais croyez moi, il est en bon état",
+                        "Je me sépare de  : " + titreAnnonce + " mais croyez moi, il est en bon état",
                         Calendar.getInstance().getTime(),
                         true,
                         Arrays.asList(listCateg.get(rand.nextInt(listCateg.size()))),
